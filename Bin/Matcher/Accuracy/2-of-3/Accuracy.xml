@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<AccuracyStatistics xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>2-of-3</Name>
+  <PerDatabase>
+    <PerDatabaseInfo>
+      <Range>
+        <Rate FAR="0" FRR="0" Threshold="21.78009" />
+        <Min FAR="0" FRR="0" Threshold="21.78009" />
+        <Max FAR="0" FRR="0" Threshold="21.78009" />
+      </Range>
+      <Scalar>0</Scalar>
+      <Separation>0.741634667</Separation>
+    </PerDatabaseInfo>
+  </PerDatabase>
+  <AverageError>0</AverageError>
+  <Separation>0.741634667</Separation>
+</AccuracyStatistics>

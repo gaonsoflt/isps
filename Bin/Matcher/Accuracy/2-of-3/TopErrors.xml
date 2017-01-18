@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<TopErrors xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Databases>
+    <PerDatabase>
+      <TopFalseAccepts>
+        <TopPair Score="29.6039181">
+          <Pair>
+            <Probe Finger="7" View="4" />
+            <Candidate Finger="1" View="2" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="26.2347469">
+          <Pair>
+            <Probe Finger="1" View="2" />
+            <Candidate Finger="7" View="4" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="24.2449417">
+          <Pair>
+            <Probe Finger="5" View="3" />
+            <Candidate Finger="6" View="1" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="24.1438274">
+          <Pair>
+            <Probe Finger="7" View="5" />
+            <Candidate Finger="1" View="6" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="23.8555813">
+          <Pair>
+            <Probe Finger="1" View="6" />
+            <Candidate Finger="7" View="5" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="23.4928589">
+          <Pair>
+            <Probe Finger="5" View="7" />
+            <Candidate Finger="7" View="6" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="23.1276913">
+          <Pair>
+            <Probe Finger="6" View="1" />
+            <Candidate Finger="5" View="3" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="23.0713749">
+          <Pair>
+            <Probe Finger="1" View="6" />
+            <Candidate Finger="7" View="7" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="23.0203743">
+          <Pair>
+            <Probe Finger="7" View="7" />
+            <Candidate Finger="1" View="5" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="23.0172215">
+          <Pair>
+            <Probe Finger="1" View="2" />
+            <Candidate Finger="7" View="2" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="22.8654728">
+          <Pair>
+            <Probe Finger="1" View="5" />
+            <Candidate Finger="7" View="7" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="22.8638248">
+          <Pair>
+            <Probe Finger="3" View="0" />
+            <Candidate Finger="8" View="4" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="22.73109">
+          <Pair>
+            <Probe Finger="3" View="7" />
+            <Candidate Finger="5" View="0" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="22.6883049">
+          <Pair>
+            <Probe Finger="1" View="4" />
+            <Candidate Finger="7" View="5" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="22.6624813">
+          <Pair>
+            <Probe Finger="4" View="1" />
+            <Candidate Finger="8" View="4" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="22.4370461">
+          <Pair>
+            <Probe Finger="8" View="5" />
+            <Candidate Finger="3" View="1" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="22.408577">
+          <Pair>
+            <Probe Finger="3" View="1" />
+            <Candidate Finger="8" View="5" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="22.1747952">
+          <Pair>
+            <Probe Finger="7" View="7" />
+            <Candidate Finger="1" View="6" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="22.1232147">
+          <Pair>
+            <Probe Finger="7" View="5" />
+            <Candidate Finger="2" View="0" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="22.0974884">
+          <Pair>
+            <Probe Finger="7" View="2" />
+            <Candidate Finger="1" View="5" />
+          </Pair>
+        </TopPair>
+      </TopFalseAccepts>
+      <TopFalseRejects>
+        <TopPair Score="12.7845345">
+          <Pair>
+            <Probe Finger="7" View="0" />
+            <Candidate Finger="7" View="1" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="13.0077419">
+          <Pair>
+            <Probe Finger="7" View="1" />
+            <Candidate Finger="7" View="0" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="14.6778488">
+          <Pair>
+            <Probe Finger="9" View="0" />
+            <Candidate Finger="9" View="6" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="14.6778488">
+          <Pair>
+            <Probe Finger="9" View="6" />
+            <Candidate Finger="9" View="0" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="14.6880274">
+          <Pair>
+            <Probe Finger="9" View="6" />
+            <Candidate Finger="9" View="2" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="14.78767">
+          <Pair>
+            <Probe Finger="9" View="2" />
+            <Candidate Finger="9" View="6" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="16.9994431">
+          <Pair>
+            <Probe Finger="4" View="2" />
+            <Candidate Finger="4" View="3" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="16.9994431">
+          <Pair>
+            <Probe Finger="4" View="3" />
+            <Candidate Finger="4" View="2" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="17.413538">
+          <Pair>
+            <Probe Finger="9" View="0" />
+            <Candidate Finger="9" View="3" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="17.413538">
+          <Pair>
+            <Probe Finger="9" View="3" />
+            <Candidate Finger="9" View="0" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="17.8691254">
+          <Pair>
+            <Probe Finger="9" View="4" />
+            <Candidate Finger="9" View="6" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="18.3464489">
+          <Pair>
+            <Probe Finger="9" View="6" />
+            <Candidate Finger="9" View="4" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="18.410511">
+          <Pair>
+            <Probe Finger="6" View="4" />
+            <Candidate Finger="6" View="0" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="20.2447968">
+          <Pair>
+            <Probe Finger="6" View="0" />
+            <Candidate Finger="6" View="4" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="20.57818">
+          <Pair>
+            <Probe Finger="9" View="0" />
+            <Candidate Finger="9" View="7" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="21.18741">
+          <Pair>
+            <Probe Finger="9" View="7" />
+            <Candidate Finger="9" View="0" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="21.3773727">
+          <Pair>
+            <Probe Finger="9" View="0" />
+            <Candidate Finger="9" View="2" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="21.3773727">
+          <Pair>
+            <Probe Finger="9" View="2" />
+            <Candidate Finger="9" View="0" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="21.3960476">
+          <Pair>
+            <Probe Finger="0" View="3" />
+            <Candidate Finger="0" View="6" />
+          </Pair>
+        </TopPair>
+        <TopPair Score="21.4408836">
+          <Pair>
+            <Probe Finger="9" View="2" />
+            <Candidate Finger="9" View="7" />
+          </Pair>
+        </TopPair>
+      </TopFalseRejects>
+    </PerDatabase>
+  </Databases>
+</TopErrors>

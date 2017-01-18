@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FingerprintTemplate Version="2" OriginalDpi="500" OriginalWidth="300" OriginalHeight="300">
+  <Minutia X="174" Y="224" Direction="123" Type="Ending" />
+  <Minutia X="120" Y="175" Direction="15" Type="Bifurcation" />
+  <Minutia X="102" Y="259" Direction="20" Type="Bifurcation" />
+  <Minutia X="89" Y="195" Direction="162" Type="Ending" />
+  <Minutia X="79" Y="63" Direction="64" Type="Bifurcation" />
+  <Minutia X="37" Y="60" Direction="185" Type="Bifurcation" />
+  <Minutia X="91" Y="246" Direction="18" Type="Bifurcation" />
+  <Minutia X="105" Y="73" Direction="55" Type="Ending" />
+  <Minutia X="149" Y="93" Direction="198" Type="Bifurcation" />
+  <Minutia X="144" Y="102" Direction="185" Type="Bifurcation" />
+  <Minutia X="161" Y="65" Direction="209" Type="Bifurcation" />
+  <Minutia X="102" Y="105" Direction="48" Type="Bifurcation" />
+  <Minutia X="208" Y="59" Direction="222" Type="Ending" />
+  <Minutia X="72" Y="104" Direction="185" Type="Ending" />
+  <Minutia X="124" Y="45" Direction="72" Type="Ending" />
+  <Minutia X="37" Y="97" Direction="178" Type="Ending" />
+  <Minutia X="251" Y="23" Direction="98" Type="Bifurcation" />
+  <Minutia X="81" Y="221" Direction="158" Type="Bifurcation" />
+  <Minutia X="205" Y="131" Direction="96" Type="Ending" />
+  <Minutia X="58" Y="49" Direction="201" Type="Bifurcation" />
+  <Minutia X="152" Y="106" Direction="205" Type="Bifurcation" />
+  <Minutia X="139" Y="152" Direction="152" Type="Bifurcation" />
+  <Minutia X="103" Y="181" Direction="172" Type="Ending" />
+  <Minutia X="164" Y="212" Direction="244" Type="Ending" />
+  <Minutia X="143" Y="113" Direction="172" Type="Bifurcation" />
+  <Minutia X="173" Y="231" Direction="238" Type="Ending" />
+  <Minutia X="166" Y="90" Direction="210" Type="Bifurcation" />
+  <Minutia X="232" Y="208" Direction="226" Type="Ending" />
+  <Minutia X="121" Y="78" Direction="192" Type="Ending" />
+  <Minutia X="101" Y="168" Direction="38" Type="Ending" />
+  <Minutia X="255" Y="153" Direction="223" Type="Ending" />
+</FingerprintTemplate>

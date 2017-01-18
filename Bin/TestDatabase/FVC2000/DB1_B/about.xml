@@ -1,0 +1,8 @@
+<fingerprint-database
+	dpi="500"
+	tuning="enabled"
+	source="http://bias.csr.unibo.it/fvc2000/databases.asp"
+	technology="optical"
+	manufacturer="KeyTronic"
+	sensor="Secure Desktop Scanner">
+</fingerprint-database>

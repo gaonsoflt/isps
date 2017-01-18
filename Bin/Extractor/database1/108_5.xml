@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FingerprintTemplate Version="2" OriginalDpi="500" OriginalWidth="300" OriginalHeight="300">
+  <Minutia X="241" Y="203" Direction="210" Type="Bifurcation" />
+  <Minutia X="55" Y="107" Direction="196" Type="Bifurcation" />
+  <Minutia X="101" Y="212" Direction="11" Type="Bifurcation" />
+  <Minutia X="216" Y="149" Direction="203" Type="Bifurcation" />
+  <Minutia X="49" Y="72" Direction="59" Type="Ending" />
+  <Minutia X="31" Y="64" Direction="66" Type="Ending" />
+  <Minutia X="34" Y="121" Direction="180" Type="Bifurcation" />
+  <Minutia X="67" Y="249" Direction="91" Type="Bifurcation" />
+  <Minutia X="125" Y="164" Direction="200" Type="Bifurcation" />
+  <Minutia X="175" Y="72" Direction="182" Type="Ending" />
+  <Minutia X="123" Y="176" Direction="214" Type="Bifurcation" />
+  <Minutia X="62" Y="13" Direction="141" Type="Ending" />
+  <Minutia X="94" Y="119" Direction="50" Type="Bifurcation" />
+  <Minutia X="119" Y="136" Direction="182" Type="Ending" />
+  <Minutia X="216" Y="66" Direction="196" Type="Bifurcation" />
+  <Minutia X="63" Y="94" Direction="72" Type="Bifurcation" />
+  <Minutia X="202" Y="49" Direction="185" Type="Bifurcation" />
+  <Minutia X="111" Y="71" Direction="165" Type="Bifurcation" />
+  <Minutia X="92" Y="79" Direction="155" Type="Bifurcation" />
+  <Minutia X="225" Y="171" Direction="81" Type="Bifurcation" />
+  <Minutia X="79" Y="119" Direction="55" Type="Bifurcation" />
+  <Minutia X="211" Y="201" Direction="210" Type="Bifurcation" />
+  <Minutia X="113" Y="189" Direction="242" Type="Ending" />
+  <Minutia X="136" Y="208" Direction="226" Type="Ending" />
+  <Minutia X="135" Y="34" Direction="168" Type="Ending" />
+  <Minutia X="56" Y="179" Direction="165" Type="Ending" />
+  <Minutia X="134" Y="65" Direction="171" Type="Bifurcation" />
+  <Minutia X="110" Y="157" Direction="189" Type="Bifurcation" />
+  <Minutia X="161" Y="148" Direction="192" Type="Bifurcation" />
+  <Minutia X="100" Y="149" Direction="180" Type="Ending" />
+</FingerprintTemplate>

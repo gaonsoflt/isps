@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<AccuracyStatistics xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>ZeroFAR</Name>
+  <PerDatabase>
+    <PerDatabaseInfo>
+      <Range>
+        <Rate FAR="0" FRR="0.107142858" Threshold="29.9295483" />
+        <Min FAR="0" FRR="0.107142858" Threshold="29.9295483" />
+        <Max FAR="0" FRR="0.107142858" Threshold="29.9295483" />
+      </Range>
+      <Scalar>0.107142858</Scalar>
+      <Separation>0.6333529</Separation>
+    </PerDatabaseInfo>
+  </PerDatabase>
+  <AverageError>0.107142858</AverageError>
+  <Separation>0.6333529</Separation>
+</AccuracyStatistics>

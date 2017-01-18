@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FingerprintTemplate Version="2" OriginalDpi="500" OriginalWidth="300" OriginalHeight="300">
+  <Minutia X="156" Y="196" Direction="128" Type="Ending" />
+  <Minutia X="81" Y="163" Direction="152" Type="Ending" />
+  <Minutia X="226" Y="39" Direction="216" Type="Ending" />
+  <Minutia X="175" Y="159" Direction="118" Type="Ending" />
+  <Minutia X="173" Y="166" Direction="240" Type="Ending" />
+  <Minutia X="148" Y="75" Direction="125" Type="Bifurcation" />
+  <Minutia X="231" Y="147" Direction="227" Type="Ending" />
+  <Minutia X="84" Y="45" Direction="41" Type="Bifurcation" />
+  <Minutia X="133" Y="91" Direction="145" Type="Bifurcation" />
+  <Minutia X="82" Y="137" Direction="157" Type="Ending" />
+  <Minutia X="54" Y="54" Direction="178" Type="Ending" />
+  <Minutia X="131" Y="80" Direction="244" Type="Ending" />
+  <Minutia X="199" Y="72" Direction="99" Type="Ending" />
+  <Minutia X="165" Y="146" Direction="242" Type="Ending" />
+  <Minutia X="87" Y="191" Direction="18" Type="Ending" />
+  <Minutia X="104" Y="25" Direction="185" Type="Ending" />
+  <Minutia X="137" Y="35" Direction="194" Type="Bifurcation" />
+  <Minutia X="133" Y="47" Direction="172" Type="Ending" />
+  <Minutia X="266" Y="29" Direction="216" Type="Ending" />
+  <Minutia X="155" Y="33" Direction="209" Type="Bifurcation" />
+  <Minutia X="107" Y="110" Direction="15" Type="Bifurcation" />
+</FingerprintTemplate>

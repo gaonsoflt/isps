@@ -1,0 +1,5 @@
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Client\bin\Release\Client.exe.config
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Client\bin\Release\Client.exe
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Client\bin\Release\Client.pdb
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Client\obj\Release\Client.exe
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Client\obj\Release\Client.pdb

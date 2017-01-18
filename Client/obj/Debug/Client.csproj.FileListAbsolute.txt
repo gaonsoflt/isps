@@ -1,0 +1,6 @@
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Client\bin\Debug\Client.exe
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Client\bin\Debug\Client.exe.config
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Client\bin\Debug\Client.pdb
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Client\obj\Debug\Client.exe
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Client\obj\Debug\Client.pdb
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<AccuracyStatistics xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>FAR100</Name>
+  <PerDatabase>
+    <PerDatabaseInfo>
+      <Range>
+        <Rate FAR="0.009965278" FRR="0.0232142862" Threshold="20.1970863" />
+        <Min FAR="0.0100694448" FRR="0.0232142862" Threshold="20.1679859" />
+        <Max FAR="0.009895833" FRR="0.0232142862" Threshold="20.216486" />
+      </Range>
+      <Scalar>0.0232142862</Scalar>
+      <Separation>0.6333529</Separation>
+    </PerDatabaseInfo>
+  </PerDatabase>
+  <AverageError>0.0232142862</AverageError>
+  <Separation>0.6333529</Separation>
+</AccuracyStatistics>

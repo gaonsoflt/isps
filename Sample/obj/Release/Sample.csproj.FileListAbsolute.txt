@@ -1,0 +1,7 @@
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\bin\Release\Sample.exe.config
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\bin\Release\Sample.exe
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\bin\Release\Sample.pdb
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\bin\Release\SourceAFIS.dll
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\bin\Release\SourceAFIS.xml
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\obj\Release\Sample.exe
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\obj\Release\Sample.pdb

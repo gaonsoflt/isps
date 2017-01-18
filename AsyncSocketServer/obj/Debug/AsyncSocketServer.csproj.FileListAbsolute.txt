@@ -1,0 +1,9 @@
+D:\win_project\socket\AsyncSocketServer\bin\Debug\AsyncSocketServer.exe.config
+D:\win_project\socket\AsyncSocketServer\obj\Debug\AsyncSocketServer.csprojResolveAssemblyReference.cache
+D:\win_project\socket\AsyncSocketServer\obj\Debug\AsyncSocketServer.Properties.Resources.resources
+D:\win_project\socket\AsyncSocketServer\obj\Debug\AsyncSocketServer.csproj.GenerateResource.Cache
+D:\win_project\socket\AsyncSocketServer\bin\Debug\AsyncSocketServer.exe
+D:\win_project\socket\AsyncSocketServer\bin\Debug\AsyncSocketServer.pdb
+D:\win_project\socket\AsyncSocketServer\obj\Debug\AsyncSocketServer.exe
+D:\win_project\socket\AsyncSocketServer\obj\Debug\AsyncSocketServer.pdb
+D:\win_project\socket\AsyncSocketServer\obj\Debug\AsyncSocketServer.MainForm.resources

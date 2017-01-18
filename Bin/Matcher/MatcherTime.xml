@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<MatcherTimings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Prepare>0.0072664</Prepare>
+  <Matching>0.000251417165</Matching>
+  <NonMatching>2.81140437E-05</NonMatching>
+</MatcherTimings>

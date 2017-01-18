@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FingerprintTemplate Version="2" OriginalDpi="500" OriginalWidth="300" OriginalHeight="300">
+  <Minutia X="146" Y="100" Direction="227" Type="Ending" />
+  <Minutia X="139" Y="58" Direction="187" Type="Ending" />
+  <Minutia X="133" Y="58" Direction="176" Type="Ending" />
+  <Minutia X="147" Y="93" Direction="130" Type="Ending" />
+  <Minutia X="105" Y="76" Direction="24" Type="Ending" />
+  <Minutia X="183" Y="89" Direction="212" Type="Bifurcation" />
+  <Minutia X="126" Y="57" Direction="158" Type="Ending" />
+</FingerprintTemplate>

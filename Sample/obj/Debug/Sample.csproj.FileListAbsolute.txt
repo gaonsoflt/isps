@@ -1,0 +1,9 @@
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\bin\Debug\Sample.exe.config
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\bin\Debug\Sample.exe
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\bin\Debug\Sample.pdb
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\bin\Debug\SourceAFIS.dll
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\bin\Debug\SourceAFIS.xml
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\obj\Debug\Sample.ServerForm.resources
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\obj\Debug\Sample.csproj.GenerateResource.Cache
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\obj\Debug\Sample.exe
+C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\Sample\obj\Debug\Sample.pdb
