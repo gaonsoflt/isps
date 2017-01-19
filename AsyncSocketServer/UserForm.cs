@@ -23,7 +23,7 @@ namespace AsyncSocketServer
 
         private void UserForm_Load(object sender, EventArgs e)
         {
-            updateUserDB();
+            //updateUserDB();
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -34,19 +34,50 @@ namespace AsyncSocketServer
         private void updateUserDB()
         {
             string keyword = tbKeyword.Text;
-            //string sql = "SELECT USER_ID, USER_GUID, USER_NM, FP_DATA FROM ICBM_USER WHERE USER_ID = :USER_ID";
-
-            string sql = "SELECT USER_ID, USER_GUID, USER_NM, FP_DATA FROM ISPS_USER";
-            if (keyword != null && keyword != String.Empty)
+            dataGridView1.DataSource = db.GetUserDBTable(keyword);
+            if (dataGridView1.DataSource != null)
             {
-                sql += " WHERE USER_NM LIKE '%" + keyword + "%'";
+                dataGridView1.Columns["user_id"].HeaderText = "아이디";
+                dataGridView1.Columns["user_guid"].HeaderText = "GUID";
+                dataGridView1.Columns["user_nm"].HeaderText = "이름";
+                dataGridView1.Columns["user_idnum"].HeaderText = "주민번호";
+                dataGridView1.Columns["phone"].HeaderText = "연락처";
+                dataGridView1.Columns["fp_data"].HeaderText = "지문정보";
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView1.Columns["user_id"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                dataGridView1.Columns["user_guid"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                dataGridView1.Columns["user_nm"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                dataGridView1.Columns["user_idnum"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                dataGridView1.Columns["phone"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                for (int i = 0; i < dataGridView1.Columns.Count; i++)
+                {
+                    dataGridView1.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+                dataGridView1.AllowUserToAddRows = false;
             }
-            dataGridView1.DataSource = db.GetDBTable(sql);
-            dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridView1.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView1.AllowUserToAddRows = false;
+        }
+
+        private void updateAccessDB()
+        {
+            dataGridView2.DataSource = db.GetAccessDBTable(userId);
+            if (dataGridView2.DataSource != null)
+            {
+                dataGridView2.Columns["access_info_sq"].HeaderText = "SEQ";
+                dataGridView2.Columns["psg_cnt"].HeaderText = "동승자수";
+                dataGridView2.Columns["allow_start_dt"].HeaderText = "출입시작일시";
+                dataGridView2.Columns["allow_end_dt"].HeaderText = "출입종료일시";
+                dataGridView2.Columns["is_access"].HeaderText = "출입여부";
+                dataGridView2.Columns["access_dt"].HeaderText = "출입시간";
+                dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView2.Columns["access_info_sq"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                dataGridView2.Columns["psg_cnt"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                dataGridView2.Columns["is_access"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                for (int i = 0; i < dataGridView2.Columns.Count; i++)
+                {
+                    dataGridView2.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+                dataGridView2.AllowUserToAddRows = false;
+            }
         }
 
         private void tbKeyword_KeyUp(object sender, KeyEventArgs e)
@@ -76,6 +107,7 @@ namespace AsyncSocketServer
             {
                 userId = Int32.Parse(row.Cells[0].Value.ToString());
                 UpdateStatusMessage("Selected row USER_ID: " + userId);
+                updateAccessDB();
             }
         }
 
@@ -86,6 +118,7 @@ namespace AsyncSocketServer
                 if (db.DeleteISPSUser(userId) > 0)
                 {
                     UpdateStatusMessage("Success delete user: " + userId);
+                    updateUserDB();
                 }
                 else
                 {
@@ -115,6 +148,12 @@ namespace AsyncSocketServer
         private void UserForm_Enter(object sender, EventArgs e)
         {
             Console.WriteLine("Enter");
+        }
+
+        private void btnAccessEnroll_Click(object sender, EventArgs e)
+        {
+            AccessDialog accessDlg = new AccessDialog(userId);
+            accessDlg.ShowDialog();
         }
     }
 }

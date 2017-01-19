@@ -28,3 +28,9 @@ C:\Users\gaonsoft\Downloads\SourceAFIS-1.7.0\SourceAFIS-1.7.0\AsyncSocketClient\
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\bin\Debug\AsyncSocketClient.exe.config
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Debug\AsyncSocketClient.exe
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Debug\AsyncSocketClient.pdb
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\bin\Debug\AsyncSocketClient.exe
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\bin\Debug\AsyncSocketClient.pdb
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Debug\SocketProgram00Client_AsyncSocketClient.csprojResolveAssemblyReference.cache
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Debug\AsyncSocketClient.ClientForm.resources
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Debug\AsyncSocketClient.Properties.Resources.resources
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Debug\SocketProgram00Client_AsyncSocketClient.csproj.GenerateResource.Cache

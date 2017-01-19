@@ -16,6 +16,7 @@ using System.Threading;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Data.OracleClient;
+using Npgsql;
 
 namespace AsyncSocketServer
 {
@@ -38,14 +39,14 @@ namespace AsyncSocketServer
             string[] arrPort = { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9" };
             string[] arrRate = { "2400", "4800", "9600", "14400", "19200", "38400", "57600", "115200" };
             
-            cbComport.BeginUpdate();
-            foreach (string comport in SerialPort.GetPortNames())
-            {
-                cbComport.Items.Add(comport);
-            }
-            cbComport.EndUpdate();
-            //cbComport.Items.AddRange(arrPort);
-            cbComport.SelectedIndex = 0;
+            //cbComport.BeginUpdate();
+            //foreach (string comport in SerialPort.GetPortNames())
+            //{
+            //    cbComport.Items.Add(comport);
+            //}
+            //cbComport.EndUpdate();
+            cbComport.Items.AddRange(arrPort);
+            cbComport.SelectedIndex = 2;
             cbRate.Items.AddRange(arrRate);
             cbRate.SelectedIndex = 2;
         }
@@ -54,7 +55,10 @@ namespace AsyncSocketServer
         {
             if (CloseSocket())
             {
-                CloseSerialPort();
+                if (cbConnetType.Checked)
+                {
+                    CloseSerialPort();
+                }
             }
         }
 
@@ -159,14 +163,20 @@ namespace AsyncSocketServer
 
         private void OpenSerialPort()
         {
-            cbRate.SelectedIndex = 2; // 9600
-            OpenSerial();
-            cbRate.SelectedIndex = 7; // 115200
-            if (fingerSensor.CmdChangeBaudrate(Convert.ToInt32(cbRate.SelectedItem.ToString())) == 0)
+            try
             {
-                fingerSensor.CloseSerialPort();
+                cbRate.SelectedIndex = 2; // 9600
                 OpenSerial();
-                fingerSensor.CmdOpen();
+                cbRate.SelectedIndex = 7; // 115200
+                if (fingerSensor.CmdChangeBaudrate(Convert.ToInt32(cbRate.SelectedItem.ToString())) == 0)
+                {
+                    fingerSensor.CloseSerialPort();
+                    OpenSerial();
+                    fingerSensor.CmdOpen();
+                }
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -541,6 +551,11 @@ namespace AsyncSocketServer
             {
                 btnSerialOpen.Enabled = true;
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            AddListBoxItem("psg count: " + new AccessInfoDB().SelectISPSAccessInfo("e3135a87-2c34-485e-9070-1352b7ec31c8"));
         }
     }
 }

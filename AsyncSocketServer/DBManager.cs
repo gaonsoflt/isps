@@ -1,4 +1,6 @@
-﻿using SourceAFIS.Simple;
+﻿using Npgsql;
+using NpgsqlTypes;
+using SourceAFIS.Simple;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,21 +14,34 @@ namespace AsyncSocketServer
 {
     class DBManager
     {
-        string oradb = "Data Source=192.168.205.163:1521/URYH; User ID=uruser; Password=uruser001";
-        OracleConnection conn;
+        private string oradb = "Data Source=192.168.205.163:1521/URYH; User ID=uruser; Password=uruser001";
+        private string postdb = "Host=192.168.205.152;Username=isps;Password=GaonIsps@0805!*;Database=ISPS";
+
+        OracleConnection oraConn;
+        NpgsqlConnection postConn;
 
         public DBManager()
         {
-            conn = new OracleConnection(oradb);
+            oraConn = new OracleConnection(oradb);
+            postConn = new NpgsqlConnection(postdb);
         }
 
         public OracleConnection GetOracleConnection()
         {
-            if (conn == null)
+            if (oraConn == null)
             {
-                conn = new OracleConnection(oradb);
+                oraConn = new OracleConnection(oradb);
             }
-            return conn;
+            return oraConn;
+        }
+
+        public NpgsqlConnection GetPostConnection()
+        {
+            if (postConn == null)
+            {
+                postConn = new NpgsqlConnection(postdb);
+            }
+            return postConn;
         }
     }
 
@@ -39,34 +54,60 @@ namespace AsyncSocketServer
             db = new DBManager();
         }
 
+        /*
+         * 
+         * 
+         * insert into isps_access_info(
+  access_info_sq,
+  user_id,
+  psg_cnt, -- 동승자수
+  allow_start_dt,
+  allow_end_dt
+) values (
+  nextval('sq_isps_access_info'),
+  3,
+  1,
+  to_timestamp('2017-01-19 12:00:00', 'yyyy-mm-dd hh24:mi:ss'),
+  to_timestamp('2017-01-19 12:00:00', 'yyyy-mm-dd hh24:mi:ss')
+);
+
+
+         * 
+         */
+
         public int SelectISPSAccessInfo(string guid)
         {
-            string nowTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            string sql_selete = "SELECT ACCESS_INFO_SQ, USER_ID, PSG_CNT, TO_CHAR(ALLOW_START_DT,'yyyy-mm-dd HH24:MI:SS') AS ALLOW_START_DT, TO_CHAR(ALLOW_END_DT,'yyyy-mm-dd HH24:MI:SS') AS ALLOW_END_DT" 
-                + " FROM ISPS_ACCESS_INFO"
-                + " WHERE USER_ID = (SELECT USER_ID FROM ISPS_USER WHERE USER_GUID = :USER_GUID)"
-                + " AND TO_DATE('" + nowTime + "', 'yyyy-mm-dd HH24:MI:SS') >= ALLOW_START_DT"
-                + " AND TO_DATE('" + nowTime + "', 'yyyy-mm-dd HH24:MI:SS') < ALLOW_END_DT";
+            //string nowTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            //string sql_selete = "SELECT ACCESS_INFO_SQ, USER_ID, PSG_CNT, TO_CHAR(ALLOW_START_DT,'yyyy-mm-dd HH24:MI:SS') AS ALLOW_START_DT, TO_CHAR(ALLOW_END_DT,'yyyy-mm-dd HH24:MI:SS') AS ALLOW_END_DT" 
+            //    + " FROM ISPS_ACCESS_INFO"
+            //    + " WHERE USER_ID = (SELECT USER_ID FROM ISPS_USER WHERE USER_GUID = :USER_GUID)"
+            //    + " AND TO_DATE('" + nowTime + "', 'yyyy-mm-dd HH24:MI:SS') >= ALLOW_START_DT"
+            //    + " AND TO_DATE('" + nowTime + "', 'yyyy-mm-dd HH24:MI:SS') < ALLOW_END_DT";
+            string sql_selete = "SELECT access_info_sq, user_id, psg_cnt, allow_start_dt, allow_end_dt"
+                + " FROM isps_access_info"
+                + " WHERE user_id = (SELECT user_id FROM isps_user WHERE user_guid = :USER_GUID)"
+                + " AND now() >= ALLOW_START_DT"
+                + " AND now() < ALLOW_END_DT";
             int passengerCnt = -1;
-            OracleConnection conn = db.GetOracleConnection();
+            NpgsqlConnection conn = db.GetPostConnection();
             try
             {
                 // 커넥션 오픈
                 conn.Open();
                 // 커맨드 생성
-                using (OracleCommand cmd = new OracleCommand())
+                using (NpgsqlCommand cmd = new NpgsqlCommand())
                 {
                     cmd.Connection = conn;
                     cmd.CommandText = sql_selete;
-                    cmd.Parameters.Add(new OracleParameter(":USER_GUID", guid)); // use sequence
+                    cmd.Parameters.Add(new NpgsqlParameter(":USER_GUID", guid)); // use sequence
 
                     // select 문 쿼리
-                    using (OracleDataReader reader = cmd.ExecuteReader())
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            Console.WriteLine(guid + " / " + reader["PSG_CNT"].ToString());
-                            passengerCnt = Int32.Parse(reader["PSG_CNT"].ToString());
+                            passengerCnt = Int32.Parse(reader["psg_cnt"].ToString());
+                            Console.WriteLine(guid + " / " + passengerCnt);
                         }
                     }
                 }
@@ -86,22 +127,6 @@ namespace AsyncSocketServer
     public class UserDB
     {
         DBManager db = null;
-        //string oradb = "Data Source=192.168.205.163:1521/URYH; User ID=uruser; Password=uruser001";
-        //OracleConnection conn;
-
-        //public UserDBManager()
-        //{
-        //    conn = new OracleConnection(oradb);
-        //}
-
-        //OracleConnection GetOracleConnection()
-        //{
-        //    if (conn == null)
-        //    {
-        //        conn = new OracleConnection(oradb);
-        //    }
-        //    return conn;
-        //}
 
         public UserDB()
         {
@@ -110,13 +135,14 @@ namespace AsyncSocketServer
 
         public int InsertISPSUser(UserManager.MyPerson user)
         {
-            string sql_insert = "INSERT INTO ISPS_USER (USER_ID, USER_GUID, USER_NM, FP_DATA) VALUES (SQ_ISPS_USER.nextval, :USER_GUID, :USER_NM, :FP_DATA)";
+            string sql_insert = "INSERT INTO isps_user (user_id, user_guid, user_nm, user_idnum, phone, fp_data) "
+                + "VALUES (nextval('sq_isps_user'), :USER_GUID, :USER_NM, :USER_IDNUM, :PHONE, :FP_DATA)";
             int executeCnt = 0;
-            OracleConnection conn = db.GetOracleConnection();
+            NpgsqlConnection conn = db.GetPostConnection();
             // 커넥션 오픈
             conn.Open();
 
-            using (OracleCommand cmd = new OracleCommand())
+            using (NpgsqlCommand cmd = new NpgsqlCommand())
             {
                 try
                 {
@@ -129,15 +155,19 @@ namespace AsyncSocketServer
 
                     // set parameters
                     //cmd.Parameters.Add(new OracleParameter(":USER_ID", person.Id)); // use sequence
-                    cmd.Parameters.Add(new OracleParameter(":USER_GUID", user.Guid));
-                    cmd.Parameters.Add(new OracleParameter(":USER_NM", user.Name));
+                    cmd.Parameters.Add(new NpgsqlParameter(":USER_GUID", user.Guid));
+                    cmd.Parameters.Add(new NpgsqlParameter(":USER_NM", user.Name));
+                    cmd.Parameters.Add(new NpgsqlParameter(":USER_IDNUM", user.IdNum));
+                    cmd.Parameters.Add(new NpgsqlParameter(":PHONE", user.Phone));
                     byte[] fp = BBImageConverter.ImageToByte(user.Fingerprints[0].AsBitmap);
-                    OracleParameter op = new OracleParameter();
-                    op.ParameterName = ":FP_DATA";
-                    op.OracleType = OracleType.Blob;
-                    op.Direction = ParameterDirection.Input;
-                    op.Size = fp.Length;
+                    NpgsqlParameter op = new NpgsqlParameter(":FP_DATA", NpgsqlDbType.Bytea);
                     op.Value = fp;
+                    //NpgsqlParameter op = new NpgsqlParameter();
+                    //op.ParameterName = ":FP_DATA";
+                    //op.NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Bytea;
+                    //op.Direction = ParameterDirection.Input;
+                    //op.Size = fp.Length;
+                    //op.Value = fp;
                     cmd.Parameters.Add(op);
 
                     // execute query
@@ -160,13 +190,13 @@ namespace AsyncSocketServer
 
         public int DeleteISPSUser(int userId)
         {
-            string sql_insert = "DELETE FROM ISPS_USER WHERE USER_ID = :USER_ID";
+            string sql_insert = "DELETE FROM isps_user WHERE user_id = :USER_ID";
             int executeCnt = 0;
-            OracleConnection conn = db.GetOracleConnection();
+            NpgsqlConnection conn = db.GetPostConnection();
             // 커넥션 오픈
             conn.Open();
 
-            using (OracleCommand cmd = new OracleCommand())
+            using (NpgsqlCommand cmd = new NpgsqlCommand())
             {
                 try
                 {
@@ -178,7 +208,7 @@ namespace AsyncSocketServer
                     cmd.CommandText = sql_insert;
 
                     // set parameters
-                    cmd.Parameters.Add(new OracleParameter(":USER_ID", userId));
+                    cmd.Parameters.Add(new NpgsqlParameter(":USER_ID", userId));
 
                     // execute query
                     executeCnt = cmd.ExecuteNonQuery();
@@ -200,33 +230,36 @@ namespace AsyncSocketServer
 
         public List<UserManager.MyPerson> SelectISPSUsers()
         {
-            string sql_select = "SELECT USER_ID, USER_GUID, USER_NM, FP_DATA FROM ISPS_USER";
+            //string sql_select = "SELECT USER_ID, USER_GUID, USER_NM, FP_DATA FROM ISPS_USER";
+            string sql_select = "SELECT user_id, user_guid, usre_nm, user_num, fp_data FROM isps_user";
             List<UserManager.MyPerson> personList = new List<UserManager.MyPerson>();
             AfisEngine afis = new AfisEngine();
-            OracleConnection conn = db.GetOracleConnection();
+            NpgsqlConnection conn = db.GetPostConnection();
             try
             {
                 // 커넥션 오픈
                 db.GetOracleConnection().Open();
                 // 커맨드 생성
-                using (OracleCommand cmd = new OracleCommand())
+                using (NpgsqlCommand cmd = new NpgsqlCommand())//new OracleCommand())
                 {
                     cmd.Connection = conn;
                     cmd.CommandText = sql_select;
 
                     // select 문 쿼리
-                    using (OracleDataReader reader = cmd.ExecuteReader())
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            Console.WriteLine(reader["USER_ID"].ToString() + "/" + reader["USER_GUID"].ToString() + "/" + reader["USER_NM"].ToString());
-
                             UserManager.MyPerson user = new UserManager.MyPerson();
-                            user.Id = Int32.Parse(reader["USER_ID"].ToString());
-                            user.Guid = reader["USER_GUID"].ToString();
-                            user.Name = reader["USER_NM"].ToString();
+                            user.Id = Int32.Parse(reader["user_id"].ToString());
+                            user.Guid = reader["user_guid"].ToString();
+                            user.Name = reader["user_nm"].ToString();
+                            user.IdNum = reader["user_idnum"].ToString();
+                            user.Phone = reader["phone"].ToString();
 
-                            byte[] binDate = (byte[])reader["FP_DATA"];
+                            Console.WriteLine(user.Id + "/" + user.Guid + "/" + user.Name);
+
+                            byte[] binDate = (byte[])reader["fp_data"];
                             UserManager.MyFingerprint fp = new UserManager.MyFingerprint();
                             BitmapImage image = BBImageConverter.byteToBitmapImage(binDate);
                             fp.AsBitmapSource = image;
@@ -251,38 +284,43 @@ namespace AsyncSocketServer
 
         public UserManager.MyPerson SelectISPSUser(int userid)
         {
-            string sql_selete = "SELECT USER_ID, USER_GUID, USER_NM, FP_DATA FROM ISPS_USER WHERE USER_ID = :USER_ID";
+            //string sql_selete = "SELECT USER_ID, USER_GUID, USER_NM, FP_DATA FROM ISPS_USER WHERE USER_ID = :USER_ID";
+            string sql_selete = "SELECT user_id, user_guid, user_nm, user_idnum, phone, fp_data FROM isps_user WHERE user_id = :USER_ID";
+
+            AfisEngine afis = new AfisEngine();
             UserManager.MyPerson user = new UserManager.MyPerson();
-            OracleConnection conn = db.GetOracleConnection();
+            NpgsqlConnection conn = db.GetPostConnection();
             try
             {
                 // 커넥션 오픈
                 conn.Open();
                 // 커맨드 생성
-                using (OracleCommand cmd = new OracleCommand())
+                using (NpgsqlCommand cmd = new NpgsqlCommand())
                 {
                     cmd.Connection = conn;
                     //cmd.CommandText = "SELECT USER_ID, USER_GUID, USER_NM, FP_DATA FROM ISPS_USER WHERE USER_ID = :USER_ID";
                     cmd.CommandText = sql_selete;
-                    cmd.Parameters.Add(new OracleParameter(":USER_ID", userid)); // use sequence
+                    cmd.Parameters.Add(new NpgsqlParameter(":USER_ID", userid)); // use sequence
 
                     // select 문 쿼리
-                    using (OracleDataReader reader = cmd.ExecuteReader())
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            Console.WriteLine(reader["USER_ID"].ToString() + "/" + reader["USER_GUID"].ToString() + "/" + reader["USER_NM"].ToString());
+                            user.Id = Int32.Parse(reader["user_id"].ToString());
+                            user.Guid = reader["user_guid"].ToString();
+                            user.Name = reader["user_nm"].ToString();
+                            user.IdNum = reader["user_idnum"].ToString();
+                            user.Phone = reader["phone"].ToString();
 
-                            user.Id = Int32.Parse(reader["USER_ID"].ToString());
-                            user.Guid = reader["USER_GUID"].ToString();
-                            user.Name = reader["USER_NM"].ToString();
+                            Console.WriteLine(user.Id + "/" + user.Guid + "/" + user.Name);
 
-                            byte[] binDate = (byte[])reader["FP_DATA"];
+                            byte[] binDate = (byte[])reader["fp_data"];
                             UserManager.MyFingerprint fp = new UserManager.MyFingerprint();
                             BitmapImage image = BBImageConverter.byteToBitmapImage(binDate);
                             fp.AsBitmapSource = image;
-
                             user.Fingerprints.Add(fp);
+                            afis.Extract(user);
                         }
                     }
                 }
@@ -300,13 +338,13 @@ namespace AsyncSocketServer
 
         internal int UpdateISPSUser(UserManager.MyPerson user)
         {
-            string sql_update = "UPDATE ISPS_USER SET USER_NM = :USER_NM, FP_DATA = :FP_DATA WHERE USER_ID = :USER_ID";
+            string sql_update = "UPDATE isps_user SET user_nm = :USER_NM, user_idnum = :USER_IDNUM, phone = :PHONE, fp_data = :FP_DATA WHERE user_id = :USER_ID";
             int executeCnt = 0;
             // 커넥션 오픈
-            OracleConnection conn = db.GetOracleConnection();
+            NpgsqlConnection conn = db.GetPostConnection();
             conn.Open();
 
-            using (OracleCommand cmd = new OracleCommand())
+            using (NpgsqlCommand cmd = new NpgsqlCommand())
             {
                 try
                 {
@@ -318,17 +356,21 @@ namespace AsyncSocketServer
                     cmd.CommandText = sql_update;
 
                     // set parameters
-                    cmd.Parameters.Add(new OracleParameter(":USER_ID", user.Id));
-                    //cmd.Parameters.Add(new OracleParameter(":USER_GUID", user.Guid));
-                    cmd.Parameters.Add(new OracleParameter(":USER_NM", user.Name));
+                    cmd.Parameters.Add(new NpgsqlParameter(":USER_ID", user.Id));
+                    cmd.Parameters.Add(new NpgsqlParameter(":USER_NM", user.Name));
+                    cmd.Parameters.Add(new NpgsqlParameter(":USER_IDNUM", user.IdNum));
+                    cmd.Parameters.Add(new NpgsqlParameter(":PHONE", user.Phone));
                     byte[] fp = BBImageConverter.ImageToByte(user.Fingerprints[0].AsBitmap);
-                    OracleParameter op = new OracleParameter();
-                    op.ParameterName = ":FP_DATA";
-                    op.OracleType = OracleType.Blob;
-                    op.Direction = ParameterDirection.Input;
-                    op.Size = fp.Length;
+                    NpgsqlParameter op = new NpgsqlParameter(":FP_DATA", NpgsqlDbType.Bytea);
                     op.Value = fp;
                     cmd.Parameters.Add(op);
+                    //byte[] fp = BBImageConverter.ImageToByte(user.Fingerprints[0].AsBitmap);
+                    //NpgsqlParameter op = new NpgsqlParameter();
+                    //op.ParameterName = ":FP_DATA";
+                    //op.NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Bytea;
+                    //op.Direction = ParameterDirection.Input;
+                    //op.Size = fp.Length;
+                    //op.Value = fp;
 
                     // execute query
                     executeCnt = cmd.ExecuteNonQuery();
@@ -351,12 +393,15 @@ namespace AsyncSocketServer
         public DataTable GetDBTable(string sql)
         {
             DataTable dt = new DataTable();
-            OracleConnection conn = db.GetOracleConnection();
+            NpgsqlConnection conn = db.GetPostConnection();
+            //OracleConnection conn = db.GetOracleConnection();
             try
             {
                 conn.Open();
-                OracleDataAdapter adapter = new OracleDataAdapter(sql, conn);
-                OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(sql, conn);
+                NpgsqlCommandBuilder builder = new NpgsqlCommandBuilder(adapter);
+                //OracleDataAdapter adapter = new OracleDataAdapter(sql, conn);
+                //OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
                 adapter.Fill(dt);
             }
             catch (Exception e)
@@ -368,6 +413,23 @@ namespace AsyncSocketServer
                 conn.Close();
             }
             return dt;
+        }
+
+        public DataTable GetUserDBTable(string keyword)
+        {
+            string sql = "SELECT user_id, user_guid, user_nm, user_idnum, phone, fp_data FROM isps_user";
+            if (keyword != null && keyword != String.Empty)
+            {
+                sql += " WHERE user_nm LIKE '%" + keyword + "%'";
+            }
+            return GetDBTable(sql);
+        }
+
+        public DataTable GetAccessDBTable(int userId)
+        {
+            string sql = "SELECT access_info_sq, psg_cnt, allow_start_dt, allow_end_dt, is_access, access_dt "
+                + "FROM isps_access_info WHERE user_id = " + userId + " ORDER BY allow_start_dt DESC";
+            return GetDBTable(sql);
         }
     }
 

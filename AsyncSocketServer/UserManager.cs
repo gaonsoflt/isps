@@ -52,6 +52,8 @@ namespace AsyncSocketServer
         {
             public string Name;
             public string Guid;
+            public string IdNum;
+            public string Phone;
         }
 
 
@@ -94,36 +96,12 @@ namespace AsyncSocketServer
         // Take fingerprint image file and create Person object from the image
         public MyPerson Enroll(string filename, string name)
         {
-            Console.WriteLine("Enrolling {0}...", name);
-
-            // Initialize empty fingerprint object and set properties
-            MyFingerprint fp = new MyFingerprint();
-            fp.Filename = filename;
             try
             {
                 // Load image from the file
                 Console.WriteLine(" Loading image from {0}...", filename);
                 BitmapImage image = new BitmapImage(new Uri(filename, UriKind.RelativeOrAbsolute));
-                fp.AsBitmapSource = image;
-                // Above update of fp.AsBitmapSource initialized also raw image in fp.Image
-                // Check raw image dimensions, Y axis is first, X axis is second
-                Console.WriteLine(" Image size = {0} x {1} (width x height)", fp.Image.GetLength(1), fp.Image.GetLength(0));
-
-                // Initialize empty person object and set its properties
-                MyPerson user = new MyPerson();
-                //person.Id = loadDatabase().Count + 1;
-                user.Guid = Guid.NewGuid().ToString();
-                user.Name = name;
-                // Add fingerprint to the person
-                user.Fingerprints.Add(fp);
-
-                // Execute extraction in order to initialize fp.Template
-                Console.WriteLine(" Extracting template...");
-                afis.Extract(user);
-                // Check template size
-                Console.WriteLine(" Template size = {0} bytes", fp.Template.Length);
-
-                return user;
+                return Enroll(image, name, "", "");
             } catch (Exception fnfe)
             {
                 throw fnfe;
@@ -131,6 +109,16 @@ namespace AsyncSocketServer
         }
 
         public MyPerson Enroll(byte[] source, string name)
+        {
+            return Enroll(BBImageConverter.byteToBitmapImage(source), name, "", "");
+        }
+
+        public MyPerson Enroll(byte[] source, string name, string idnum, string phone)
+        {
+            return Enroll(BBImageConverter.byteToBitmapImage(source), name, idnum, phone);
+        }
+
+        private MyPerson Enroll(BitmapImage source, string name, string idnum, string phone)
         {
             Console.WriteLine("Enrolling {0}...", name);
 
@@ -140,8 +128,7 @@ namespace AsyncSocketServer
             {
                 // Load image from the file
                 Console.WriteLine(" Loading image");
-                BitmapImage image = BBImageConverter.byteToBitmapImage(source);
-                fp.AsBitmapSource = image;
+                fp.AsBitmapSource = source;
                 // Above update of fp.AsBitmapSource initialized also raw image in fp.Image
                 // Check raw image dimensions, Y axis is first, X axis is second
                 Console.WriteLine(" Image size = {0} x {1} (width x height)", fp.Image.GetLength(1), fp.Image.GetLength(0));
@@ -151,6 +138,8 @@ namespace AsyncSocketServer
                 //person.Id = loadDatabase().Count + 1;
                 user.Guid = Guid.NewGuid().ToString();
                 user.Name = name;
+                user.IdNum = idnum;
+                user.Phone = phone;
                 // Add fingerprint to the person
                 user.Fingerprints.Add(fp);
 

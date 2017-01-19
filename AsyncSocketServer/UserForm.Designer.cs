@@ -40,17 +40,24 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnAccessUpdate = new System.Windows.Forms.Button();
+            this.btnAccessEnroll = new System.Windows.Forms.Button();
+            this.btnAccessDelete = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(237, 20);
+            this.btnClose.Location = new System.Drawing.Point(294, 18);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(68, 22);
+            this.btnClose.Size = new System.Drawing.Size(88, 22);
             this.btnClose.TabIndex = 16;
             this.btnClose.Text = "닫기";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -60,9 +67,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 523);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 562);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(658, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(729, 22);
             this.statusStrip1.TabIndex = 17;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -74,9 +81,9 @@
             // 
             // btnModify
             // 
-            this.btnModify.Location = new System.Drawing.Point(163, 20);
+            this.btnModify.Location = new System.Drawing.Point(200, 18);
             this.btnModify.Name = "btnModify";
-            this.btnModify.Size = new System.Drawing.Size(68, 22);
+            this.btnModify.Size = new System.Drawing.Size(88, 22);
             this.btnModify.TabIndex = 18;
             this.btnModify.Text = "수정";
             this.btnModify.UseVisualStyleBackColor = true;
@@ -111,9 +118,9 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(89, 20);
+            this.btnDelete.Location = new System.Drawing.Point(106, 19);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(68, 22);
+            this.btnDelete.Size = new System.Drawing.Size(88, 22);
             this.btnDelete.TabIndex = 22;
             this.btnDelete.Text = "삭제";
             this.btnDelete.UseVisualStyleBackColor = true;
@@ -121,11 +128,11 @@
             // 
             // btnEnroll
             // 
-            this.btnEnroll.Location = new System.Drawing.Point(15, 20);
+            this.btnEnroll.Location = new System.Drawing.Point(12, 20);
             this.btnEnroll.Name = "btnEnroll";
-            this.btnEnroll.Size = new System.Drawing.Size(68, 22);
+            this.btnEnroll.Size = new System.Drawing.Size(88, 22);
             this.btnEnroll.TabIndex = 23;
-            this.btnEnroll.Text = "추가";
+            this.btnEnroll.Text = "등록";
             this.btnEnroll.UseVisualStyleBackColor = true;
             this.btnEnroll.Click += new System.EventHandler(this.btnEnroll_Click);
             // 
@@ -138,7 +145,7 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(634, 434);
+            this.dataGridView1.Size = new System.Drawing.Size(705, 254);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
@@ -162,16 +169,70 @@
             this.groupBox2.Controls.Add(this.btnDelete);
             this.groupBox2.Location = new System.Drawing.Point(323, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(323, 57);
+            this.groupBox2.Size = new System.Drawing.Size(394, 57);
             this.groupBox2.TabIndex = 25;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "관리";
+            this.groupBox2.Text = "유저관리";
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Location = new System.Drawing.Point(12, 395);
+            this.dataGridView2.MultiSelect = false;
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.ReadOnly = true;
+            this.dataGridView2.RowTemplate.Height = 23;
+            this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView2.Size = new System.Drawing.Size(705, 153);
+            this.dataGridView2.TabIndex = 26;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.btnAccessUpdate);
+            this.groupBox3.Controls.Add(this.btnAccessEnroll);
+            this.groupBox3.Controls.Add(this.btnAccessDelete);
+            this.groupBox3.Location = new System.Drawing.Point(323, 335);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(394, 54);
+            this.groupBox3.TabIndex = 26;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "출입관리";
+            // 
+            // btnAccessUpdate
+            // 
+            this.btnAccessUpdate.Location = new System.Drawing.Point(200, 18);
+            this.btnAccessUpdate.Name = "btnAccessUpdate";
+            this.btnAccessUpdate.Size = new System.Drawing.Size(88, 22);
+            this.btnAccessUpdate.TabIndex = 18;
+            this.btnAccessUpdate.Text = "수정";
+            this.btnAccessUpdate.UseVisualStyleBackColor = true;
+            // 
+            // btnAccessEnroll
+            // 
+            this.btnAccessEnroll.Location = new System.Drawing.Point(12, 20);
+            this.btnAccessEnroll.Name = "btnAccessEnroll";
+            this.btnAccessEnroll.Size = new System.Drawing.Size(88, 22);
+            this.btnAccessEnroll.TabIndex = 23;
+            this.btnAccessEnroll.Text = "등록";
+            this.btnAccessEnroll.UseVisualStyleBackColor = true;
+            this.btnAccessEnroll.Click += new System.EventHandler(this.btnAccessEnroll_Click);
+            // 
+            // btnAccessDelete
+            // 
+            this.btnAccessDelete.Location = new System.Drawing.Point(106, 19);
+            this.btnAccessDelete.Name = "btnAccessDelete";
+            this.btnAccessDelete.Size = new System.Drawing.Size(88, 22);
+            this.btnAccessDelete.TabIndex = 22;
+            this.btnAccessDelete.Text = "삭제";
+            this.btnAccessDelete.UseVisualStyleBackColor = true;
             // 
             // UserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(658, 545);
+            this.ClientSize = new System.Drawing.Size(729, 584);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.statusStrip1);
@@ -187,6 +248,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -205,5 +268,10 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button btnAccessUpdate;
+        private System.Windows.Forms.Button btnAccessEnroll;
+        private System.Windows.Forms.Button btnAccessDelete;
     }
 }

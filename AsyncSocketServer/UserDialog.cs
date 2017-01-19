@@ -61,6 +61,8 @@ namespace AsyncSocketServer
             {
                 tbId.Text = user.Id.ToString();
                 tbName.Text = user.Name.ToString();
+                tbIdnum.Text = user.IdNum.ToString();
+                tbPhone.Text = user.Phone.ToString();
                 pbFingerPrint.Image = user.Fingerprints[0].AsBitmap;
             } else
             {
@@ -82,7 +84,18 @@ namespace AsyncSocketServer
             {
                 MessageBox.Show("이름을 입력하세요.", "알림", MessageBoxButtons.OK);
                 return;
-            } else if (pbFingerPrint.Image == null)
+            }
+            else if (tbIdnum.Text == "" || tbIdnum == null)
+            {
+                MessageBox.Show("주민번호를 입력하세요.", "알림", MessageBoxButtons.OK);
+                return;
+            }
+            else if (tbPhone.Text == "" || tbPhone== null)
+            {
+                MessageBox.Show("연락처를 입력하세요.", "알림", MessageBoxButtons.OK);
+                return;
+            }
+            else if (pbFingerPrint.Image == null)
             {
                 MessageBox.Show("지문을 입력하세요.", "알림", MessageBoxButtons.OK);
                 return;
@@ -92,7 +105,7 @@ namespace AsyncSocketServer
             {
                 int rtn = 0;
                 byte[] iBytes = BBImageConverter.ImageToByte(BBImageConverter.GrayRawToBitmap(fingerSensor.getRawImage(), 320, 240));
-                user = userManager.Enroll(iBytes, tbName.Text);
+                user = userManager.Enroll(iBytes, tbName.Text, tbIdnum.Text, tbPhone.Text);
                 switch (mode)
                 {
                     case MODE.SAVE:

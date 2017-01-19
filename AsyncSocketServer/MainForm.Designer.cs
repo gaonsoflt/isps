@@ -54,6 +54,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnConfirm = new System.Windows.Forms.Button();
             this.btnEnroll = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbImage)).BeginInit();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbFPRef)).BeginInit();
@@ -69,7 +70,7 @@
             this.pbImage.Location = new System.Drawing.Point(16, 337);
             this.pbImage.Name = "pbImage";
             this.pbImage.Size = new System.Drawing.Size(216, 170);
-            this.pbImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbImage.TabIndex = 0;
             this.pbImage.TabStop = false;
             // 
@@ -148,7 +149,7 @@
             this.pbFPRef.Location = new System.Drawing.Point(236, 337);
             this.pbFPRef.Name = "pbFPRef";
             this.pbFPRef.Size = new System.Drawing.Size(216, 170);
-            this.pbFPRef.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbFPRef.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbFPRef.TabIndex = 6;
             this.pbFPRef.TabStop = false;
             // 
@@ -295,7 +296,7 @@
             this.groupBox4.Controls.Add(this.btnEnroll);
             this.groupBox4.Location = new System.Drawing.Point(458, 328);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(173, 102);
+            this.groupBox4.Size = new System.Drawing.Size(173, 150);
             this.groupBox4.TabIndex = 16;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Action";
@@ -305,7 +306,7 @@
             this.btnConfirm.Enabled = false;
             this.btnConfirm.Location = new System.Drawing.Point(7, 63);
             this.btnConfirm.Name = "btnConfirm";
-            this.btnConfirm.Size = new System.Drawing.Size(160, 33);
+            this.btnConfirm.Size = new System.Drawing.Size(161, 37);
             this.btnConfirm.TabIndex = 5;
             this.btnConfirm.Text = "사용자 확인";
             this.btnConfirm.UseVisualStyleBackColor = true;
@@ -313,7 +314,6 @@
             // 
             // btnEnroll
             // 
-            this.btnEnroll.Enabled = false;
             this.btnEnroll.Location = new System.Drawing.Point(7, 20);
             this.btnEnroll.Name = "btnEnroll";
             this.btnEnroll.Size = new System.Drawing.Size(161, 37);
@@ -322,11 +322,22 @@
             this.btnEnroll.UseVisualStyleBackColor = true;
             this.btnEnroll.Click += new System.EventHandler(this.btnEnroll_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(465, 484);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "TEST";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(643, 532);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -388,6 +399,7 @@
         private System.Windows.Forms.Button btnEnroll;
         private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.CheckBox cbConnetType;
+        private System.Windows.Forms.Button button1;
     }
 }
 
