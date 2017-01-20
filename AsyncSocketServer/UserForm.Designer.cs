@@ -185,27 +185,29 @@
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView2.Size = new System.Drawing.Size(705, 153);
             this.dataGridView2.TabIndex = 26;
+            this.dataGridView2.SelectionChanged += new System.EventHandler(this.dataGridView2_SelectionChanged);
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.btnAccessUpdate);
             this.groupBox3.Controls.Add(this.btnAccessEnroll);
             this.groupBox3.Controls.Add(this.btnAccessDelete);
-            this.groupBox3.Location = new System.Drawing.Point(323, 335);
+            this.groupBox3.Location = new System.Drawing.Point(416, 335);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(394, 54);
+            this.groupBox3.Size = new System.Drawing.Size(301, 54);
             this.groupBox3.TabIndex = 26;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "출입관리";
             // 
             // btnAccessUpdate
             // 
-            this.btnAccessUpdate.Location = new System.Drawing.Point(200, 18);
+            this.btnAccessUpdate.Location = new System.Drawing.Point(200, 20);
             this.btnAccessUpdate.Name = "btnAccessUpdate";
             this.btnAccessUpdate.Size = new System.Drawing.Size(88, 22);
             this.btnAccessUpdate.TabIndex = 18;
             this.btnAccessUpdate.Text = "수정";
             this.btnAccessUpdate.UseVisualStyleBackColor = true;
+            this.btnAccessUpdate.Click += new System.EventHandler(this.btnAccessUpdate_Click);
             // 
             // btnAccessEnroll
             // 
@@ -219,7 +221,7 @@
             // 
             // btnAccessDelete
             // 
-            this.btnAccessDelete.Location = new System.Drawing.Point(106, 19);
+            this.btnAccessDelete.Location = new System.Drawing.Point(106, 20);
             this.btnAccessDelete.Name = "btnAccessDelete";
             this.btnAccessDelete.Size = new System.Drawing.Size(88, 22);
             this.btnAccessDelete.TabIndex = 22;

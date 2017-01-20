@@ -363,7 +363,7 @@ namespace AsyncSocketServer
                              * DB 에서 Guid로 검색해 미리 입력해놓은 동승자 현황을 가져와 비교해야 함
                              */
                             int accessPassengerCnt = 0;
-                            accessPassengerCnt = new AccessInfoDB().SelectISPSAccessInfo(guid);
+                            accessPassengerCnt = new AccessInfoDB().SelectAccessPsgCnt(guid);
                             AddListBoxItem("Accessed passenger count: " + accessPassengerCnt);
 
                             // 로그인 된 유저인지 확인
@@ -555,7 +555,7 @@ namespace AsyncSocketServer
 
         private void button1_Click(object sender, EventArgs e)
         {
-            AddListBoxItem("psg count: " + new AccessInfoDB().SelectISPSAccessInfo("e3135a87-2c34-485e-9070-1352b7ec31c8"));
+            AddListBoxItem("psg count: " + new AccessInfoDB().SelectAccessPsgCnt("e3135a87-2c34-485e-9070-1352b7ec31c8"));
         }
     }
 }

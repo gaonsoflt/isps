@@ -31,7 +31,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.tbId = new System.Windows.Forms.TextBox();
+            this.tbUserId = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.allowStartDt = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
@@ -42,13 +42,23 @@
             this.tbSeq = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tbUserNm = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tbIsAccess = new System.Windows.Forms.TextBox();
+            this.tbAccessDt = new System.Windows.Forms.TextBox();
+            this.tbAccessMin = new System.Windows.Forms.TextBox();
+            this.tbAccessHour = new System.Windows.Forms.TextBox();
+            this.tbAccessDay = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudPsgCnt)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(12, 260);
+            this.btnCancel.Location = new System.Drawing.Point(12, 256);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(154, 38);
             this.btnCancel.TabIndex = 16;
@@ -58,39 +68,40 @@
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(172, 260);
+            this.btnApply.Location = new System.Drawing.Point(172, 256);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(154, 38);
             this.btnApply.TabIndex = 17;
             this.btnApply.Text = "저장";
             this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label4.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label4.Location = new System.Drawing.Point(12, 59);
+            this.label4.Location = new System.Drawing.Point(170, 58);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(44, 12);
             this.label4.TabIndex = 18;
             this.label4.Text = "아이디";
             // 
-            // tbId
+            // tbUserId
             // 
-            this.tbId.Location = new System.Drawing.Point(14, 75);
-            this.tbId.Name = "tbId";
-            this.tbId.ReadOnly = true;
-            this.tbId.Size = new System.Drawing.Size(179, 21);
-            this.tbId.TabIndex = 19;
-            this.tbId.TabStop = false;
+            this.tbUserId.Location = new System.Drawing.Point(172, 74);
+            this.tbUserId.Name = "tbUserId";
+            this.tbUserId.ReadOnly = true;
+            this.tbUserId.Size = new System.Drawing.Size(152, 21);
+            this.tbUserId.TabIndex = 19;
+            this.tbUserId.TabStop = false;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label5.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label5.Location = new System.Drawing.Point(12, 108);
+            this.label5.Location = new System.Drawing.Point(12, 59);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 12);
             this.label5.TabIndex = 20;
@@ -98,18 +109,19 @@
             // 
             // allowStartDt
             // 
-            this.allowStartDt.Location = new System.Drawing.Point(14, 171);
+            this.allowStartDt.Location = new System.Drawing.Point(14, 122);
             this.allowStartDt.Name = "allowStartDt";
-            this.allowStartDt.Size = new System.Drawing.Size(179, 21);
+            this.allowStartDt.Size = new System.Drawing.Size(229, 21);
             this.allowStartDt.TabIndex = 22;
-            this.allowStartDt.Value = new System.DateTime(2017, 1, 19, 20, 19, 34, 0);
+            this.allowStartDt.Value = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
+            this.allowStartDt.ValueChanged += new System.EventHandler(this.allowStartDt_ValueChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label1.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label1.Location = new System.Drawing.Point(12, 156);
+            this.label1.Location = new System.Drawing.Point(12, 107);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 12);
             this.label1.TabIndex = 23;
@@ -120,7 +132,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label2.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label2.Location = new System.Drawing.Point(12, 204);
+            this.label2.Location = new System.Drawing.Point(12, 155);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(83, 12);
             this.label2.TabIndex = 24;
@@ -128,16 +140,18 @@
             // 
             // allowEndDt
             // 
-            this.allowEndDt.Location = new System.Drawing.Point(14, 219);
+            this.allowEndDt.Location = new System.Drawing.Point(14, 170);
             this.allowEndDt.Name = "allowEndDt";
-            this.allowEndDt.Size = new System.Drawing.Size(179, 21);
+            this.allowEndDt.Size = new System.Drawing.Size(229, 21);
             this.allowEndDt.TabIndex = 25;
+            this.allowEndDt.Value = new System.DateTime(2017, 1, 20, 15, 27, 9, 0);
+            this.allowEndDt.ValueChanged += new System.EventHandler(this.allowEndDt_ValueChanged);
             // 
             // nudPsgCnt
             // 
-            this.nudPsgCnt.Location = new System.Drawing.Point(14, 123);
+            this.nudPsgCnt.Location = new System.Drawing.Point(14, 74);
             this.nudPsgCnt.Name = "nudPsgCnt";
-            this.nudPsgCnt.Size = new System.Drawing.Size(179, 21);
+            this.nudPsgCnt.Size = new System.Drawing.Size(152, 21);
             this.nudPsgCnt.TabIndex = 26;
             // 
             // label3
@@ -156,7 +170,7 @@
             this.tbSeq.Location = new System.Drawing.Point(14, 25);
             this.tbSeq.Name = "tbSeq";
             this.tbSeq.ReadOnly = true;
-            this.tbSeq.Size = new System.Drawing.Size(179, 21);
+            this.tbSeq.Size = new System.Drawing.Size(152, 21);
             this.tbSeq.TabIndex = 28;
             this.tbSeq.TabStop = false;
             // 
@@ -164,9 +178,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 312);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 309);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(353, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(338, 22);
             this.statusStrip1.TabIndex = 29;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -176,11 +190,108 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(16, 17);
             this.toolStripStatusLabel1.Text = "...";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label6.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label6.Location = new System.Drawing.Point(170, 9);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(31, 12);
+            this.label6.TabIndex = 30;
+            this.label6.Text = "이름";
+            // 
+            // tbUserNm
+            // 
+            this.tbUserNm.Location = new System.Drawing.Point(172, 25);
+            this.tbUserNm.Name = "tbUserNm";
+            this.tbUserNm.ReadOnly = true;
+            this.tbUserNm.Size = new System.Drawing.Size(152, 21);
+            this.tbUserNm.TabIndex = 31;
+            this.tbUserNm.TabStop = false;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label7.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label7.Location = new System.Drawing.Point(12, 203);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(57, 12);
+            this.label7.TabIndex = 32;
+            this.label7.Text = "출입여부";
+            // 
+            // tbIsAccess
+            // 
+            this.tbIsAccess.Location = new System.Drawing.Point(14, 219);
+            this.tbIsAccess.Name = "tbIsAccess";
+            this.tbIsAccess.ReadOnly = true;
+            this.tbIsAccess.Size = new System.Drawing.Size(81, 21);
+            this.tbIsAccess.TabIndex = 33;
+            this.tbIsAccess.TabStop = false;
+            // 
+            // tbAccessDt
+            // 
+            this.tbAccessDt.Location = new System.Drawing.Point(96, 219);
+            this.tbAccessDt.Name = "tbAccessDt";
+            this.tbAccessDt.ReadOnly = true;
+            this.tbAccessDt.Size = new System.Drawing.Size(230, 21);
+            this.tbAccessDt.TabIndex = 34;
+            this.tbAccessDt.TabStop = false;
+            // 
+            // tbAccessMin
+            // 
+            this.tbAccessMin.Location = new System.Drawing.Point(6, 67);
+            this.tbAccessMin.Name = "tbAccessMin";
+            this.tbAccessMin.ReadOnly = true;
+            this.tbAccessMin.Size = new System.Drawing.Size(65, 21);
+            this.tbAccessMin.TabIndex = 35;
+            this.tbAccessMin.TabStop = false;
+            this.tbAccessMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // tbAccessHour
+            // 
+            this.tbAccessHour.Location = new System.Drawing.Point(6, 43);
+            this.tbAccessHour.Name = "tbAccessHour";
+            this.tbAccessHour.ReadOnly = true;
+            this.tbAccessHour.Size = new System.Drawing.Size(65, 21);
+            this.tbAccessHour.TabIndex = 36;
+            this.tbAccessHour.TabStop = false;
+            this.tbAccessHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // tbAccessDay
+            // 
+            this.tbAccessDay.Location = new System.Drawing.Point(6, 19);
+            this.tbAccessDay.Name = "tbAccessDay";
+            this.tbAccessDay.ReadOnly = true;
+            this.tbAccessDay.Size = new System.Drawing.Size(65, 21);
+            this.tbAccessDay.TabIndex = 37;
+            this.tbAccessDay.TabStop = false;
+            this.tbAccessDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tbAccessHour);
+            this.groupBox1.Controls.Add(this.tbAccessDay);
+            this.groupBox1.Controls.Add(this.tbAccessMin);
+            this.groupBox1.Location = new System.Drawing.Point(249, 107);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(77, 100);
+            this.groupBox1.TabIndex = 38;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "허용시간";
+            // 
             // AccessDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(353, 334);
+            this.ClientSize = new System.Drawing.Size(338, 331);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.tbAccessDt);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.tbIsAccess);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.tbUserNm);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.tbSeq);
@@ -190,7 +301,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.allowStartDt);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.tbId);
+            this.Controls.Add(this.tbUserId);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.btnCancel);
@@ -200,6 +311,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudPsgCnt)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -210,7 +323,7 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox tbId;
+        private System.Windows.Forms.TextBox tbUserId;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DateTimePicker allowStartDt;
         private System.Windows.Forms.Label label1;
@@ -221,5 +334,14 @@
         private System.Windows.Forms.TextBox tbSeq;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox tbUserNm;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox tbIsAccess;
+        private System.Windows.Forms.TextBox tbAccessDt;
+        private System.Windows.Forms.TextBox tbAccessMin;
+        private System.Windows.Forms.TextBox tbAccessHour;
+        private System.Windows.Forms.TextBox tbAccessDay;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

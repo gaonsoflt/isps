@@ -7,22 +7,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static AsyncSocketServer.UserManager;
 
 namespace AsyncSocketServer
 {
     public partial class UserForm : Form
     {
-        UserDB db;
-        int userId = 0;
+        UserDB m_db;
+        MyPerson m_user;
+        //int m_userId = 0;
+        int m_accessSeq = 0;
 
         public UserForm()
         {
             InitializeComponent();
-            db = new UserDB();
         }
 
         private void UserForm_Load(object sender, EventArgs e)
         {
+            m_db = new UserDB();
+            m_user = new MyPerson();
             //updateUserDB();
         }
 
@@ -34,7 +38,7 @@ namespace AsyncSocketServer
         private void updateUserDB()
         {
             string keyword = tbKeyword.Text;
-            dataGridView1.DataSource = db.GetUserDBTable(keyword);
+            dataGridView1.DataSource = m_db.GetUserDBTable(keyword);
             if (dataGridView1.DataSource != null)
             {
                 dataGridView1.Columns["user_id"].HeaderText = "아이디";
@@ -59,7 +63,7 @@ namespace AsyncSocketServer
 
         private void updateAccessDB()
         {
-            dataGridView2.DataSource = db.GetAccessDBTable(userId);
+            dataGridView2.DataSource = m_db.GetAccessDBTable(m_user.Id);
             if (dataGridView2.DataSource != null)
             {
                 dataGridView2.Columns["access_info_sq"].HeaderText = "SEQ";
@@ -105,24 +109,34 @@ namespace AsyncSocketServer
         {
             foreach (DataGridViewRow row in dataGridView1.SelectedRows)
             {
-                userId = Int32.Parse(row.Cells[0].Value.ToString());
-                UpdateStatusMessage("Selected row USER_ID: " + userId);
+                m_user.Id = Int32.Parse(row.Cells["user_id"].Value.ToString());
+                m_user.Name = row.Cells["user_nm"].Value.ToString();
+                UpdateStatusMessage("Selected row: USER_ID[" + m_user.Id + "]");
                 updateAccessDB();
+            }
+        }
+
+        private void dataGridView2_SelectionChanged(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView2.SelectedRows)
+            {
+                m_accessSeq = Int32.Parse(row.Cells[0].Value.ToString());
+                UpdateStatusMessage("Selected row: USER_ID[" + m_user.Id + "] ACCESS_INFO_SQ[" + m_accessSeq + "]");
             }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("사용자[" + userId + "]를 삭제하시겠습니까?", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("사용자[" + m_user.Id + "]를 삭제하시겠습니까?", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                if (db.DeleteISPSUser(userId) > 0)
+                if (m_db.DeleteISPSUser(m_user.Id) > 0)
                 {
-                    UpdateStatusMessage("Success delete user: " + userId);
+                    UpdateStatusMessage("Success delete user: " + m_user.Id);
                     updateUserDB();
                 }
                 else
                 {
-                    UpdateStatusMessage("Filed delete user: " + userId);
+                    UpdateStatusMessage("Filed delete user: " + m_user.Id);
                 }
             }
         }
@@ -135,7 +149,7 @@ namespace AsyncSocketServer
 
         private void btnModify_Click(object sender, EventArgs e)
         {
-            UserDialog userDlg = new UserDialog(UserManager.MODE.MODIFY, userId);
+            UserDialog userDlg = new UserDialog(UserManager.MODE.MODIFY, m_user.Id);
             userDlg.ShowDialog();
         }
 
@@ -152,8 +166,33 @@ namespace AsyncSocketServer
 
         private void btnAccessEnroll_Click(object sender, EventArgs e)
         {
-            AccessDialog accessDlg = new AccessDialog(userId);
-            accessDlg.ShowDialog();
+            if (dataGridView1.RowCount > 0)
+            {
+                AccessInfoManager.AccessInfo accessInfo = new AccessInfoManager.AccessInfo();
+                accessInfo.seq = m_accessSeq;
+                accessInfo.user = m_user;
+                AccessDialog accessDlg = new AccessDialog(AccessInfoManager.DIALOG_MODE.SAVE, accessInfo);
+                accessDlg.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("유저 정보가 없습니다.", "알림", MessageBoxButtons.OK);
+            }
+        }
+
+        private void btnAccessUpdate_Click(object sender, EventArgs e)
+        {
+            if (dataGridView2.RowCount > 0) {
+                AccessInfoManager.AccessInfo accessInfo = new AccessInfoManager.AccessInfo();
+                accessInfo.seq = m_accessSeq;
+                accessInfo.user = m_user;
+                AccessDialog accessDlg = new AccessDialog(AccessInfoManager.DIALOG_MODE.MODIFY, accessInfo);
+                accessDlg.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("출입 정보가 없습니다.", "알림", MessageBoxButtons.OK);
+            }
         }
     }
 }

@@ -39,6 +39,11 @@ namespace AsyncSocketServer
         {
             return Encoding.UTF8.GetBytes(str);
         }
+
+        public static int StringToInt32(string str)
+        {
+            return Int32.Parse(str);
+        }
     }
 
     class BBImageConverter

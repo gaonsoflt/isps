@@ -63,6 +63,7 @@
     <Compile Include="AccessDialog.Designer.cs">
       <DependentUpon>AccessDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="AccessInfoManager.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="DBManager.cs" />
     <Compile Include="Logger.cs" />

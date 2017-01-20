@@ -29,7 +29,8 @@ namespace AsyncSocketServer
         {
             InitializeComponent();
             this.mode = mode;
-            LoadUser(userId);
+            user = new MyPerson();
+            user.Id = userId;
         }
 
         private void UserDialog_Load(object sender, EventArgs e)
@@ -44,10 +45,10 @@ namespace AsyncSocketServer
                     break;
                 case MODE.MODIFY:
                     this.Text = "수정";
-                    UpdateUser();
+                    LoadUser(user.Id);
+                    UpdateComponents();
                     break;
             }
-
         }
 
         private void LoadUser(int userId)
@@ -55,7 +56,7 @@ namespace AsyncSocketServer
             user = new UserDB().SelectISPSUser(userId);
         }
 
-        private void UpdateUser()
+        private void UpdateComponents()
         {
             if (user != null)
             {
