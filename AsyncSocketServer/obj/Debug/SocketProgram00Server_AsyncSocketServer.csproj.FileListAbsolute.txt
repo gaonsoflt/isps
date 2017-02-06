@@ -40,6 +40,7 @@ C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\Sock
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\AsyncSocketServer.UserDialog.resources
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\AsyncSocketServer.MainForm.resources
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\AsyncSocketServer.Properties.Resources.resources
-C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\AsyncSocketServer.UserForm.resources
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\SocketProgram00Server_AsyncSocketServer.csproj.GenerateResource.Cache
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\AsyncSocketServer.AccessDialog.resources
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\AsyncSocketServer.ManagerDialog.resources
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\AsyncSocketServer.CarInfoDialog.resources

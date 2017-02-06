@@ -63,8 +63,16 @@
     <Compile Include="AccessDialog.Designer.cs">
       <DependentUpon>AccessDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="CarInfoDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CarInfoDialog.Designer.cs">
+      <DependentUpon>CarInfoDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CarInfoManager.cs" />
     <Compile Include="AccessInfoManager.cs" />
     <Compile Include="Converter.cs" />
+    <Compile Include="DataPacket.cs" />
     <Compile Include="DBManager.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="UserDialog.cs">
@@ -87,14 +95,17 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringUtil.cs" />
-    <Compile Include="UserForm.cs">
+    <Compile Include="ManagerDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserForm.Designer.cs">
-      <DependentUpon>UserForm.cs</DependentUpon>
+    <Compile Include="ManagerDialog.Designer.cs">
+      <DependentUpon>ManagerDialog.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AccessDialog.resx">
       <DependentUpon>AccessDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CarInfoDialog.resx">
+      <DependentUpon>CarInfoDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserDialog.resx">
       <DependentUpon>UserDialog.cs</DependentUpon>
@@ -111,8 +122,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="UserForm.resx">
-      <DependentUpon>UserForm.cs</DependentUpon>
+    <EmbeddedResource Include="ManagerDialog.resx">
+      <DependentUpon>ManagerDialog.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

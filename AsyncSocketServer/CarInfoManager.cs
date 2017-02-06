@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AsyncSocketServer
 {
-    public class AccessInfoManager
+    public class CarInfoManager
     {
         public enum DIALOG_MODE : int
         {
@@ -16,27 +16,27 @@ namespace AsyncSocketServer
             DELETE
         }
 
-        public class AccessInfo
+        public class CarInfo
         {
-            public int seq;
-            public UserManager.MyPerson user = new UserManager.MyPerson();
-            public int psgCnt;
-            public DateTime allowStartDt;
-            public DateTime allowEndDt;
-            public bool isAccess;
-            public DateTime access_dt;
-            public string carId;
-            public string purpose;
+            public string id;
+            public string owner;
             public DateTime reg_dt;
             public DateTime mod_dt;
         }
 
-        public int SaveAccessInfo(AccessInfo info)
+        CarInfoDB db;
+
+        public CarInfoManager()
+        {
+            db = new CarInfoDB();
+        }
+
+        public int SaveCarInfo(CarInfo car)
         {
             Console.Write("Saving database...[");
             try
             {
-                int executeCnt = new AccessInfoDB().InsertAccessInfo(info);
+                int executeCnt = db.InsertCarInfo(car);
                 Console.WriteLine(executeCnt + "]");
                 return executeCnt;
             }
@@ -47,12 +47,12 @@ namespace AsyncSocketServer
             }
         }
 
-        public int UpdateAccessInfo(AccessInfo info)
+        public int UpdateCarInfo(CarInfo car)
         {
             Console.Write("Updating database...[");
             try
             {
-                int executeCnt = new AccessInfoDB().UpdateAccessInfo(info);
+                int executeCnt = db.UpdateCarInfo(car);
                 Console.WriteLine(executeCnt + "]");
                 return executeCnt;
             }
@@ -61,6 +61,27 @@ namespace AsyncSocketServer
                 Console.WriteLine(e.Message + "]");
                 return 0;
             }
+        }
+
+        public int DeleteCarInfo(string carId)
+        {
+            Console.Write("Deleting database...[");
+            try
+            {
+                int executeCnt = db.DeleteCarInfo(carId);
+                Console.WriteLine(executeCnt + "]");
+                return executeCnt;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + "]");
+                return 0;
+            }
+        }
+
+        public string[] SuggestStrings(string carId)
+        {
+            return db.GetCarIds(carId);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace AsyncSocketServer
     {
         FingerSensor fingerSensor;
         UserManager userManager;
-        MyPerson user = null;
+        MyPerson m_user = null;
         UserManager.MODE mode;
 
         public UserDialog(UserManager.MODE mode)
@@ -29,8 +29,8 @@ namespace AsyncSocketServer
         {
             InitializeComponent();
             this.mode = mode;
-            user = new MyPerson();
-            user.Id = userId;
+            m_user = new MyPerson();
+            m_user.Id = userId;
         }
 
         private void UserDialog_Load(object sender, EventArgs e)
@@ -45,7 +45,7 @@ namespace AsyncSocketServer
                     break;
                 case MODE.MODIFY:
                     this.Text = "수정";
-                    LoadUser(user.Id);
+                    LoadUser(m_user.Id);
                     UpdateComponents();
                     break;
             }
@@ -53,27 +53,28 @@ namespace AsyncSocketServer
 
         private void LoadUser(int userId)
         {
-            user = new UserDB().SelectISPSUser(userId);
+            m_user = new UserDB().SelectISPSUser(userId);
         }
 
         private void UpdateComponents()
         {
-            if (user != null)
+            if (m_user != null)
             {
-                tbId.Text = user.Id.ToString();
-                tbName.Text = user.Name.ToString();
-                tbIdnum.Text = user.IdNum.ToString();
-                tbPhone.Text = user.Phone.ToString();
-                pbFingerPrint.Image = user.Fingerprints[0].AsBitmap;
+                tbId.Text = m_user.Id.ToString();
+                tbName.Text = m_user.Name.ToString();
+                tbIdnum.Text = m_user.IdNum.ToString();
+                tbPhone.Text = m_user.Phone.ToString();
+                tbEmail.Text = m_user.Email.ToString();
+                pbFingerPrint.Image = m_user.Fingerprints[0].AsBitmap;
             } else
             {
-                StatusMessage("유저 정보가 없습니다.");
+                StatusMessage("인원 정보가 없습니다.");
             }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("사용자 등록을 취소 하시겠습니까?", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if(MessageBox.Show("인원 등록/수정을 취소 하시겠습니까?", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 this.Close();
             }
@@ -106,24 +107,25 @@ namespace AsyncSocketServer
             {
                 int rtn = 0;
                 byte[] iBytes = BBImageConverter.ImageToByte(BBImageConverter.GrayRawToBitmap(fingerSensor.getRawImage(), 320, 240));
-                user = userManager.Enroll(iBytes, tbName.Text, tbIdnum.Text, tbPhone.Text);
+                m_user = userManager.Enroll(iBytes, tbName.Text, tbIdnum.Text, tbPhone.Text, tbEmail.Text);
                 switch (mode)
                 {
                     case MODE.SAVE:
-                        rtn = userManager.saveUser(user);
+                        rtn = userManager.saveUser(m_user);
                         break;
                     case MODE.MODIFY:
-                        user.Id = Int32.Parse(tbId.Text.ToString());
-                        rtn = userManager.updateUser(user);
+                        m_user.Id = Int32.Parse(tbId.Text.ToString());
+                        rtn = userManager.updateUser(m_user);
                         break;
                 }
                 if (rtn > 0)
                 {
-                    StatusMessage("사용자(" + user.Name + ") 정보가 저장되었습니다.");
+                    StatusMessage("사용자(" + m_user.Name + ") 정보가 저장되었습니다.");
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
                 } else
                 {
-                    StatusMessage("사용자(" + user.Name + ") 정보가 저장되지 않았습니다.");
+                    StatusMessage("사용자(" + m_user.Name + ") 정보가 저장되지 않았습니다.");
                 }
             }
         }

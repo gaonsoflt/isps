@@ -51,6 +51,10 @@
             this.tbAccessHour = new System.Windows.Forms.TextBox();
             this.tbAccessDay = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.tbCarId = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tbPurpose = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudPsgCnt)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -58,7 +62,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(12, 256);
+            this.btnCancel.Location = new System.Drawing.Point(12, 355);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(154, 38);
             this.btnCancel.TabIndex = 16;
@@ -68,7 +72,7 @@
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(172, 256);
+            this.btnApply.Location = new System.Drawing.Point(172, 355);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(154, 38);
             this.btnApply.TabIndex = 17;
@@ -81,7 +85,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label4.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label4.Location = new System.Drawing.Point(170, 58);
+            this.label4.Location = new System.Drawing.Point(12, 58);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(44, 12);
             this.label4.TabIndex = 18;
@@ -89,7 +93,7 @@
             // 
             // tbUserId
             // 
-            this.tbUserId.Location = new System.Drawing.Point(172, 74);
+            this.tbUserId.Location = new System.Drawing.Point(14, 74);
             this.tbUserId.Name = "tbUserId";
             this.tbUserId.ReadOnly = true;
             this.tbUserId.Size = new System.Drawing.Size(152, 21);
@@ -101,7 +105,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label5.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label5.Location = new System.Drawing.Point(12, 59);
+            this.label5.Location = new System.Drawing.Point(172, 108);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 12);
             this.label5.TabIndex = 20;
@@ -109,7 +113,7 @@
             // 
             // allowStartDt
             // 
-            this.allowStartDt.Location = new System.Drawing.Point(14, 122);
+            this.allowStartDt.Location = new System.Drawing.Point(14, 221);
             this.allowStartDt.Name = "allowStartDt";
             this.allowStartDt.Size = new System.Drawing.Size(229, 21);
             this.allowStartDt.TabIndex = 22;
@@ -121,7 +125,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label1.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label1.Location = new System.Drawing.Point(12, 107);
+            this.label1.Location = new System.Drawing.Point(12, 206);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 12);
             this.label1.TabIndex = 23;
@@ -132,7 +136,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label2.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label2.Location = new System.Drawing.Point(12, 155);
+            this.label2.Location = new System.Drawing.Point(12, 254);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(83, 12);
             this.label2.TabIndex = 24;
@@ -140,7 +144,7 @@
             // 
             // allowEndDt
             // 
-            this.allowEndDt.Location = new System.Drawing.Point(14, 170);
+            this.allowEndDt.Location = new System.Drawing.Point(14, 269);
             this.allowEndDt.Name = "allowEndDt";
             this.allowEndDt.Size = new System.Drawing.Size(229, 21);
             this.allowEndDt.TabIndex = 25;
@@ -149,7 +153,7 @@
             // 
             // nudPsgCnt
             // 
-            this.nudPsgCnt.Location = new System.Drawing.Point(14, 74);
+            this.nudPsgCnt.Location = new System.Drawing.Point(174, 123);
             this.nudPsgCnt.Name = "nudPsgCnt";
             this.nudPsgCnt.Size = new System.Drawing.Size(152, 21);
             this.nudPsgCnt.TabIndex = 26;
@@ -178,7 +182,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 309);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 407);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(338, 22);
             this.statusStrip1.TabIndex = 29;
@@ -195,7 +199,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label6.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label6.Location = new System.Drawing.Point(170, 9);
+            this.label6.Location = new System.Drawing.Point(172, 58);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(31, 12);
             this.label6.TabIndex = 30;
@@ -203,7 +207,7 @@
             // 
             // tbUserNm
             // 
-            this.tbUserNm.Location = new System.Drawing.Point(172, 25);
+            this.tbUserNm.Location = new System.Drawing.Point(174, 74);
             this.tbUserNm.Name = "tbUserNm";
             this.tbUserNm.ReadOnly = true;
             this.tbUserNm.Size = new System.Drawing.Size(152, 21);
@@ -215,7 +219,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label7.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label7.Location = new System.Drawing.Point(12, 203);
+            this.label7.Location = new System.Drawing.Point(12, 302);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(57, 12);
             this.label7.TabIndex = 32;
@@ -223,7 +227,7 @@
             // 
             // tbIsAccess
             // 
-            this.tbIsAccess.Location = new System.Drawing.Point(14, 219);
+            this.tbIsAccess.Location = new System.Drawing.Point(14, 318);
             this.tbIsAccess.Name = "tbIsAccess";
             this.tbIsAccess.ReadOnly = true;
             this.tbIsAccess.Size = new System.Drawing.Size(81, 21);
@@ -232,7 +236,7 @@
             // 
             // tbAccessDt
             // 
-            this.tbAccessDt.Location = new System.Drawing.Point(96, 219);
+            this.tbAccessDt.Location = new System.Drawing.Point(96, 318);
             this.tbAccessDt.Name = "tbAccessDt";
             this.tbAccessDt.ReadOnly = true;
             this.tbAccessDt.Size = new System.Drawing.Size(230, 21);
@@ -274,18 +278,61 @@
             this.groupBox1.Controls.Add(this.tbAccessHour);
             this.groupBox1.Controls.Add(this.tbAccessDay);
             this.groupBox1.Controls.Add(this.tbAccessMin);
-            this.groupBox1.Location = new System.Drawing.Point(249, 107);
+            this.groupBox1.Location = new System.Drawing.Point(249, 206);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(77, 100);
             this.groupBox1.TabIndex = 38;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "허용시간";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label8.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label8.Location = new System.Drawing.Point(12, 107);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(57, 12);
+            this.label8.TabIndex = 39;
+            this.label8.Text = "차량번호";
+            // 
+            // tbCarId
+            // 
+            this.tbCarId.Location = new System.Drawing.Point(14, 123);
+            this.tbCarId.Name = "tbCarId";
+            this.tbCarId.Size = new System.Drawing.Size(152, 21);
+            this.tbCarId.TabIndex = 40;
+            this.tbCarId.TabStop = false;
+            this.tbCarId.TextChanged += new System.EventHandler(this.tbCarId_TextChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label9.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label9.Location = new System.Drawing.Point(10, 155);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(57, 12);
+            this.label9.TabIndex = 41;
+            this.label9.Text = "출입목적";
+            // 
+            // tbPurpose
+            // 
+            this.tbPurpose.Location = new System.Drawing.Point(12, 171);
+            this.tbPurpose.Name = "tbPurpose";
+            this.tbPurpose.Size = new System.Drawing.Size(314, 21);
+            this.tbPurpose.TabIndex = 42;
+            this.tbPurpose.TabStop = false;
+            // 
             // AccessDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(338, 331);
+            this.ClientSize = new System.Drawing.Size(338, 429);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.tbPurpose);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.tbCarId);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tbAccessDt);
             this.Controls.Add(this.label7);
@@ -343,5 +390,9 @@
         private System.Windows.Forms.TextBox tbAccessHour;
         private System.Windows.Forms.TextBox tbAccessDay;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox tbCarId;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox tbPurpose;
     }
 }

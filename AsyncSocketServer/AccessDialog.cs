@@ -15,7 +15,8 @@ namespace AsyncSocketServer
     {
         AccessInfo accessInfo;
         AccessInfoManager accessMgr;
-        AccessInfoManager.DIALOG_MODE mode;
+        CarInfoManager carMgr;
+        DIALOG_MODE mode;
         const string customDateFormat = "yyyy년 MM월 dd일 (ddd) HH시 mm분";
         TimeSpan minAccessDt;
         DateTime oldStartDt;
@@ -31,11 +32,16 @@ namespace AsyncSocketServer
         private void AccessDialog_Load(object sender, EventArgs e)
         {
             accessMgr = new AccessInfoManager();
+            carMgr = new CarInfoManager();
             minAccessDt = new TimeSpan(1, 0, 0);
             allowStartDt.Format = DateTimePickerFormat.Custom;
             allowStartDt.CustomFormat = customDateFormat;
             allowEndDt.Format = DateTimePickerFormat.Custom;
             allowEndDt.CustomFormat = customDateFormat;
+
+            tbCarId.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            tbCarId.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
             UpdateComponents();
         }
 
@@ -58,6 +64,8 @@ namespace AsyncSocketServer
                         DateTime dt = DateTime.Now;
                         allowEndDt.Value = dt + minAccessDt;
                         allowStartDt.Value = dt;
+                        tbCarId.Text = accessInfo.carId;
+                        tbPurpose.Text = accessInfo.purpose;
                     }
                     break;
                 case DIALOG_MODE.MODIFY:
@@ -72,8 +80,8 @@ namespace AsyncSocketServer
                         nudPsgCnt.Value = accessInfo.psgCnt;
                         allowEndDt.Value = accessInfo.allowEndDt;
                         allowStartDt.Value = accessInfo.allowStartDt;
-
-                        Console.WriteLine(allowStartDt.Value.Date);
+                        tbCarId.Text = accessInfo.carId;
+                        tbPurpose.Text = accessInfo.purpose;
                     }
                     else
                     {
@@ -88,8 +96,9 @@ namespace AsyncSocketServer
             tbIsAccess.Text = isAccess ? "출입" : "미출입";
             if (isAccess)
             {
-
-                tbAccessDt.Text = AccessDt.ToString(customDateFormat);
+                if (AccessDt != null) {
+                    tbAccessDt.Text = AccessDt.ToString(customDateFormat);
+                }
             }
         }
 
@@ -111,6 +120,8 @@ namespace AsyncSocketServer
                         info.psgCnt = Int32.Parse(nudPsgCnt.Value.ToString());
                         info.allowStartDt = allowStartDt.Value;
                         info.allowEndDt = allowEndDt.Value;
+                        info.purpose = tbPurpose.Text;
+                        info.carId = tbCarId.Text;
                         executeCnt = accessMgr.SaveAccessInfo(info);
                         break;
                     case DIALOG_MODE.MODIFY:
@@ -118,17 +129,20 @@ namespace AsyncSocketServer
                         info.psgCnt = Int32.Parse(nudPsgCnt.Value.ToString());
                         info.allowStartDt = allowStartDt.Value;
                         info.allowEndDt = allowEndDt.Value;
+                        info.purpose = tbPurpose.Text;
+                        info.carId = tbCarId.Text;
                         executeCnt = accessMgr.UpdateAccessInfo(info);
                         break;
                 }
                 if (executeCnt > 0)
                 {
-                    StatusMessage("저장되었습니다.");
+                    StatusMessage("정상적으로 처리 되었습니다.");
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 else
                 {
-                    StatusMessage("저장되지 않았습니다.");
+                    StatusMessage("정상적으로 처리되지 않았습니다.");
                 }
             }
         }
@@ -182,6 +196,26 @@ namespace AsyncSocketServer
         private TimeSpan CalcurateDiffAccessDt()
         {
             return allowEndDt.Value - allowStartDt.Value;
+        }
+
+        private void tbCarId_TextChanged(object sender, EventArgs e)
+        {
+            //TextBox t = sender as TextBox;
+            //if (t != null)
+            //{
+            //    //say you want to do a search when user types 3 or more chars
+            //    if (t.Text.Length >= 2)
+            //    {
+            //        //SuggestStrings will have the logic to return array of strings either from cache/db
+            //        string[] arr = carMgr.SuggestStrings(t.Text);
+            //        if (arr != null)
+            //        {
+            //            AutoCompleteStringCollection collection = new AutoCompleteStringCollection();
+            //            collection.AddRange(arr);
+            //            tbCarId.AutoCompleteCustomSource = collection;
+            //        }
+            //    }
+            //}
         }
     }
 }

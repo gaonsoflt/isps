@@ -443,7 +443,7 @@ namespace AsyncSocketServer
 
         private void btnEnroll_Click(object sender, EventArgs e)
         {
-            UserForm eDlg = new UserForm();
+            ManagerDialog eDlg = new ManagerDialog();
             eDlg.ShowDialog();
         }
 

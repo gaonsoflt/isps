@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbEmail = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.tbPhone = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tbIdnum = new System.Windows.Forms.TextBox();
@@ -51,6 +53,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.tbEmail);
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.tbPhone);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.tbIdnum);
@@ -62,10 +66,28 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Location = new System.Drawing.Point(11, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(323, 356);
+            this.groupBox1.Size = new System.Drawing.Size(323, 399);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "유저정보";
+            this.groupBox1.Text = "인원정보";
+            // 
+            // tbEmail
+            // 
+            this.tbEmail.Location = new System.Drawing.Point(8, 129);
+            this.tbEmail.Name = "tbEmail";
+            this.tbEmail.Size = new System.Drawing.Size(306, 21);
+            this.tbEmail.TabIndex = 25;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label3.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label3.Location = new System.Drawing.Point(6, 113);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(44, 12);
+            this.label3.TabIndex = 24;
+            this.label3.Text = "이메일";
             // 
             // tbPhone
             // 
@@ -105,7 +127,7 @@
             // 
             // pbFingerPrint
             // 
-            this.pbFingerPrint.Location = new System.Drawing.Point(1, 113);
+            this.pbFingerPrint.Location = new System.Drawing.Point(1, 155);
             this.pbFingerPrint.Name = "pbFingerPrint";
             this.pbFingerPrint.Size = new System.Drawing.Size(320, 240);
             this.pbFingerPrint.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -152,7 +174,7 @@
             // 
             // btnScan
             // 
-            this.btnScan.Location = new System.Drawing.Point(12, 375);
+            this.btnScan.Location = new System.Drawing.Point(12, 418);
             this.btnScan.Name = "btnScan";
             this.btnScan.Size = new System.Drawing.Size(321, 38);
             this.btnScan.TabIndex = 17;
@@ -162,7 +184,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(11, 419);
+            this.btnCancel.Location = new System.Drawing.Point(11, 462);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(154, 38);
             this.btnCancel.TabIndex = 15;
@@ -172,7 +194,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(179, 419);
+            this.btnSave.Location = new System.Drawing.Point(179, 462);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(154, 38);
             this.btnSave.TabIndex = 16;
@@ -185,7 +207,7 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripProgressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 469);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 518);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(346, 22);
             this.statusStrip1.TabIndex = 18;
@@ -207,14 +229,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(346, 491);
+            this.ClientSize = new System.Drawing.Size(346, 540);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnScan);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.groupBox1);
+            this.MaximumSize = new System.Drawing.Size(362, 579);
+            this.MinimumSize = new System.Drawing.Size(362, 579);
             this.Name = "UserDialog";
-            this.Text = "사용자 등록";
+            this.Text = "인원 등록";
             this.Load += new System.EventHandler(this.UserDialog_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -243,5 +267,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tbIdnum;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox tbEmail;
+        private System.Windows.Forms.Label label3;
     }
 }
