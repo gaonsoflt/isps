@@ -11,11 +11,11 @@ using System.Windows.Media.Imaging;
 
 namespace AsyncSocketServer
 {
-    class BBStringConverter
+    public class BBDataConverter
     {
-        public static String ByteToHexString(byte[] b)
+        public static string ByteToHexString(byte[] b)
         {
-            String rtn = "";
+            string rtn = "";
             for (int i = 0; i < b.Length; i++)
             {
                 rtn += b[i].ToString("X2") + " ";
@@ -23,13 +23,18 @@ namespace AsyncSocketServer
             return rtn;
         }
 
+        static public byte[] Int32ToByte(int value)
+        {
+            return BitConverter.GetBytes(value);
+        }
+
         // 바이트 배열을 String으로 변환 
         static public string ByteToString(byte[] b)
         {
-            return Encoding.Default.GetString(b);
+            return Encoding.UTF8.GetString(b);
         }
 
-        public static String ByteToString(byte[] b, Encoding encode)
+        public static string ByteToString(byte[] b, Encoding encode)
         {
             return encode.GetString(b);
         }
@@ -37,17 +42,14 @@ namespace AsyncSocketServer
         // String을 바이트 배열로 변환 
         static public byte[] StringToByte(string str)
         {
-            return Encoding.UTF8.GetBytes(str);
+            return (str != null) ? Encoding.UTF8.GetBytes(str) : Encoding.UTF8.GetBytes("");
         }
 
         public static int StringToInt32(string str)
         {
             return Int32.Parse(str);
         }
-    }
 
-    class BBImageConverter
-    {
         public static Bitmap GrayRawToBitmap(byte[] frame, int width, int height)
         {
             // Format24bppRgb
@@ -72,7 +74,7 @@ namespace AsyncSocketServer
             return (byte[])converter.ConvertTo(img, typeof(byte[]));
         }
 
-        public static BitmapImage byteToBitmapImage(Byte[] bytes)
+        public static BitmapImage ByteToBitmapImage(Byte[] bytes)
         {
             MemoryStream stream = new MemoryStream(bytes);
             BitmapImage image = new BitmapImage();
@@ -105,6 +107,16 @@ namespace AsyncSocketServer
                 bitmap = new Bitmap(outStream);
             }
             return bitmap;
+        }
+
+        public static DateTime ByteToDateTime(byte[] value)
+        {
+            return DateTime.FromBinary(BitConverter.ToInt64(value, 0));
+        }
+
+        public static byte[] DateTimeToByte(DateTime dt)
+        {
+            return BitConverter.GetBytes(dt.Ticks);
         }
     }
 }

@@ -55,6 +55,9 @@
             this.tbCarId = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.tbPurpose = new System.Windows.Forms.TextBox();
+            this.btnOrder = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.tbOrderId = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudPsgCnt)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -62,7 +65,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(12, 355);
+            this.btnCancel.Location = new System.Drawing.Point(14, 396);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(154, 38);
             this.btnCancel.TabIndex = 16;
@@ -72,7 +75,7 @@
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(172, 355);
+            this.btnApply.Location = new System.Drawing.Point(174, 396);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(154, 38);
             this.btnApply.TabIndex = 17;
@@ -182,7 +185,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 407);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 445);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(338, 22);
             this.statusStrip1.TabIndex = 29;
@@ -324,11 +327,44 @@
             this.tbPurpose.TabIndex = 42;
             this.tbPurpose.TabStop = false;
             // 
+            // btnOrder
+            // 
+            this.btnOrder.Location = new System.Drawing.Point(172, 352);
+            this.btnOrder.Name = "btnOrder";
+            this.btnOrder.Size = new System.Drawing.Size(154, 38);
+            this.btnOrder.TabIndex = 43;
+            this.btnOrder.Text = "작업지시서";
+            this.btnOrder.UseVisualStyleBackColor = true;
+            this.btnOrder.Click += new System.EventHandler(this.btnOrder_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label10.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label10.Location = new System.Drawing.Point(12, 353);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(70, 12);
+            this.label10.TabIndex = 44;
+            this.label10.Text = "작업지시서";
+            // 
+            // tbOrderId
+            // 
+            this.tbOrderId.Location = new System.Drawing.Point(14, 369);
+            this.tbOrderId.Name = "tbOrderId";
+            this.tbOrderId.ReadOnly = true;
+            this.tbOrderId.Size = new System.Drawing.Size(152, 21);
+            this.tbOrderId.TabIndex = 45;
+            this.tbOrderId.TabStop = false;
+            // 
             // AccessDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(338, 429);
+            this.ClientSize = new System.Drawing.Size(338, 467);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.tbOrderId);
+            this.Controls.Add(this.btnOrder);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.tbPurpose);
             this.Controls.Add(this.label8);
@@ -352,6 +388,8 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.btnCancel);
+            this.MaximumSize = new System.Drawing.Size(354, 506);
+            this.MinimumSize = new System.Drawing.Size(354, 506);
             this.Name = "AccessDialog";
             this.Text = "출입관리";
             this.Load += new System.EventHandler(this.AccessDialog_Load);
@@ -394,5 +432,8 @@
         private System.Windows.Forms.TextBox tbCarId;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox tbPurpose;
+        private System.Windows.Forms.Button btnOrder;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox tbOrderId;
     }
 }

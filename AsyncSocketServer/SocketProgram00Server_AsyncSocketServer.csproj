@@ -71,10 +71,18 @@
     </Compile>
     <Compile Include="CarInfoManager.cs" />
     <Compile Include="AccessInfoManager.cs" />
-    <Compile Include="Converter.cs" />
+    <Compile Include="CommonConfig.cs" />
+    <Compile Include="BBDataConverter.cs" />
     <Compile Include="DataPacket.cs" />
     <Compile Include="DBManager.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="OrderInfoDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderInfoDialog.Designer.cs">
+      <DependentUpon>OrderInfoDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderInfoManager.cs" />
     <Compile Include="UserDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +114,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CarInfoDialog.resx">
       <DependentUpon>CarInfoDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderInfoDialog.resx">
+      <DependentUpon>OrderInfoDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserDialog.resx">
       <DependentUpon>UserDialog.cs</DependentUpon>

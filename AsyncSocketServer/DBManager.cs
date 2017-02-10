@@ -11,31 +11,32 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using static AsyncSocketServer.AccessInfoManager;
 using static AsyncSocketServer.CarInfoManager;
+using static AsyncSocketServer.OrderInfoManager;
 
 namespace AsyncSocketServer
 {
     class DBManager
     {
-        private string oradb = "Data Source=192.168.205.163:1521/URYH; User ID=uruser; Password=uruser001";
+        //private string oradb = "Data Source=192.168.205.163:1521/URYH; User ID=uruser; Password=uruser001";
         private string postdb = "Host=192.168.205.152;Username=isps;Password=GaonIsps@0805!*;Database=ISPS";
 
-        OracleConnection oraConn;
+        //OracleConnection oraConn;
         NpgsqlConnection postConn;
 
         public DBManager()
         {
-            oraConn = new OracleConnection(oradb);
+            //oraConn = new OracleConnection(oradb);
             postConn = new NpgsqlConnection(postdb);
         }
 
-        public OracleConnection GetOracleConnection()
-        {
-            if (oraConn == null)
-            {
-                oraConn = new OracleConnection(oradb);
-            }
-            return oraConn;
-        }
+        //public OracleConnection GetOracleConnection()
+        //{
+        //    if (oraConn == null)
+        //    {
+        //        oraConn = new OracleConnection(oradb);
+        //    }
+        //    return oraConn;
+        //}
 
         public NpgsqlConnection GetPostConnection()
         {
@@ -107,6 +108,8 @@ namespace AsyncSocketServer
 
         public int InsertAccessInfo(AccessInfo info)
         {
+            Console.Write("Insert AccessInfo: ");
+
             string sql_insert = "INSERT INTO isps_access_info(access_info_sq, user_id, psg_cnt, allow_start_dt, allow_end_dt, is_access, car_id, purpose, reg_dt)"
                 + " VALUES (nextval('sq_isps_access_info'), :USER_ID, :PSG_CNT, :ALLOW_START_DT, :ALLOW_END_DT, :IS_ACCESS, :CAR_ID, :PURPOSE, now())";
             int executeCnt = 0;
@@ -151,12 +154,14 @@ namespace AsyncSocketServer
                 {
                     conn.Close();
                 }
+                Console.WriteLine(executeCnt);
                 return executeCnt;
             }
         }
 
         public int UpdateAccessInfo(AccessInfo info)
         {
+            Console.Write("Update AccessInfo: ");
             string sql_insert = "UPDATE isps_access_info SET psg_cnt = :PSG_CNT, allow_start_dt = :ALLOW_START_DT, allow_end_dt = :ALLOW_END_DT, purpose = :PURPOSE, car_id = :CAR_ID, mod_dt = now()"
                 + " WHERE access_info_sq = :ACCESS_INFO_SQ";
             int executeCnt = 0;
@@ -198,11 +203,12 @@ namespace AsyncSocketServer
                 {
                     conn.Close();
                 }
+                Console.WriteLine(executeCnt);
                 return executeCnt;
             }
         }
 
-        public int SelectAccessPsgCnt(string guid)
+        public int SelectAccessPsgCnt(string guid, string carId)
         {
             //string nowTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             //string sql_selete_ora = "SELECT ACCESS_INFO_SQ, USER_ID, PSG_CNT, TO_CHAR(ALLOW_START_DT,'yyyy-mm-dd HH24:MI:SS') AS ALLOW_START_DT, TO_CHAR(ALLOW_END_DT,'yyyy-mm-dd HH24:MI:SS') AS ALLOW_END_DT" 
@@ -213,6 +219,7 @@ namespace AsyncSocketServer
             string sql_selete = "SELECT access_info_sq, user_id, psg_cnt, allow_start_dt, allow_end_dt"
                 + " FROM isps_access_info"
                 + " WHERE user_id = (SELECT user_id FROM isps_user WHERE user_guid = :USER_GUID)"
+                + " AND car_id = :CAR_ID"
                 + " AND now() >= ALLOW_START_DT"
                 + " AND now() < ALLOW_END_DT";
             int passengerCnt = -1;
@@ -226,7 +233,8 @@ namespace AsyncSocketServer
                 {
                     cmd.Connection = conn;
                     cmd.CommandText = sql_selete;
-                    cmd.Parameters.Add(new NpgsqlParameter(":USER_GUID", guid)); // use sequence
+                    cmd.Parameters.Add(new NpgsqlParameter(":USER_GUID", guid));
+                    cmd.Parameters.Add(new NpgsqlParameter(":CAR_ID", carId));
 
                     // select 문 쿼리
                     using (NpgsqlDataReader reader = cmd.ExecuteReader())
@@ -248,6 +256,61 @@ namespace AsyncSocketServer
                 conn.Close();
             }
             return passengerCnt;
+        }
+
+        public AccessInfo SelectNowAccessibleInfo(string guid, string carId)
+        {
+            //string nowTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            //string sql_selete_ora = "SELECT ACCESS_INFO_SQ, USER_ID, PSG_CNT, TO_CHAR(ALLOW_START_DT,'yyyy-mm-dd HH24:MI:SS') AS ALLOW_START_DT, TO_CHAR(ALLOW_END_DT,'yyyy-mm-dd HH24:MI:SS') AS ALLOW_END_DT" 
+            //    + " FROM ISPS_ACCESS_INFO"
+            //    + " WHERE USER_ID = (SELECT USER_ID FROM ISPS_USER WHERE USER_GUID = :USER_GUID)"
+            //    + " AND TO_DATE('" + nowTime + "', 'yyyy-mm-dd HH24:MI:SS') >= ALLOW_START_DT"
+            //    + " AND TO_DATE('" + nowTime + "', 'yyyy-mm-dd HH24:MI:SS') < ALLOW_END_DT";
+            string sql_selete = "SELECT access_info_sq, user_id, car_id, psg_cnt, allow_start_dt, allow_end_dt"
+                + " FROM isps_access_info"
+                + " WHERE user_id = (SELECT user_id FROM isps_user WHERE user_guid = :USER_GUID)"
+                + " AND car_id = :CAR_ID"
+                + " AND now() >= ALLOW_START_DT"
+                + " AND now() < ALLOW_END_DT";
+            AccessInfo accessInfo = new AccessInfo();
+            NpgsqlConnection conn = db.GetPostConnection();
+            try
+            {
+                // 커넥션 오픈
+                conn.Open();
+                // 커맨드 생성
+                using (NpgsqlCommand cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = sql_selete;
+                    cmd.Parameters.Add(new NpgsqlParameter(":USER_GUID", guid));
+                    cmd.Parameters.Add(new NpgsqlParameter(":CAR_ID", carId));
+
+                    // select 문 쿼리
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            accessInfo.seq = Int32.Parse(reader["access_info_sq"].ToString());
+                            accessInfo.user.Id = Int32.Parse(reader["user_id"].ToString());
+                            accessInfo.carId = reader["car_id"].ToString();
+                            accessInfo.psgCnt = Int32.Parse(reader["psg_cnt"].ToString());
+                            accessInfo.allowStartDt = DateTime.Parse(reader["allow_start_dt"].ToString());
+                            accessInfo.allowEndDt = DateTime.Parse(reader["allow_end_dt"].ToString());
+                            Console.WriteLine(accessInfo.ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ee)
+            {
+                Console.WriteLine(ee.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return accessInfo;
         }
 
         public AccessInfo SelectAccessInfo(int seq)
@@ -350,7 +413,7 @@ namespace AsyncSocketServer
                     cmd.Parameters.Add(new NpgsqlParameter(":USER_IDNUM", user.IdNum));
                     cmd.Parameters.Add(new NpgsqlParameter(":PHONE", user.Phone));
                     cmd.Parameters.Add(new NpgsqlParameter(":EMAIL", user.Email));
-                    byte[] fp = BBImageConverter.ImageToByte(user.Fingerprints[0].AsBitmap);
+                    byte[] fp = BBDataConverter.ImageToByte(user.Fingerprints[0].AsBitmap);
                     NpgsqlParameter op = new NpgsqlParameter(":FP_DATA", NpgsqlDbType.Bytea);
                     op.Value = fp;
                     cmd.Parameters.Add(op);
@@ -447,7 +510,7 @@ namespace AsyncSocketServer
 
                             byte[] binDate = (byte[])reader["fp_data"];
                             UserManager.MyFingerprint fp = new UserManager.MyFingerprint();
-                            BitmapImage image = BBImageConverter.byteToBitmapImage(binDate);
+                            BitmapImage image = BBDataConverter.ByteToBitmapImage(binDate);
                             fp.AsBitmapSource = image;
 
                             user.Fingerprints.Add(fp);
@@ -504,7 +567,7 @@ namespace AsyncSocketServer
 
                             byte[] binDate = (byte[])reader["fp_data"];
                             UserManager.MyFingerprint fp = new UserManager.MyFingerprint();
-                            BitmapImage image = BBImageConverter.byteToBitmapImage(binDate);
+                            BitmapImage image = BBDataConverter.ByteToBitmapImage(binDate);
                             fp.AsBitmapSource = image;
                             user.Fingerprints.Add(fp);
                             afis.Extract(user);
@@ -549,7 +612,7 @@ namespace AsyncSocketServer
                     cmd.Parameters.Add(new NpgsqlParameter(":USER_IDNUM", user.IdNum));
                     cmd.Parameters.Add(new NpgsqlParameter(":PHONE", user.Phone));
                     cmd.Parameters.Add(new NpgsqlParameter(":EMAIL", user.Email));
-                    byte[] fp = BBImageConverter.ImageToByte(user.Fingerprints[0].AsBitmap);
+                    byte[] fp = BBDataConverter.ImageToByte(user.Fingerprints[0].AsBitmap);
                     NpgsqlParameter op = new NpgsqlParameter(":FP_DATA", NpgsqlDbType.Bytea);
                     op.Value = fp;
                     cmd.Parameters.Add(op);
@@ -784,6 +847,159 @@ namespace AsyncSocketServer
                 .AsEnumerable()
                 .Select(row => row.Field<string>("car_id"))
                 .ToArray();
+        }
+    }
+
+    //***************************************************
+    // OrderInfo DB
+    //***************************************************
+    public class OrderInfoDB
+    {
+        DBManager db = null;
+
+        public OrderInfoDB()
+        {
+            db = new DBManager();
+        }
+
+        public OrderInfo SelectOrderInfo(int accessId)
+        {
+            Console.Write("Select OrderInfo: ");
+
+            string sql_selete = "SELECT access_info_sq, order_id, work_dt, reg_dt, mod_dt"
+                + " FROM isps_order_info"
+                + " WHERE access_info_sq = :ACCESS_INFO_SQ";
+            OrderInfo info = null;
+            NpgsqlConnection conn = db.GetPostConnection();
+            try
+            {
+                // 커넥션 오픈
+                conn.Open();
+                // 커맨드 생성
+                using (NpgsqlCommand cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = sql_selete;
+
+                    cmd.Parameters.Add(new NpgsqlParameter(":ACCESS_INFO_SQ", accessId));
+
+                    // select 문 쿼리
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        //while (reader.Read())
+                        if (reader.Read())
+                        {
+                            info = new OrderInfo();
+                            info.accessId = Int32.Parse(reader["access_info_sq"].ToString());
+                            info.orderId = reader["order_id"].ToString();
+                            info.work_dt = DateTime.Parse(reader["work_dt"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ee)
+            {
+                Console.WriteLine(ee.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            Console.WriteLine(info);
+            return info;
+        }
+
+        public int InsertOrderInfo(OrderInfo info)
+        {
+            Console.Write("Insert OrderInfo: ");
+
+            string sql_insert = "INSERT INTO isps_order_info(access_info_sq, order_id, work_dt, reg_dt, mod_dt)"
+                + " VALUES (:ACCESS_INFO_SQ, :ORDER_ID, :WORK_DT, now(), now())";
+            int executeCnt = 0;
+            NpgsqlConnection conn = db.GetPostConnection();
+            // 커넥션 오픈
+            conn.Open();
+
+            using (NpgsqlCommand cmd = new NpgsqlCommand())
+            {
+                try
+                {
+                    // 커맨드에 커넥션, 트랜잭선 추가
+                    cmd.Connection = conn;
+                    cmd.Transaction = conn.BeginTransaction();
+
+                    // set query
+                    cmd.CommandText = sql_insert;
+
+                    // set parameters
+                    cmd.Parameters.Add(new NpgsqlParameter(":ACCESS_INFO_SQ", info.accessId));
+                    cmd.Parameters.Add(new NpgsqlParameter(":ORDER_ID", info.orderId));
+                    cmd.Parameters.Add(new NpgsqlParameter(":WORK_DT", info.work_dt));
+
+                    // execute query
+                    executeCnt = cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    cmd.Transaction.Commit();
+                }
+                catch (Exception ee)
+                {
+                    cmd.Transaction.Rollback();
+                    Console.WriteLine(ee.Message);
+                    throw ee;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+                Console.WriteLine(executeCnt.ToString());
+                return executeCnt;
+            }
+        }
+
+        public int UpdateOrderInfo(OrderInfo info)
+        {
+            Console.Write("Update OrderInfo: ");
+            string sql_insert = "UPDATE isps_order_info SET order_id = :ORDER_ID, work_dt = :WORK_DT, mod_dt = now()"
+                + " WHERE access_info_sq = :ACCESS_INFO_SQ";
+            int executeCnt = 0;
+            NpgsqlConnection conn = db.GetPostConnection();
+            // 커넥션 오픈
+            conn.Open();
+
+            using (NpgsqlCommand cmd = new NpgsqlCommand())
+            {
+                try
+                {
+                    // 커맨드에 커넥션, 트랜잭선 추가
+                    cmd.Connection = conn;
+                    cmd.Transaction = conn.BeginTransaction();
+
+                    // set query
+                    cmd.CommandText = sql_insert;
+
+                    // set parameters
+                    cmd.Parameters.Add(new NpgsqlParameter(":ACCESS_INFO_SQ", info.accessId));
+                    cmd.Parameters.Add(new NpgsqlParameter(":ORDER_ID", info.orderId));
+                    cmd.Parameters.Add(new NpgsqlParameter(":WORK_DT", info.work_dt));
+
+                    // execute query
+                    executeCnt = cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    cmd.Transaction.Commit();
+                }
+                catch (Exception ee)
+                {
+                    cmd.Transaction.Rollback();
+                    Console.WriteLine(ee.Message);
+                    throw ee;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+                Console.WriteLine(executeCnt.ToString());
+                return executeCnt;
+            }
         }
     }
 }

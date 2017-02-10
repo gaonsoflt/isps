@@ -111,12 +111,12 @@ namespace AsyncSocketServer
 
         public MyPerson Enroll(byte[] source, string name)
         {
-            return Enroll(BBImageConverter.byteToBitmapImage(source), name, "", "", "");
+            return Enroll(BBDataConverter.ByteToBitmapImage(source), name, "", "", "");
         }
 
         public MyPerson Enroll(byte[] source, string name, string idnum, string phone, string email)
         {
-            return Enroll(BBImageConverter.byteToBitmapImage(source), name, idnum, phone, email);
+            return Enroll(BBDataConverter.ByteToBitmapImage(source), name, idnum, phone, email);
         }
 
         private MyPerson Enroll(BitmapImage source, string name, string idnum, string phone, string email)

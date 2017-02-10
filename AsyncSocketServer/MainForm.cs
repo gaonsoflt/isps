@@ -17,6 +17,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Data.OracleClient;
 using Npgsql;
+using static AsyncSocketServer.DataPacket;
 
 namespace AsyncSocketServer
 {
@@ -33,6 +34,10 @@ namespace AsyncSocketServer
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            //this.Size = new Point(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            this.WindowState = FormWindowState.Maximized;
+            // 공통메시지 초기화
+            CommonConfig.NewInstance();
             fingerSensor = FingerSensor.GetFingerSensorInstance();
             ClientList = new List<Client>();
 
@@ -49,6 +54,14 @@ namespace AsyncSocketServer
             cbComport.SelectedIndex = 2;
             cbRate.Items.AddRange(arrRate);
             cbRate.SelectedIndex = 2;
+
+            InitFuction();
+        }
+
+        private void InitFuction()
+        {
+            Client.UpdateLogMsg += new Client.SetLogHandler(UpdateCompLogMsg);
+            Client.UpdateMatchedUser += new Client.SetMatchedUserHandler(UpdateCompMatchedUser);
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -133,7 +146,7 @@ namespace AsyncSocketServer
             client.Disconnected += new Client.DisconnectedEventHandler(client_Disconnected);
             client.ReceiveAsync();
 
-            UpdateStatusMessage("Connected: " + client.EndPoint.ToString());
+            UpdateCompLogMsg("Connected client: " + client.EndPoint.ToString());
         }
 
         void btnClose_Click(object sender, EventArgs e)
@@ -220,231 +233,66 @@ namespace AsyncSocketServer
 
         void client_Disconnected(Client sender)
         {
+            UpdateCompLogMsg("Disconnected client: " + sender.name);
             sender.Close();
             sender = null;
-
-            UpdateStatusMessage("Connected: ...");
             Invoke((MethodInvoker)delegate
             {
                 DialogResult res = MessageBox.Show("Client Disconnected\nClear Data?", "서버 메시지", MessageBoxButtons.YesNo);
-                if (res == System.Windows.Forms.DialogResult.Yes)
+                if (res == DialogResult.Yes)
                 {
-                    lstText.Items.Clear();
+                    //lstText.Items.Clear();
                     pbImage.Image = null;
                     pbFPRef.Image = null;
                     tbId.Text = "";
                     tbName.Text = "";
+                    tbGuid.Text = "";
+                    tbPhone.Text = "";
                 }
             });
         }
 
         void client_OnSend(Client sender, int sent)
         {
-            String msg = string.Format("Data Sent:{0}\n", sent);
-            UpdateStatusMessage(msg);
-            AddListBoxItem(msg);
+            String msg = string.Format(sender.name + " - Data Sent:{0}\n", sent);
+            UpdateCompLogMsg(msg);
+        }
+
+        public static T ByteToType<T>(BinaryReader reader)
+        {
+            byte[] bytes = reader.ReadBytes(Marshal.SizeOf(typeof(T)));
+
+            GCHandle handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
+            T theStructure = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+            handle.Free();
+
+            return theStructure;
         }
 
         void client_DataReceived(Client sender, ReceiveBuffer e)
         {
-            BinaryReader r = new BinaryReader(e.BufStream);
-            Commands header = (Commands)r.ReadInt32();
-
+            Packet pkt = DataPacket.ByteToStruct(e.BufStream);
+            PktType header = pkt.type;
+            UpdateCompLogMsg(sender.name + " - Received data: " + pkt.ToString());
             switch (header)
             {
-                case Commands.STRING:
-                    {
-                        string s = r.ReadString();
-                        AddListBoxItem(s);
-                        sender.SendText(s);
-                    }
+                case PktType.AUTH:
+                    pbImage.Image = pkt.fingerPrint;
+                    sender.RunAuth(pkt);
                     break;
-                case Commands.IMAGE:
-                    {
-                        int imageBytesLen = r.ReadInt32();
-                        byte[] iBytes = r.ReadBytes(imageBytesLen);
-                        Invoke((MethodInvoker)delegate
-                        {
-                            pbImage.Image = Image.FromStream(new MemoryStream(iBytes));
-                        });
-                    }
+                case PktType.PASSENGER:
+                    sender.RunPassenger(pkt);
                     break;
-                case Commands.RECOG:
-                    {
-                        int imageBytesLen = r.ReadInt32();
-                        byte[] iBytes = r.ReadBytes(imageBytesLen);
-                        UserManager fpm = new UserManager();
-                        MyPerson guest = fpm.Enroll(iBytes, "guest");
-                        MyPerson match = fpm.recognition(guest);
-                        if (match != null)
-                        {
-                            pbImage.Image = Image.FromStream(new MemoryStream(iBytes));
-                            Invoke((MethodInvoker)delegate
-                            {
-                                tbId.Text = match.Id.ToString();
-                                tbName.Text = match.Name.ToString();
-                                pbFPRef.Image = match.Fingerprints[0].AsBitmap;
-                            });
-                            UpdateStatusMessage("Matched person(" + tbName.Text + ")");
-                        }
-                        else
-                        {
-                            UpdateStatusMessage("No matching person found.");
-                        }
-                    }
-                    break;
-                case Commands.ENROLL:
-                    {
-                        int imageBytesLen = r.ReadInt32();
-                        byte[] iBytes = r.ReadBytes(imageBytesLen);
-                        String name = ShowInputDialog("Input user name", "Enrollment");
-                        UserManager fpm = new UserManager();
-                        MyPerson user = fpm.Enroll(iBytes, name);
-                        int rtn = fpm.saveUser(user);
-                        Invoke((MethodInvoker)delegate
-                        {
-                            pbImage.Image = Image.FromStream(new MemoryStream(iBytes));
-                        });
-                        if (rtn > 0)
-                        {
-                            UpdateStatusMessage("Success enrolled user(" + name + ")");
-                        }
-                    }
-                    break;
-                case Commands.AUTH:
-                    {
-                        int userId = r.ReadInt32();
-                        int response = r.ReadInt32();
-                        int dataLen = r.ReadInt32();
-                        byte[] iBytes = r.ReadBytes(dataLen);
-                        AddListBoxItem("[AUTH] userId / dataLen");
-                        AddListBoxItem(userId + " / " + dataLen);
-                        UserManager fpm = new UserManager();
-                        MyPerson guest = fpm.Enroll(iBytes, "guest");
-                        MyPerson match = fpm.recognition(guest);
-                        if (match != null)
-                        {
-                            pbImage.Image = Image.FromStream(new MemoryStream(iBytes));
-                            Invoke((MethodInvoker)delegate
-                            {
-                                tbId.Text = match.Id.ToString();
-                                tbName.Text = match.Name.ToString();
-                                pbFPRef.Image = match.Fingerprints[0].AsBitmap;
-                            });
-                            UpdateStatusMessage("Matched person(" + tbName.Text + ")");
-                            if (userId == match.Id)
-                            {
-                                sender.SendResponseAuthUserByFingerPrint(userId, Client.PKT_ACK, match.Guid);
-                                sender.setLoginUser(match);
-                            } else
-                            {
-                                sender.SendResponseAuthUserByFingerPrint(userId, Client.PKT_NACK, "");
-                            }
-                        }
-                        else
-                        {
-                            sender.SendResponseAuthUserByFingerPrint(userId, Client.PKT_NACK, "");
-                            UpdateStatusMessage("No matching person found.");
-                        }
-                    }
-                    break;
-                case Commands.PASSENGER:
-                    {
-                        try
-                        {
-                            int userId = r.ReadInt32();
-                            int response = r.ReadInt32();
-                            int dataLen = r.ReadInt32();
-                            string guid = BBStringConverter.ByteToString(r.ReadBytes(dataLen - 4));
-                            int passengerCnt = BitConverter.ToInt32(r.ReadBytes(4), 0);
-                            AddListBoxItem("[PASSENGER] userId / dataLen / guid / passengerCnt");
-                            AddListBoxItem(userId + " / " + dataLen + " / " + guid + "/" + passengerCnt);
-                            /*
-                             * DB 에서 Guid로 검색해 미리 입력해놓은 동승자 현황을 가져와 비교해야 함
-                             */
-                            int accessPassengerCnt = 0;
-                            accessPassengerCnt = new AccessInfoDB().SelectAccessPsgCnt(guid);
-                            AddListBoxItem("Accessed passenger count: " + accessPassengerCnt);
-
-                            // 로그인 된 유저인지 확인
-                            if (guid == sender.getLoginUser().Guid)
-                            {
-                                if (passengerCnt == accessPassengerCnt)
-                                {
-                                    sender.SendResponsePassengerCount(userId, Client.PKT_ACK);
-                                }
-                                else
-                                {
-                                    sender.SendResponsePassengerCount(userId, Client.PKT_NACK);
-                                }
-                            } else
-                            {
-                                sender.SendResponsePassengerCount(userId, Client.PKT_NACK);
-                            }
-                        } catch (Exception ee) {
-                            sender.SendError(sender.getLoginUser().Id, StringUtil.StringToByte(ee.Message));
-                        }
-                    }
-                    break;
-                case Commands.ORDER:
-                    {
-                        try
-                        {
-                            int userId = r.ReadInt32();
-                            int response = r.ReadInt32();
-                            int dataLen = r.ReadInt32();
-                            string guid = BBStringConverter.ByteToString(r.ReadBytes(dataLen));
-                            AddListBoxItem("[ORDER] userId / dataLen / guid");
-                            AddListBoxItem(userId + " / " + dataLen + " / " + guid);
-                            /*
-                             * DB 에서 Guid로 검색해 미리 입력해 놓은 지시서를 가져와야 함
-                             */
-                            byte[] orderData = new byte[0];
-                            if (guid == sender.getLoginUser().Guid)
-                            {
-                                orderData = BBImageConverter.ImageToByte(Image.FromFile(@"C:\Users\gaonsoft\Downloads\항만보안\order.jpg", true));
-                                sender.SendResponseOrder(userId, Client.PKT_ACK, orderData);
-                            }
-                            else
-                            {
-                                sender.SendResponseOrder(userId, Client.PKT_NACK, orderData);
-                            }
-                        }
-                        catch (Exception ee)
-                        {
-                            sender.SendError(sender.getLoginUser().Id, StringUtil.StringToByte(ee.Message));
-                        }
-                    }
+                case PktType.ORDER:
+                    sender.RunOrder(pkt);
                     break;
             }
         }
 
-        public static string ShowInputDialog(string text, string caption)
-        {
-            Form prompt = new Form()
-            {
-                Width = 500,
-                Height = 150,
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                Text = caption,
-                StartPosition = FormStartPosition.CenterScreen
-            };
-            Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
-            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400 };
-            Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70, DialogResult = DialogResult.OK };
-            confirmation.Click += (sender, e) => { prompt.Close(); };
-            prompt.Controls.Add(textBox);
-            prompt.Controls.Add(confirmation);
-            prompt.Controls.Add(textLabel);
-            prompt.AcceptButton = confirmation;
-
-            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
-        }
-
         private void btnEnroll_Click(object sender, EventArgs e)
         {
-            ManagerDialog eDlg = new ManagerDialog();
-            eDlg.ShowDialog();
+            ManagerDialog dlg = new ManagerDialog();
+            dlg.ShowDialog();
         }
 
         private void EnableSocketComponent(bool enable)
@@ -483,7 +331,7 @@ namespace AsyncSocketServer
                         if (fingerSensor.CmdGetRawImage() == 0)
                         {
                             UpdateStatusMessage("Succeed export fingerprint data.");
-                            byte[] iBytes = BBImageConverter.ImageToByte(BBImageConverter.GrayRawToBitmap(fingerSensor.getRawImage(), 320, 240));
+                            byte[] iBytes = BBDataConverter.ImageToByte(BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), 320, 240));
                             UserManager fpm = new UserManager();
                             MyPerson guest = fpm.Enroll(iBytes, "guest");
                             MyPerson match = fpm.recognition(guest);
@@ -491,9 +339,7 @@ namespace AsyncSocketServer
                             pbImage.Image = Image.FromStream(new MemoryStream(iBytes));
                             if (match != null)
                             {
-                                tbId.Text = match.Id.ToString();
-                                tbName.Text = match.Name.ToString();
-                                pbFPRef.Image = match.Fingerprints[0].AsBitmap;
+                                UpdateCompMatchedUser(match);
                                 UpdateStatusMessage("Matched person(" + tbName.Text + ")");
                             }
                             else
@@ -524,7 +370,7 @@ namespace AsyncSocketServer
             }
         }
 
-        private void UpdateStatusMessage(String msg)
+        public void UpdateStatusMessage(string msg)
         {
             Console.WriteLine(msg);
             Invoke((MethodInvoker)delegate
@@ -533,13 +379,32 @@ namespace AsyncSocketServer
             });
         }
 
-        private void AddListBoxItem(String msg)
+        private void UpdateCompMatchedUser(MyPerson match)
         {
-            Console.WriteLine(msg);
             Invoke((MethodInvoker)delegate
             {
-                lstText.Items.Add(msg);
+                tbId.Text = match.Id.ToString();
+                tbName.Text = match.Name.ToString();
+                tbPhone.Text = match.Phone.ToString();
+                tbGuid.Text = match.Guid.ToString();
+                pbFPRef.Image = match.Fingerprints[0].AsBitmap;
             });
+        }
+
+        private void UpdateCompLogMsg(string msg)
+        {
+            Console.WriteLine(msg);
+            string now = "[" + DateTime.Now.ToString("yy/MM/dd HH:mm:ss") + "] ";
+            if(lstText.InvokeRequired)
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    lstText.Items.Add(now + msg);
+                });
+            } else
+            {
+                lstText.Items.Add(now + msg);
+            }
         }
 
         private void cbConnetType_CheckedChanged(object sender, EventArgs e)
@@ -555,7 +420,7 @@ namespace AsyncSocketServer
 
         private void button1_Click(object sender, EventArgs e)
         {
-            AddListBoxItem("psg count: " + new AccessInfoDB().SelectAccessPsgCnt("e3135a87-2c34-485e-9070-1352b7ec31c8"));
+            //AddListBoxItem("psg count: " + new AccessInfoDB().SelectAccessPsgCnt("e3135a87-2c34-485e-9070-1352b7ec31c8"));
         }
     }
 }

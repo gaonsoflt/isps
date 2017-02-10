@@ -42,7 +42,7 @@ namespace AsyncSocketServer
             tbCarId.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             tbCarId.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
-            UpdateComponents();
+            InitComponents();
         }
 
         private void LoadAccessInfoDB()
@@ -50,7 +50,7 @@ namespace AsyncSocketServer
             accessInfo = new AccessInfoDB().SelectAccessInfo(accessInfo.seq);
         }
 
-        private void UpdateComponents()
+        private void InitComponents()
         {
             switch (mode)
             {
@@ -64,8 +64,6 @@ namespace AsyncSocketServer
                         DateTime dt = DateTime.Now;
                         allowEndDt.Value = dt + minAccessDt;
                         allowStartDt.Value = dt;
-                        tbCarId.Text = accessInfo.carId;
-                        tbPurpose.Text = accessInfo.purpose;
                     }
                     break;
                 case DIALOG_MODE.MODIFY:
@@ -85,7 +83,7 @@ namespace AsyncSocketServer
                     }
                     else
                     {
-                        StatusMessage("출입 정보가 없습니다.");
+                        UpdateStatusMessage("출입 정보가 없습니다.");
                     }
                     break;
             }
@@ -111,43 +109,35 @@ namespace AsyncSocketServer
         {
             if (MessageBox.Show("저장하시겠습니까?", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                int executeCnt = 0;
                 AccessInfo info = new AccessInfo();
+                info.psgCnt = Int32.Parse(nudPsgCnt.Value.ToString());
+                info.allowStartDt = allowStartDt.Value;
+                info.allowEndDt = allowEndDt.Value;
+                info.purpose = tbPurpose.Text;
+                info.carId = tbCarId.Text;
                 switch (mode)
                 {
                     case DIALOG_MODE.SAVE:
                         info.user.Id = Int32.Parse(tbUserId.Text);
-                        info.psgCnt = Int32.Parse(nudPsgCnt.Value.ToString());
-                        info.allowStartDt = allowStartDt.Value;
-                        info.allowEndDt = allowEndDt.Value;
-                        info.purpose = tbPurpose.Text;
-                        info.carId = tbCarId.Text;
-                        executeCnt = accessMgr.SaveAccessInfo(info);
                         break;
                     case DIALOG_MODE.MODIFY:
                         info.seq = Int32.Parse(tbSeq.Text.ToString());
-                        info.psgCnt = Int32.Parse(nudPsgCnt.Value.ToString());
-                        info.allowStartDt = allowStartDt.Value;
-                        info.allowEndDt = allowEndDt.Value;
-                        info.purpose = tbPurpose.Text;
-                        info.carId = tbCarId.Text;
-                        executeCnt = accessMgr.UpdateAccessInfo(info);
                         break;
                 }
-                if (executeCnt > 0)
+                if (accessMgr.SaveAccessInfo(info) > 0)
                 {
-                    StatusMessage("정상적으로 처리 되었습니다.");
+                    UpdateStatusMessage("정상적으로 처리 되었습니다.");
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 else
                 {
-                    StatusMessage("정상적으로 처리되지 않았습니다.");
+                    UpdateStatusMessage("정상적으로 처리되지 않았습니다.");
                 }
             }
         }
 
-        private void StatusMessage(String msg)
+        private void UpdateStatusMessage(String msg)
         {
             Invoke((MethodInvoker)delegate
             {
@@ -216,6 +206,25 @@ namespace AsyncSocketServer
             //        }
             //    }
             //}
+        }
+
+        private void btnOrder_Click(object sender, EventArgs e)
+        {
+            OrderInfoDialog dlg = new OrderInfoDialog(accessInfo.seq);
+            UpdateDialogResult(dlg.ShowDialog());
+        }
+
+        private void UpdateDialogResult(DialogResult dlgRt)
+        {
+            if (dlgRt == DialogResult.OK)
+            {
+                // 작업지시서 등록 여부 표시(tbOrderId)
+                UpdateStatusMessage("정상적으로 처리 되었습니다.");
+            }
+            else
+            {
+                UpdateStatusMessage("취소되었습니다.");
+            }
         }
     }
 }

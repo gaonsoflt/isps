@@ -106,7 +106,7 @@ namespace AsyncSocketServer
             if (MessageBox.Show("저장하시겠습니까?", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 int rtn = 0;
-                byte[] iBytes = BBImageConverter.ImageToByte(BBImageConverter.GrayRawToBitmap(fingerSensor.getRawImage(), 320, 240));
+                byte[] iBytes = BBDataConverter.ImageToByte(BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), 320, 240));
                 m_user = userManager.Enroll(iBytes, tbName.Text, tbIdnum.Text, tbPhone.Text, tbEmail.Text);
                 switch (mode)
                 {
@@ -153,7 +153,7 @@ namespace AsyncSocketServer
                             StatusMessage("Succeed export fingerprint data.");
                             Invoke((MethodInvoker)delegate
                             {
-                                pbFingerPrint.Image = BBImageConverter.GrayRawToBitmap(fingerSensor.getRawImage(), 320, 240);
+                                pbFingerPrint.Image = BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), 320, 240);
                             });
                         }
                         else

@@ -16,6 +16,8 @@ namespace AsyncSocketServer
             DELETE
         }
 
+        AccessInfoDB db;
+
         public class AccessInfo
         {
             public int seq;
@@ -31,18 +33,26 @@ namespace AsyncSocketServer
             public DateTime mod_dt;
         }
 
+        public AccessInfoManager()
+        {
+            db = new AccessInfoDB();
+        }
+
         public int SaveAccessInfo(AccessInfo info)
         {
-            Console.Write("Saving database...[");
+            Console.WriteLine("Save AccessInfo database...");
             try
             {
-                int executeCnt = new AccessInfoDB().InsertAccessInfo(info);
-                Console.WriteLine(executeCnt + "]");
+                int executeCnt = db.UpdateAccessInfo(info);
+                if (executeCnt <= 0)
+                {
+                    executeCnt = db.InsertAccessInfo(info);
+                }
                 return executeCnt;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message + "]");
+                Console.WriteLine(e.Message);
                 return 0;
             }
         }

@@ -35,8 +35,6 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.Label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.pbFPRef = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -45,48 +43,56 @@
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.cbConnetType = new System.Windows.Forms.CheckBox();
+            this.btnConfirm = new System.Windows.Forms.Button();
+            this.btnEnroll = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cbComport = new System.Windows.Forms.ComboBox();
             this.cbRate = new System.Windows.Forms.ComboBox();
             this.btnSerialClose = new System.Windows.Forms.Button();
             this.btnSerialOpen = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.btnConfirm = new System.Windows.Forms.Button();
-            this.btnEnroll = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tbPhone = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tbGuid = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbImage)).BeginInit();
-            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbFPRef)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pbImage
             // 
             this.pbImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbImage.Location = new System.Drawing.Point(16, 337);
+            this.pbImage.Location = new System.Drawing.Point(8, 36);
             this.pbImage.Name = "pbImage";
-            this.pbImage.Size = new System.Drawing.Size(216, 170);
+            this.pbImage.Size = new System.Drawing.Size(320, 240);
             this.pbImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbImage.TabIndex = 0;
             this.pbImage.TabStop = false;
             // 
             // lstText
             // 
+            this.lstText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstText.FormattingEnabled = true;
+            this.lstText.HorizontalScrollbar = true;
             this.lstText.ItemHeight = 12;
-            this.lstText.Location = new System.Drawing.Point(16, 40);
+            this.lstText.Location = new System.Drawing.Point(16, 28);
             this.lstText.Name = "lstText";
             this.lstText.ScrollAlwaysVisible = true;
-            this.lstText.Size = new System.Drawing.Size(436, 184);
+            this.lstText.Size = new System.Drawing.Size(952, 400);
             this.lstText.TabIndex = 1;
             // 
             // btnListen
             // 
-            this.btnListen.Location = new System.Drawing.Point(7, 42);
+            this.btnListen.Location = new System.Drawing.Point(13, 20);
             this.btnListen.Name = "btnListen";
             this.btnListen.Size = new System.Drawing.Size(161, 37);
             this.btnListen.TabIndex = 2;
@@ -97,7 +103,7 @@
             // btnClose
             // 
             this.btnClose.Enabled = false;
-            this.btnClose.Location = new System.Drawing.Point(7, 85);
+            this.btnClose.Location = new System.Drawing.Point(13, 63);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(161, 37);
             this.btnClose.TabIndex = 2;
@@ -110,45 +116,31 @@
             this.Label2.AutoSize = true;
             this.Label2.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Label2.ForeColor = System.Drawing.Color.DarkOrange;
-            this.Label2.Location = new System.Drawing.Point(14, 25);
+            this.Label2.Location = new System.Drawing.Point(14, 9);
             this.Label2.Name = "Label2";
-            this.Label2.Size = new System.Drawing.Size(44, 12);
+            this.Label2.Size = new System.Drawing.Size(72, 12);
             this.Label2.TabIndex = 3;
-            this.Label2.Text = "메시지";
+            this.Label2.Text = "Client Log";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label1.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label1.Location = new System.Drawing.Point(14, 322);
+            this.label1.Location = new System.Drawing.Point(6, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 12);
+            this.label1.Size = new System.Drawing.Size(81, 12);
             this.label1.TabIndex = 4;
-            this.label1.Text = "지문(Source)";
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 510);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(643, 22);
-            this.statusStrip1.TabIndex = 5;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(19, 17);
-            this.toolStripStatusLabel1.Text = "....";
+            this.label1.Text = "지문(Client)";
             // 
             // pbFPRef
             // 
             this.pbFPRef.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbFPRef.Location = new System.Drawing.Point(236, 337);
+            this.pbFPRef.Location = new System.Drawing.Point(334, 36);
+            this.pbFPRef.MaximumSize = new System.Drawing.Size(320, 240);
+            this.pbFPRef.MinimumSize = new System.Drawing.Size(320, 240);
             this.pbFPRef.Name = "pbFPRef";
-            this.pbFPRef.Size = new System.Drawing.Size(216, 170);
+            this.pbFPRef.Size = new System.Drawing.Size(320, 240);
             this.pbFPRef.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbFPRef.TabIndex = 6;
             this.pbFPRef.TabStop = false;
@@ -158,18 +150,18 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label3.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label3.Location = new System.Drawing.Point(234, 322);
+            this.label3.Location = new System.Drawing.Point(332, 21);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(109, 12);
+            this.label3.Size = new System.Drawing.Size(134, 12);
             this.label3.TabIndex = 7;
-            this.label3.Text = "지문(Reference)";
+            this.label3.Text = "지문(DB_Reference)";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label4.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label4.Location = new System.Drawing.Point(6, 17);
+            this.label4.Location = new System.Drawing.Point(658, 20);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(44, 12);
             this.label4.TabIndex = 9;
@@ -177,7 +169,7 @@
             // 
             // tbId
             // 
-            this.tbId.Location = new System.Drawing.Point(8, 33);
+            this.tbId.Location = new System.Drawing.Point(660, 36);
             this.tbId.Name = "tbId";
             this.tbId.ReadOnly = true;
             this.tbId.Size = new System.Drawing.Size(204, 21);
@@ -185,7 +177,7 @@
             // 
             // tbName
             // 
-            this.tbName.Location = new System.Drawing.Point(220, 33);
+            this.tbName.Location = new System.Drawing.Point(660, 80);
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(204, 21);
             this.tbName.TabIndex = 12;
@@ -195,7 +187,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label5.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label5.Location = new System.Drawing.Point(218, 17);
+            this.label5.Location = new System.Drawing.Point(658, 64);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(31, 12);
             this.label5.TabIndex = 11;
@@ -203,35 +195,59 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.tbGuid);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.tbPhone);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.tbName);
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.tbId);
+            this.groupBox1.Controls.Add(this.pbFPRef);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Location = new System.Drawing.Point(16, 239);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.pbImage);
+            this.groupBox1.Location = new System.Drawing.Point(16, 434);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(436, 69);
+            this.groupBox1.Size = new System.Drawing.Size(954, 283);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "유저정보";
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.btnConfirm);
+            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Controls.Add(this.btnEnroll);
             this.groupBox2.Controls.Add(this.cbConnetType);
             this.groupBox2.Controls.Add(this.btnListen);
+            this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Controls.Add(this.btnClose);
-            this.groupBox2.Location = new System.Drawing.Point(458, 25);
+            this.groupBox2.Location = new System.Drawing.Point(976, 21);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(173, 128);
+            this.groupBox2.Size = new System.Drawing.Size(186, 696);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Server";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(13, 609);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(161, 37);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "TEST";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // cbConnetType
             // 
             this.cbConnetType.AutoSize = true;
-            this.cbConnetType.Checked = true;
-            this.cbConnetType.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbConnetType.Location = new System.Drawing.Point(7, 20);
+            this.cbConnetType.Location = new System.Drawing.Point(12, 106);
             this.cbConnetType.Name = "cbConnetType";
             this.cbConnetType.Size = new System.Drawing.Size(84, 16);
             this.cbConnetType.TabIndex = 17;
@@ -239,13 +255,34 @@
             this.cbConnetType.UseVisualStyleBackColor = true;
             this.cbConnetType.CheckedChanged += new System.EventHandler(this.cbConnetType_CheckedChanged);
             // 
+            // btnConfirm
+            // 
+            this.btnConfirm.Enabled = false;
+            this.btnConfirm.Location = new System.Drawing.Point(13, 652);
+            this.btnConfirm.Name = "btnConfirm";
+            this.btnConfirm.Size = new System.Drawing.Size(161, 37);
+            this.btnConfirm.TabIndex = 5;
+            this.btnConfirm.Text = "사용자 확인";
+            this.btnConfirm.UseVisualStyleBackColor = true;
+            this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
+            // 
+            // btnEnroll
+            // 
+            this.btnEnroll.Location = new System.Drawing.Point(13, 296);
+            this.btnEnroll.Name = "btnEnroll";
+            this.btnEnroll.Size = new System.Drawing.Size(161, 37);
+            this.btnEnroll.TabIndex = 4;
+            this.btnEnroll.Text = "시스템관리";
+            this.btnEnroll.UseVisualStyleBackColor = true;
+            this.btnEnroll.Click += new System.EventHandler(this.btnEnroll_Click);
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.cbComport);
             this.groupBox3.Controls.Add(this.cbRate);
             this.groupBox3.Controls.Add(this.btnSerialClose);
             this.groupBox3.Controls.Add(this.btnSerialOpen);
-            this.groupBox3.Location = new System.Drawing.Point(458, 159);
+            this.groupBox3.Location = new System.Drawing.Point(6, 128);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(173, 162);
             this.groupBox3.TabIndex = 15;
@@ -290,65 +327,67 @@
             this.btnSerialOpen.UseVisualStyleBackColor = true;
             this.btnSerialOpen.Click += new System.EventHandler(this.btnSerialOpen_Click);
             // 
-            // groupBox4
+            // statusStrip1
             // 
-            this.groupBox4.Controls.Add(this.btnConfirm);
-            this.groupBox4.Controls.Add(this.btnEnroll);
-            this.groupBox4.Location = new System.Drawing.Point(458, 328);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(173, 150);
-            this.groupBox4.TabIndex = 16;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Action";
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 723);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1178, 22);
+            this.statusStrip1.TabIndex = 15;
+            this.statusStrip1.Text = "statusStrip1";
             // 
-            // btnConfirm
+            // toolStripStatusLabel1
             // 
-            this.btnConfirm.Enabled = false;
-            this.btnConfirm.Location = new System.Drawing.Point(7, 63);
-            this.btnConfirm.Name = "btnConfirm";
-            this.btnConfirm.Size = new System.Drawing.Size(161, 37);
-            this.btnConfirm.TabIndex = 5;
-            this.btnConfirm.Text = "사용자 확인";
-            this.btnConfirm.UseVisualStyleBackColor = true;
-            this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(16, 17);
+            this.toolStripStatusLabel1.Text = "...";
             // 
-            // btnEnroll
+            // tbPhone
             // 
-            this.btnEnroll.Location = new System.Drawing.Point(7, 20);
-            this.btnEnroll.Name = "btnEnroll";
-            this.btnEnroll.Size = new System.Drawing.Size(161, 37);
-            this.btnEnroll.TabIndex = 4;
-            this.btnEnroll.Text = "사용자 관리";
-            this.btnEnroll.UseVisualStyleBackColor = true;
-            this.btnEnroll.Click += new System.EventHandler(this.btnEnroll_Click);
+            this.tbPhone.Location = new System.Drawing.Point(660, 131);
+            this.tbPhone.Name = "tbPhone";
+            this.tbPhone.Size = new System.Drawing.Size(204, 21);
+            this.tbPhone.TabIndex = 14;
             // 
-            // button1
+            // label6
             // 
-            this.button1.Location = new System.Drawing.Point(465, 484);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "TEST";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label6.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label6.Location = new System.Drawing.Point(658, 115);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(44, 12);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "연락처";
+            // 
+            // tbGuid
+            // 
+            this.tbGuid.Location = new System.Drawing.Point(662, 181);
+            this.tbGuid.Name = "tbGuid";
+            this.tbGuid.Size = new System.Drawing.Size(204, 21);
+            this.tbGuid.TabIndex = 16;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label7.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label7.Location = new System.Drawing.Point(660, 165);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(37, 12);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "GUID";
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(643, 532);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(1178, 745);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.pbFPRef);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.Label2);
             this.Controls.Add(this.lstText);
-            this.Controls.Add(this.pbImage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -357,15 +396,14 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbImage)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbFPRef)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -379,8 +417,6 @@
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Label Label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.PictureBox pbFPRef;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
@@ -395,11 +431,16 @@
         private System.Windows.Forms.ComboBox cbComport;
         private System.Windows.Forms.ComboBox cbRate;
         private System.IO.Ports.SerialPort serialPort;
-        private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button btnEnroll;
         private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.CheckBox cbConnetType;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.TextBox tbGuid;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox tbPhone;
+        private System.Windows.Forms.Label label6;
     }
 }
 

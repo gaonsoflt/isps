@@ -36,7 +36,6 @@ C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\bin\Debug\Npgs
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\bin\Debug\SourceAFIS.dll
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\bin\Debug\Npgsql.xml
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\bin\Debug\SourceAFIS.xml
-C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\SocketProgram00Server_AsyncSocketServer.csprojResolveAssemblyReference.cache
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\AsyncSocketServer.UserDialog.resources
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\AsyncSocketServer.MainForm.resources
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\AsyncSocketServer.Properties.Resources.resources
@@ -44,3 +43,4 @@ C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\Sock
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\AsyncSocketServer.AccessDialog.resources
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\AsyncSocketServer.ManagerDialog.resources
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\AsyncSocketServer.CarInfoDialog.resources
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Debug\AsyncSocketServer.OrderInfoDialog.resources

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsyncSocketServer;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -244,9 +245,7 @@ namespace AsyncSocketServer
             try
             {
                 // Open file for reading
-                System.IO.FileStream _FileStream =
-                   new System.IO.FileStream(_FileName, System.IO.FileMode.Create,
-                                            System.IO.FileAccess.Write);
+                FileStream _FileStream = new FileStream(_FileName, FileMode.Create, FileAccess.Write);
                 // Writes a block of bytes to this stream using data from
                 // a byte array.
                 _FileStream.Write(_ByteArray, 0, _ByteArray.Length);

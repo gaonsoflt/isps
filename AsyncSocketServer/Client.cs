@@ -8,21 +8,13 @@ using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics;
 using static AsyncSocketServer.UserManager;
+using static AsyncSocketServer.DataPacket;
+using static AsyncSocketServer.CommonConfig.Message;
+using static AsyncSocketServer.AccessInfoManager;
+using static AsyncSocketServer.OrderInfoManager;
 
 namespace AsyncSocketServer
 {
-    enum Commands : int
-    {
-        AUTH = 0,
-        PASSENGER,
-        ORDER,
-        ERROR,
-        STRING,
-        IMAGE,
-        ENROLL,
-        RECOG
-    }
-
     #region ReceiveBuffer define
     struct ReceiveBuffer
     {
@@ -58,9 +50,13 @@ namespace AsyncSocketServer
     #region Client define
     class Client
     {
-        static public int PKT_ACK = 48;
-        static public int PKT_NACK = 49;
+        public delegate void SetLogHandler(string msg);
+        public static event SetLogHandler UpdateLogMsg;
 
+        public delegate void SetMatchedUserHandler(MyPerson match);
+        public static event SetMatchedUserHandler UpdateMatchedUser;
+
+        public string name;
         byte[] lenBuffer;
         ReceiveBuffer buffer;
         Socket socket;
@@ -88,14 +84,15 @@ namespace AsyncSocketServer
         {
             socket = s;
             lenBuffer = new byte[4];
+            name = this.EndPoint.ToString();
         }
 
-        public void setLoginUser(MyPerson user)
+        private void SetLoginUser(MyPerson user)
         {
             this.loginUser = user;
         }
 
-        public MyPerson getLoginUser()
+        public MyPerson GetLoginUser()
         {
             return this.loginUser;
         }
@@ -207,7 +204,7 @@ namespace AsyncSocketServer
 
         void Send(byte[] data, int index, int length)
         {
-            Console.WriteLine("send byte: " + FingerSensorPacket.ByteToHexString(data));
+            Console.WriteLine("send byte size: " + FingerSensorPacket.ByteToHexString(data));
             socket.BeginSend(BitConverter.GetBytes(length), 0, 4, SocketFlags.None, sendCallBack, null);
             System.Threading.Thread.Sleep(500);
             socket.BeginSend(data, index, length, SocketFlags.None, sendCallBack, null);
@@ -230,76 +227,170 @@ namespace AsyncSocketServer
             }
         }
 
-        public void SendText(string text)
+        public void RunAuth(Packet pkt)
         {
-            BinaryWriter bw = new BinaryWriter(new MemoryStream());
-            bw.Write((int)Commands.STRING);
-            bw.Write(text);
-            byte[] data = ((MemoryStream)bw.BaseStream).ToArray();
-            bw.BaseStream.Dispose();
-            Send(data, 0, data.Length);
+            UserManager fpm = new UserManager();
+            Code code;
+            try
+            {
+                MyPerson match = fpm.recognition(fpm.Enroll(pkt.data, "guest"));
+                if (match != null)
+                {
+                    Console.WriteLine("Found person.");
+                    bool isMatch = CheckLoginUser(match.Id, pkt.userId);
+                    if (isMatch)
+                    {
+                        SetLoginUser(match);
+                        UpdateLogMsgWithName("Matched person(" + match.Name.ToString() + ")");
+                        UpdateMatchedUser(match);
+                        pkt.guid = GetLoginUser().Guid;
+                        code = Code.CD_SUCCESS;
+                    }
+                    else
+                    {
+                        UpdateLogMsgWithName("Not Matched person(" + match.Name.ToString() + ")");
+                        code = Code.CD_NOT_MATCH_AUTH;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Not found person.");
+                    code = Code.CD_NOT_FND_AUTH_INFO;
+                }
+            }
+            catch (Exception e)
+            {
+                code = Code.CD_ERR;
+                pkt.errMsg = e.Message;
+            }
+            SendResponse(pkt, code);
         }
 
-        public void SendResponseAuthUserByFingerPrint(int userId, int ack, String guid)
+        public void RunPassenger(Packet pkt)
         {
-            MemoryStream ms = new MemoryStream();
-            BinaryWriter bw = new BinaryWriter(ms);
-            byte[] b = StringUtil.StringToByte(guid);
-            bw.Write((int)Commands.AUTH);
-            bw.Write((int)userId);
-            bw.Write((int)ack);
-            bw.Write((int)b.Length);
-            bw.Write(b);
-            bw.Close();
-            b = ms.ToArray();
-            ms.Dispose();
-            Send(b, 0, b.Length);
+            Code code;
+            try
+            {
+                if (CheckAuthorizedUser(pkt.guid))
+                {
+                    AccessInfo info = new AccessInfoDB().SelectNowAccessibleInfo(pkt.guid, pkt.carId);
+                    if (info != null)
+                    {
+                        if (pkt.psgCnt == info.psgCnt)
+                        {
+                            UpdateLogMsgWithName("Accessed passenger count: " + info.psgCnt);
+                            pkt.accessId = info.seq;
+                            code = Code.CD_SUCCESS;
+                        }
+                        else
+                        {
+                            code = Code.CD_NOT_MATCH_PASSENGER_CNT;
+                        }
+                    }
+                    else
+                    {
+                        code = Code.CD_NOT_FND_ACCESS_INFO;
+                    }
+                }
+                else
+                {
+                    code = Code.CD_INVALID_USER;
+                }
+            }
+            catch (Exception e)
+            {
+                code = Code.CD_ERR;
+                pkt.errMsg = e.Message;
+            }
+            SendResponse(pkt, code);
         }
 
-        public void SendResponsePassengerCount(int userId, int ack)
+        public void RunOrder(Packet pkt)
         {
-            MemoryStream ms = new MemoryStream();
-            BinaryWriter bw = new BinaryWriter(ms);
-            byte[] b = new byte[0];
-            bw.Write((int)Commands.PASSENGER);
-            bw.Write((int)userId);
-            bw.Write((int)ack);
-            bw.Write((int)b.Length);
-            bw.Write(b);
-            bw.Close();
-            b = ms.ToArray();
-            ms.Dispose();
-            Send(b, 0, b.Length);
+            Code code;
+            try
+            {
+                if (CheckAuthorizedUser(pkt.guid))
+                {
+                    // accessId 를 사용하여 order 를 찾고 그정보를 전송한다.
+                    OrderInfo info = new OrderInfoManager().FindOrderInfoByAccessId(pkt.accessId);
+                    if (info != null)
+                    {
+                        code = Code.CD_SUCCESS;
+                        pkt.order = info;
+                    }
+                    else
+                    {
+                        code = Code.CD_NOT_FND_ORDER_INFO;
+                    }
+                }
+                else
+                {
+                    code = Code.CD_INVALID_USER;
+                }
+            }
+            catch (Exception e)
+            {
+                code = Code.CD_ERR;
+                pkt.errMsg = e.Message;
+            }
+            SendResponse(pkt, code);
         }
 
-        public void SendResponseOrder(int userId, int ack, byte[] order)
+        private void SendResponse(Packet pkt, Code code)
         {
-            MemoryStream ms = new MemoryStream();
-            BinaryWriter bw = new BinaryWriter(ms);
-            bw.Write((int)Commands.ORDER);
-            bw.Write((int)userId);
-            bw.Write((int)ack);
-            bw.Write((int)order.Length);
-            bw.Write(order);
-            bw.Close();
-            byte[] b = ms.ToArray();
-            ms.Dispose();
-            Send(b, 0, b.Length);
+            if (code == Code.CD_SUCCESS)
+            {
+                pkt.response = DataPacket.PKT_ACK;
+                switch(pkt.type)
+                {
+                    case PktType.AUTH:
+                        break;
+                    case PktType.PASSENGER:
+                        break;
+                    case PktType.ORDER:
+                        break;
+                }
+            }
+            else
+            {
+                pkt.response = DataPacket.PKT_NACK;
+                if (code != Code.CD_ERR)
+                {
+                    pkt.errMsg = GetMessage(code);
+                    //pkt.data = BBDataConverter.StringToByte(GetMessage(code));
+                }
+                //} else
+                //{
+                //    pkt.data = BBDataConverter.StringToByte(pkt.errMsg);
+                //}
+            }
+            byte[] buffer = DataPacket.StructToByte(pkt);
+            Send(buffer, 0, buffer.Length);
+            UpdateLogMsgWithName("Sent data: " + pkt.ToString());
         }
 
-        public void SendError(int userId, byte[] error)
+        public bool CheckLoginUser(int matchedUserId, int userId)
         {
-            MemoryStream ms = new MemoryStream();
-            BinaryWriter bw = new BinaryWriter(ms);
-            bw.Write((int)Commands.ERROR);
-            bw.Write((int)0);
-            bw.Write((int)PKT_NACK);
-            bw.Write((int)error.Length);
-            bw.Write(error);
-            bw.Close();
-            byte[] b = ms.ToArray();
-            ms.Dispose();
-            Send(b, 0, b.Length);
+            if (userId == matchedUserId)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool CheckAuthorizedUser(string guid)
+        {
+            if (guid == GetLoginUser().Guid)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void UpdateLogMsgWithName(string msg)
+        {
+            UpdateLogMsg(name + " - " + msg);
         }
     }
     #endregion
