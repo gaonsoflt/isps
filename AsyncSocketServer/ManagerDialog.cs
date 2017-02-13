@@ -18,10 +18,12 @@ namespace AsyncSocketServer
         const int TAB_ACCESS = 0;
         const int TAB_USER = 1;
         const int TAB_CAR = 2;
+        const int TAB_ACCESS_HIS = 3;
 
         UserDB m_userDB;
         AccessInfoDB m_accessDB;
         CarInfoDB m_carDB;
+        AccessHisDB m_historyDB;
 
         MyPerson m_user;
         CarInfo m_car;
@@ -39,6 +41,7 @@ namespace AsyncSocketServer
             m_userDB = new UserDB();
             m_accessDB = new AccessInfoDB();
             m_carDB = new CarInfoDB();
+            m_historyDB = new AccessHisDB();
 
             m_user = new MyPerson();
             m_car = new CarInfo();
@@ -99,6 +102,7 @@ namespace AsyncSocketServer
                         dgvAccessUser.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     }
                     dgvAccessUser.AllowUserToAddRows = false;
+                    EnableButton(true);
                     break;
                 case TAB_USER:
                     Console.WriteLine("TAB_USER");
@@ -121,6 +125,7 @@ namespace AsyncSocketServer
                         dgvUser.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     }
                     dgvUser.AllowUserToAddRows = false;
+                    EnableButton(true);
                     break;
                 case TAB_CAR:
                     Console.WriteLine("TAB_CAR");
@@ -137,8 +142,38 @@ namespace AsyncSocketServer
                         dgvCar.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     }
                     dgvCar.AllowUserToAddRows = false;
+                    EnableButton(true);
+                    break;
+                case TAB_ACCESS_HIS:
+                    Console.WriteLine("TAB_ACCESS_HIS");
+                    lbKeyword.Text = "이름";
+                    dgvHistory.DataSource = m_historyDB.GetAccessHisDBTable(keyword);
+                    dgvHistory.Columns["reg_dt"].HeaderText = "일자";
+                    dgvHistory.Columns["rt_code"].HeaderText = "결과";
+                    dgvHistory.Columns["user_id"].HeaderText = "유저번호";
+                    dgvHistory.Columns["user_nm"].HeaderText = "이름";
+                    dgvHistory.Columns["ip"].HeaderText = "접속아이피";
+                    dgvHistory.Columns["reg_dt"].DefaultCellStyle.Format = "yyyy/MM/dd HH:mm:ss";
+                    dgvHistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dgvHistory.Columns["reg_dt"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                    dgvHistory.Columns["rt_code"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                    dgvHistory.Columns["user_id"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                    dgvHistory.Columns["user_nm"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                    for (int i = 0; i < dgvHistory.Columns.Count; i++)
+                    {
+                        dgvHistory.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    }
+                    dgvHistory.AllowUserToAddRows = false;
+                    EnableButton(false);
                     break;
             }
+        }
+
+        private void EnableButton(bool enabled)
+        {
+            btnDelete.Enabled = enabled;
+            btnEnroll.Enabled = enabled;
+            btnModify.Enabled = enabled;
         }
 
         private void tbKeyword_KeyUp(object sender, KeyEventArgs e)

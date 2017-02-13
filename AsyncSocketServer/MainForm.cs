@@ -421,6 +421,7 @@ namespace AsyncSocketServer
         private void button1_Click(object sender, EventArgs e)
         {
             //AddListBoxItem("psg count: " + new AccessInfoDB().SelectAccessPsgCnt("e3135a87-2c34-485e-9070-1352b7ec31c8"));
+            UpdateCompLogMsg(CommonConfig.Message.GetMessage2(textBox1.Text.ToString()));
         }
     }
 }

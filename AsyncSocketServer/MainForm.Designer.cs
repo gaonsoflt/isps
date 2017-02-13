@@ -42,11 +42,15 @@
             this.tbName = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbGuid = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tbPhone = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.cbConnetType = new System.Windows.Forms.CheckBox();
             this.btnConfirm = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnEnroll = new System.Windows.Forms.Button();
+            this.cbConnetType = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cbComport = new System.Windows.Forms.ComboBox();
             this.cbRate = new System.Windows.Forms.ComboBox();
@@ -54,10 +58,7 @@
             this.btnSerialOpen = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tbPhone = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tbGuid = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFPRef)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -216,10 +217,47 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "유저정보";
             // 
+            // tbGuid
+            // 
+            this.tbGuid.Location = new System.Drawing.Point(662, 181);
+            this.tbGuid.Name = "tbGuid";
+            this.tbGuid.Size = new System.Drawing.Size(204, 21);
+            this.tbGuid.TabIndex = 16;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label7.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label7.Location = new System.Drawing.Point(660, 165);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(37, 12);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "GUID";
+            // 
+            // tbPhone
+            // 
+            this.tbPhone.Location = new System.Drawing.Point(660, 131);
+            this.tbPhone.Name = "tbPhone";
+            this.tbPhone.Size = new System.Drawing.Size(204, 21);
+            this.tbPhone.TabIndex = 14;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label6.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label6.Location = new System.Drawing.Point(658, 115);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(44, 12);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "연락처";
+            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.textBox1);
             this.groupBox2.Controls.Add(this.btnConfirm);
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.btnEnroll);
@@ -234,27 +272,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Server";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(13, 609);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(161, 37);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "TEST";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // cbConnetType
-            // 
-            this.cbConnetType.AutoSize = true;
-            this.cbConnetType.Location = new System.Drawing.Point(12, 106);
-            this.cbConnetType.Name = "cbConnetType";
-            this.cbConnetType.Size = new System.Drawing.Size(84, 16);
-            this.cbConnetType.TabIndex = 17;
-            this.cbConnetType.Text = "Serial 포함";
-            this.cbConnetType.UseVisualStyleBackColor = true;
-            this.cbConnetType.CheckedChanged += new System.EventHandler(this.cbConnetType_CheckedChanged);
-            // 
             // btnConfirm
             // 
             this.btnConfirm.Enabled = false;
@@ -266,6 +283,16 @@
             this.btnConfirm.UseVisualStyleBackColor = true;
             this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(13, 609);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(161, 37);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "TEST";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // btnEnroll
             // 
             this.btnEnroll.Location = new System.Drawing.Point(13, 296);
@@ -275,6 +302,17 @@
             this.btnEnroll.Text = "시스템관리";
             this.btnEnroll.UseVisualStyleBackColor = true;
             this.btnEnroll.Click += new System.EventHandler(this.btnEnroll_Click);
+            // 
+            // cbConnetType
+            // 
+            this.cbConnetType.AutoSize = true;
+            this.cbConnetType.Location = new System.Drawing.Point(12, 106);
+            this.cbConnetType.Name = "cbConnetType";
+            this.cbConnetType.Size = new System.Drawing.Size(84, 16);
+            this.cbConnetType.TabIndex = 17;
+            this.cbConnetType.Text = "Serial 포함";
+            this.cbConnetType.UseVisualStyleBackColor = true;
+            this.cbConnetType.CheckedChanged += new System.EventHandler(this.cbConnetType_CheckedChanged);
             // 
             // groupBox3
             // 
@@ -343,41 +381,12 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(16, 17);
             this.toolStripStatusLabel1.Text = "...";
             // 
-            // tbPhone
+            // textBox1
             // 
-            this.tbPhone.Location = new System.Drawing.Point(660, 131);
-            this.tbPhone.Name = "tbPhone";
-            this.tbPhone.Size = new System.Drawing.Size(204, 21);
-            this.tbPhone.TabIndex = 14;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label6.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label6.Location = new System.Drawing.Point(658, 115);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(44, 12);
-            this.label6.TabIndex = 13;
-            this.label6.Text = "연락처";
-            // 
-            // tbGuid
-            // 
-            this.tbGuid.Location = new System.Drawing.Point(662, 181);
-            this.tbGuid.Name = "tbGuid";
-            this.tbGuid.Size = new System.Drawing.Size(204, 21);
-            this.tbGuid.TabIndex = 16;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label7.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label7.Location = new System.Drawing.Point(660, 165);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(37, 12);
-            this.label7.TabIndex = 15;
-            this.label7.Text = "GUID";
+            this.textBox1.Location = new System.Drawing.Point(13, 582);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(161, 21);
+            this.textBox1.TabIndex = 17;
             // 
             // MainForm
             // 
@@ -441,6 +450,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox tbPhone;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

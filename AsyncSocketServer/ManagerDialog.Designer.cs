@@ -57,6 +57,8 @@
             this.dgvUser = new System.Windows.Forms.DataGridView();
             this.tpCar = new System.Windows.Forms.TabPage();
             this.dgvCar = new System.Windows.Forms.DataGridView();
+            this.tbHistory = new System.Windows.Forms.TabPage();
+            this.dgvHistory = new System.Windows.Forms.DataGridView();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccessUser)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -72,6 +74,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvUser)).BeginInit();
             this.tpCar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCar)).BeginInit();
+            this.tbHistory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClose
@@ -116,7 +120,7 @@
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(88, 22);
             this.btnSearch.TabIndex = 21;
-            this.btnSearch.Text = "검색";
+            this.btnSearch.Text = "조회";
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
@@ -322,6 +326,7 @@
             this.tabControl1.Controls.Add(this.tpAccess);
             this.tabControl1.Controls.Add(this.tpUser);
             this.tabControl1.Controls.Add(this.tpCar);
+            this.tabControl1.Controls.Add(this.tbHistory);
             this.tabControl1.Location = new System.Drawing.Point(12, 80);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -388,7 +393,30 @@
             this.dgvCar.TabIndex = 27;
             this.dgvCar.SelectionChanged += new System.EventHandler(this.dgvCar_SelectionChanged);
             // 
-            // UserForm
+            // tbHistory
+            // 
+            this.tbHistory.Controls.Add(this.dgvHistory);
+            this.tbHistory.Location = new System.Drawing.Point(4, 22);
+            this.tbHistory.Name = "tbHistory";
+            this.tbHistory.Padding = new System.Windows.Forms.Padding(3);
+            this.tbHistory.Size = new System.Drawing.Size(718, 448);
+            this.tbHistory.TabIndex = 3;
+            this.tbHistory.Text = "이력관리";
+            this.tbHistory.UseVisualStyleBackColor = true;
+            // 
+            // dgvHistory
+            // 
+            this.dgvHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvHistory.Location = new System.Drawing.Point(6, 6);
+            this.dgvHistory.MultiSelect = false;
+            this.dgvHistory.Name = "dgvHistory";
+            this.dgvHistory.ReadOnly = true;
+            this.dgvHistory.RowTemplate.Height = 23;
+            this.dgvHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvHistory.Size = new System.Drawing.Size(705, 437);
+            this.dgvHistory.TabIndex = 28;
+            // 
+            // ManagerDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -397,8 +425,8 @@
             this.Controls.Add(this.gbGroup);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
-            this.Name = "UserForm";
-            this.Text = "관리";
+            this.Name = "ManagerDialog";
+            this.Text = "시스템관리";
             this.Activated += new System.EventHandler(this.UserForm_Activated);
             this.Load += new System.EventHandler(this.UserForm_Load);
             this.Enter += new System.EventHandler(this.UserForm_Enter);
@@ -420,6 +448,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvUser)).EndInit();
             this.tpCar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCar)).EndInit();
+            this.tbHistory.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -455,5 +485,7 @@
         private System.Windows.Forms.DataGridView dgvUser;
         private System.Windows.Forms.TabPage tpCar;
         private System.Windows.Forms.DataGridView dgvCar;
+        private System.Windows.Forms.TabPage tbHistory;
+        private System.Windows.Forms.DataGridView dgvHistory;
     }
 }

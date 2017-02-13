@@ -116,7 +116,7 @@ namespace AsyncSocketServer
             NpgsqlConnection conn = db.GetPostConnection();
             // 커넥션 오픈
             conn.Open();
-
+            
             using (NpgsqlCommand cmd = new NpgsqlCommand())
             {
                 try
@@ -981,6 +981,81 @@ namespace AsyncSocketServer
                     cmd.Parameters.Add(new NpgsqlParameter(":ACCESS_INFO_SQ", info.accessId));
                     cmd.Parameters.Add(new NpgsqlParameter(":ORDER_ID", info.orderId));
                     cmd.Parameters.Add(new NpgsqlParameter(":WORK_DT", info.work_dt));
+
+                    // execute query
+                    executeCnt = cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    cmd.Transaction.Commit();
+                }
+                catch (Exception ee)
+                {
+                    cmd.Transaction.Rollback();
+                    Console.WriteLine(ee.Message);
+                    throw ee;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+                Console.WriteLine(executeCnt.ToString());
+                return executeCnt;
+            }
+        }
+    }
+
+    //***************************************************
+    // OrderInfo DB
+    //***************************************************
+    public class AccessHisDB
+    {
+        DBManager db = null;
+
+        public AccessHisDB()
+        {
+            db = new DBManager();
+        }
+
+        public DataTable GetAccessHisDBTable(string keyword)
+        {
+            string sql = "SELECT a.reg_dt, a.rt_code, a.user_id, u.user_nm, a.ip"
+                + " FROM isps_access_his a, isps_user u, isps_comm_code c"
+                + " WHERE a.user_id = u.user_id"
+                + " AND a.rt_code = c.code";
+
+            if (keyword != null && keyword != String.Empty)
+            {
+                sql += " AND u.user_nm LIKE '%" + keyword + "%'";
+            }
+            sql += " ORDER BY a.reg_dt DESC";
+            return new DBManager().GetDBTable(sql);
+        }
+
+        public int InsertAccessHis(int userId, string ip, string rtCode)
+        {
+            Console.Write("Insert AccessHis: ");
+
+            string sql_insert = "INSERT INTO isps_access_his(user_id, ip, rt_code)"
+                + " VALUES (:USER_ID, :IP, :RT_CODE)";
+            int executeCnt = 0;
+            NpgsqlConnection conn = db.GetPostConnection();
+            // 커넥션 오픈
+            conn.Open();
+
+            using (NpgsqlCommand cmd = new NpgsqlCommand())
+            {
+                try
+                {
+                    // 커맨드에 커넥션, 트랜잭선 추가
+                    cmd.Connection = conn;
+                    cmd.Transaction = conn.BeginTransaction();
+
+                    // set query
+                    cmd.CommandText = sql_insert;
+
+                    // set parameters
+                    cmd.Parameters.Add(new NpgsqlParameter(":USER_ID", userId));
+                    cmd.Parameters.Add(new NpgsqlParameter(":IP", ip));
+                    cmd.Parameters.Add(new NpgsqlParameter(":RT_CODE", rtCode));
 
                     // execute query
                     executeCnt = cmd.ExecuteNonQuery();

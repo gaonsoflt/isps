@@ -89,7 +89,8 @@ namespace AsyncSocketClient
                     {
                         UpdateStatusMessage("Success login.", pkt.guid);
                         guid = pkt.guid;
-                    } else
+                    }
+                    else
                     {
                         UpdateStatusMessage("Failed login.", pkt.errMsg);
                     }

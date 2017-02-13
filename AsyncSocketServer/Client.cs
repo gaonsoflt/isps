@@ -62,6 +62,8 @@ namespace AsyncSocketServer
         Socket socket;
         MyPerson loginUser;
 
+        AccessHisDB hisDB;
+
         public IPEndPoint EndPoint
         {
             get
@@ -85,6 +87,7 @@ namespace AsyncSocketServer
             socket = s;
             lenBuffer = new byte[4];
             name = this.EndPoint.ToString();
+            hisDB = new AccessHisDB();
         }
 
         private void SetLoginUser(MyPerson user)
@@ -244,23 +247,23 @@ namespace AsyncSocketServer
                         UpdateLogMsgWithName("Matched person(" + match.Name.ToString() + ")");
                         UpdateMatchedUser(match);
                         pkt.guid = GetLoginUser().Guid;
-                        code = Code.CD_SUCCESS;
+                        code = Code.SUCCESS;
                     }
                     else
                     {
                         UpdateLogMsgWithName("Not Matched person(" + match.Name.ToString() + ")");
-                        code = Code.CD_NOT_MATCH_AUTH;
+                        code = Code.NOT_MATCH_AUTH;
                     }
                 }
                 else
                 {
                     Console.WriteLine("Not found person.");
-                    code = Code.CD_NOT_FND_AUTH_INFO;
+                    code = Code.NOT_FND_AUTH_INFO;
                 }
             }
             catch (Exception e)
             {
-                code = Code.CD_ERR;
+                code = Code.ERROR;
                 pkt.errMsg = e.Message;
             }
             SendResponse(pkt, code);
@@ -280,26 +283,26 @@ namespace AsyncSocketServer
                         {
                             UpdateLogMsgWithName("Accessed passenger count: " + info.psgCnt);
                             pkt.accessId = info.seq;
-                            code = Code.CD_SUCCESS;
+                            code = Code.SUCCESS;
                         }
                         else
                         {
-                            code = Code.CD_NOT_MATCH_PASSENGER_CNT;
+                            code = Code.NOT_MATCH_PASSENGER_CNT;
                         }
                     }
                     else
                     {
-                        code = Code.CD_NOT_FND_ACCESS_INFO;
+                        code = Code.NOT_FND_ACCESS_INFO;
                     }
                 }
                 else
                 {
-                    code = Code.CD_INVALID_USER;
+                    code = Code.INVALID_USER;
                 }
             }
             catch (Exception e)
             {
-                code = Code.CD_ERR;
+                code = Code.ERROR;
                 pkt.errMsg = e.Message;
             }
             SendResponse(pkt, code);
@@ -316,22 +319,22 @@ namespace AsyncSocketServer
                     OrderInfo info = new OrderInfoManager().FindOrderInfoByAccessId(pkt.accessId);
                     if (info != null)
                     {
-                        code = Code.CD_SUCCESS;
+                        code = Code.SUCCESS;
                         pkt.order = info;
                     }
                     else
                     {
-                        code = Code.CD_NOT_FND_ORDER_INFO;
+                        code = Code.NOT_FND_ORDER_INFO;
                     }
                 }
                 else
                 {
-                    code = Code.CD_INVALID_USER;
+                    code = Code.INVALID_USER;
                 }
             }
             catch (Exception e)
             {
-                code = Code.CD_ERR;
+                code = Code.ERROR;
                 pkt.errMsg = e.Message;
             }
             SendResponse(pkt, code);
@@ -339,7 +342,7 @@ namespace AsyncSocketServer
 
         private void SendResponse(Packet pkt, Code code)
         {
-            if (code == Code.CD_SUCCESS)
+            if (code == Code.SUCCESS)
             {
                 pkt.response = DataPacket.PKT_ACK;
                 switch(pkt.type)
@@ -355,7 +358,7 @@ namespace AsyncSocketServer
             else
             {
                 pkt.response = DataPacket.PKT_NACK;
-                if (code != Code.CD_ERR)
+                if (code != Code.ERROR)
                 {
                     pkt.errMsg = GetMessage(code);
                     //pkt.data = BBDataConverter.StringToByte(GetMessage(code));
@@ -367,6 +370,8 @@ namespace AsyncSocketServer
             }
             byte[] buffer = DataPacket.StructToByte(pkt);
             Send(buffer, 0, buffer.Length);
+            // insert history
+            hisDB.InsertAccessHis(pkt.userId, name, code.ToString());
             UpdateLogMsgWithName("Sent data: " + pkt.ToString());
         }
 
