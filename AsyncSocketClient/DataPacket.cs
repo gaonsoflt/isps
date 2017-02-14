@@ -45,7 +45,7 @@ namespace AsyncSocketClient
                     case PktType.ORDER:
                         if (pkt.order == null)
                         {
-                            pkt.order = new OrderInfoManager.OrderInfo();
+                            pkt.order = new OrderInfo();
                         }
                         pkt.order.orderId = BBDataConverter.ByteToString(br.ReadBytes(pkt.dataLen));
                         break;

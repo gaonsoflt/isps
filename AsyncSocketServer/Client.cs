@@ -239,7 +239,7 @@ namespace AsyncSocketServer
                 MyPerson match = fpm.recognition(fpm.Enroll(pkt.data, "guest"));
                 if (match != null)
                 {
-                    Console.WriteLine("Found person.");
+                    Console.WriteLine("Found matched fingerprint.");
                     bool isMatch = CheckLoginUser(match.Id, pkt.userId);
                     if (isMatch)
                     {
@@ -247,18 +247,18 @@ namespace AsyncSocketServer
                         UpdateLogMsgWithName("Matched person(" + match.Name.ToString() + ")");
                         UpdateMatchedUser(match);
                         pkt.guid = GetLoginUser().Guid;
-                        code = Code.SUCCESS;
+                        code = Code.SUCCESS_AUTH;
                     }
                     else
                     {
                         UpdateLogMsgWithName("Not Matched person(" + match.Name.ToString() + ")");
-                        code = Code.NOT_MATCH_AUTH;
+                        code = Code.NOT_MATCH_LOGIN_FP;
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Not found person.");
-                    code = Code.NOT_FND_AUTH_INFO;
+                    Console.WriteLine("Not found matched fingerprint.");
+                    code = Code.NOT_FND_FINGERPRINT;
                 }
             }
             catch (Exception e)
@@ -283,7 +283,7 @@ namespace AsyncSocketServer
                         {
                             UpdateLogMsgWithName("Accessed passenger count: " + info.psgCnt);
                             pkt.accessId = info.seq;
-                            code = Code.SUCCESS;
+                            code = Code.SUCCESS_PASSENGER;
                         }
                         else
                         {
@@ -319,7 +319,7 @@ namespace AsyncSocketServer
                     OrderInfo info = new OrderInfoManager().FindOrderInfoByAccessId(pkt.accessId);
                     if (info != null)
                     {
-                        code = Code.SUCCESS;
+                        code = Code.SUCCESS_ORDER;
                         pkt.order = info;
                     }
                     else
@@ -342,36 +342,22 @@ namespace AsyncSocketServer
 
         private void SendResponse(Packet pkt, Code code)
         {
-            if (code == Code.SUCCESS)
+            if (code == Code.SUCCESS_AUTH || code == Code.SUCCESS_PASSENGER || code == Code.SUCCESS_ORDER)
             {
-                pkt.response = DataPacket.PKT_ACK;
-                switch(pkt.type)
-                {
-                    case PktType.AUTH:
-                        break;
-                    case PktType.PASSENGER:
-                        break;
-                    case PktType.ORDER:
-                        break;
-                }
+                pkt.response = PKT_ACK;
             }
             else
             {
-                pkt.response = DataPacket.PKT_NACK;
+                pkt.response = PKT_NACK;
                 if (code != Code.ERROR)
                 {
-                    pkt.errMsg = GetMessage(code);
-                    //pkt.data = BBDataConverter.StringToByte(GetMessage(code));
+                    pkt.errMsg = GetMessage(code.ToString());
                 }
-                //} else
-                //{
-                //    pkt.data = BBDataConverter.StringToByte(pkt.errMsg);
-                //}
             }
             byte[] buffer = DataPacket.StructToByte(pkt);
             Send(buffer, 0, buffer.Length);
             // insert history
-            hisDB.InsertAccessHis(pkt.userId, name, code.ToString());
+            hisDB.InsertAccessHis(pkt.userId, name, code.ToString(), pkt.errMsg);
             UpdateLogMsgWithName("Sent data: " + pkt.ToString());
         }
 

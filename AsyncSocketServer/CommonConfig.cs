@@ -30,19 +30,20 @@ namespace AsyncSocketServer
 
         static public class Message
         {
-            static private Dictionary<Code, string> MsgDic;
-            static private Dictionary<string, string> MsgDic2;
+            static private Dictionary<string, string> MsgDic;
 
             public enum Code : int
             {
-                SUCCESS = 1,
+                ERROR = 1,
+                SUCCESS_AUTH,
+                SUCCESS_PASSENGER,
+                SUCCESS_ORDER,
                 INVALID_USER,
-                NOT_FND_AUTH_INFO,
                 NOT_FND_ACCESS_INFO,
+                NOT_FND_FINGERPRINT,
                 NOT_FND_ORDER_INFO,
-                NOT_MATCH_AUTH,
-                NOT_MATCH_PASSENGER_CNT,
-                ERROR
+                NOT_MATCH_LOGIN_FP,
+                NOT_MATCH_PASSENGER_CNT
             }
 
             static Message()
@@ -52,31 +53,18 @@ namespace AsyncSocketServer
 
             static private void InitMsgDic()
             {
-                MsgDic = new Dictionary<Code, string>();
-                MsgDic.Add(Code.NOT_FND_AUTH_INFO, "aaaaa");
-                MsgDic.Add(Code.NOT_MATCH_AUTH, "bbbbb");
-
                 string sql = "SELECT code, value FROM isps_comm_code WHERE code_type = 'RESPONSE'";
                 DataTable dt = new DBManager().GetDBTable(sql);
-                MsgDic2 = dt.AsEnumerable()
+                MsgDic = dt.AsEnumerable()
                     .ToDictionary<DataRow, string, string>
                     (row => row.Field<string>(0), row => row.Field<string>(1));
             }
 
-            static public string GetMessage(Code code)
+            static public string GetMessage(string code)
             {
-                if(MsgDic.ContainsKey(code))
+                if (MsgDic.ContainsKey(code))
                 {
                     return MsgDic[code];
-                }
-                return "unknown error";
-            }
-
-            static public string GetMessage2(string code)
-            {
-                if (MsgDic2.ContainsKey(code))
-                {
-                    return MsgDic2[code];
                 }
                 return "unknown error";
             }

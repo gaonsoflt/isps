@@ -869,7 +869,7 @@ namespace AsyncSocketServer
             string sql_selete = "SELECT access_info_sq, order_id, work_dt, reg_dt, mod_dt"
                 + " FROM isps_order_info"
                 + " WHERE access_info_sq = :ACCESS_INFO_SQ";
-            OrderInfo info = null;
+            OrderInfo info = new OrderInfo();
             NpgsqlConnection conn = db.GetPostConnection();
             try
             {
@@ -889,7 +889,6 @@ namespace AsyncSocketServer
                         //while (reader.Read())
                         if (reader.Read())
                         {
-                            info = new OrderInfo();
                             info.accessId = Int32.Parse(reader["access_info_sq"].ToString());
                             info.orderId = reader["order_id"].ToString();
                             info.work_dt = DateTime.Parse(reader["work_dt"].ToString());
@@ -905,7 +904,7 @@ namespace AsyncSocketServer
             {
                 conn.Close();
             }
-            Console.WriteLine(info);
+            Console.WriteLine(info.ToString());
             return info;
         }
 
@@ -1030,12 +1029,12 @@ namespace AsyncSocketServer
             return new DBManager().GetDBTable(sql);
         }
 
-        public int InsertAccessHis(int userId, string ip, string rtCode)
+        public int InsertAccessHis(int userId, string ip, string rtCode, string errMsg)
         {
             Console.Write("Insert AccessHis: ");
 
-            string sql_insert = "INSERT INTO isps_access_his(user_id, ip, rt_code)"
-                + " VALUES (:USER_ID, :IP, :RT_CODE)";
+            string sql_insert = "INSERT INTO isps_access_his(user_id, ip, rt_code, err_message)"
+                + " VALUES (:USER_ID, :IP, :RT_CODE, :ERR_MESSAGE)";
             int executeCnt = 0;
             NpgsqlConnection conn = db.GetPostConnection();
             // 커넥션 오픈
@@ -1056,6 +1055,7 @@ namespace AsyncSocketServer
                     cmd.Parameters.Add(new NpgsqlParameter(":USER_ID", userId));
                     cmd.Parameters.Add(new NpgsqlParameter(":IP", ip));
                     cmd.Parameters.Add(new NpgsqlParameter(":RT_CODE", rtCode));
+                    cmd.Parameters.Add(new NpgsqlParameter(":ERR_MESSAGE", (errMsg != null) ? errMsg : ""));
 
                     // execute query
                     executeCnt = cmd.ExecuteNonQuery();

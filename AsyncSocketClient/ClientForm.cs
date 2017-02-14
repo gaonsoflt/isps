@@ -252,7 +252,7 @@ namespace AsyncSocketClient
             btnReqOrder.Enabled = enable;
         }
 
-        public String guid;
+        public string guid;
         public int accessId;
 
         private int GetUserId()

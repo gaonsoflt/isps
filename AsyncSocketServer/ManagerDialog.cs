@@ -78,6 +78,7 @@ namespace AsyncSocketServer
         {
             string keyword = tbKeyword.Text;
             gbGroup.Text = tabControl1.SelectedTab.Text;
+            UpdateStatusMessage("");
 
             switch (tabControl1.SelectedIndex)
             {

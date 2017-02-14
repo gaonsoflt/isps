@@ -6,17 +6,28 @@ using System.Threading.Tasks;
 
 namespace AsyncSocketServer
 {
+    public class OrderInfo
+    {
+        public int accessId;
+        public string orderId;
+        public DateTime work_dt;
+        public DateTime reg_dt;
+        public DateTime mod_dt;
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder("Order infor: ");
+            sb.Append("ACCESS_ID[").Append(accessId).Append("]");
+            sb.Append("ORDER_ID[").Append(orderId).Append("]");
+            sb.Append("WORK_DT[").Append(work_dt.ToString()).Append("]");
+            sb.Append("REG_DT[").Append(reg_dt.ToString()).Append("]");
+            sb.Append("MOD_DT[").Append(mod_dt.ToString()).Append("]");
+            return sb.ToString();
+        }
+    }
+
     public class OrderInfoManager
     {
-        public class OrderInfo
-        {
-            public int accessId;
-            public string orderId;
-            public DateTime work_dt;
-            public DateTime reg_dt;
-            public DateTime mod_dt;
-        }
-
         OrderInfoDB db;
 
         public OrderInfoManager()

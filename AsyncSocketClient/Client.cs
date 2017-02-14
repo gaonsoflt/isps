@@ -67,8 +67,6 @@ namespace AsyncSocketClient
         public delegate void OnDisconnectByServerEventHandler(Client sender);
         public event OnDisconnectByServerEventHandler OnDisconnectByServer;
 
-
-
         Socket socket;
         string responseText = string.Empty;
         byte[] lenBuffer;

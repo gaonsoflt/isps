@@ -40,7 +40,7 @@ namespace AsyncSocketServer
             public int accessId;
             public Image fingerPrint;
             public string errMsg;
-            public OrderInfoManager.OrderInfo order;
+            public OrderInfo order;
 
             public override string ToString()
             {
