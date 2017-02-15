@@ -279,15 +279,22 @@ namespace AsyncSocketServer
                     AccessInfo info = new AccessInfoDB().SelectNowAccessibleInfo(pkt.guid, pkt.carId);
                     if (info != null)
                     {
-                        if (pkt.psgCnt == info.psgCnt)
+                        if (info.access_dt == default(DateTime))
                         {
-                            UpdateLogMsgWithName("Accessed passenger count: " + info.psgCnt);
-                            pkt.accessId = info.seq;
-                            code = Code.SUCCESS_PASSENGER;
+                            if (pkt.psgCnt == info.psgCnt)
+                            {
+                                UpdateLogMsgWithName("Accessed passenger count: " + info.psgCnt);
+                                pkt.accessId = info.seq;
+                                code = Code.SUCCESS_PASSENGER;
+                            }
+                            else
+                            {
+                                code = Code.NOT_MATCH_PASSENGER_CNT;
+                            }
                         }
                         else
                         {
-                            code = Code.NOT_MATCH_PASSENGER_CNT;
+                            code = Code.ALREADY_ACCESS;
                         }
                     }
                     else
@@ -306,6 +313,12 @@ namespace AsyncSocketServer
                 pkt.errMsg = e.Message;
             }
             SendResponse(pkt, code);
+
+            // if code is SUCCESS_PASSENGER, Open gate and update access date
+            if (code == Code.SUCCESS_PASSENGER)
+            {
+                new AccessInfoDB().UpdateAccessDate(pkt.accessId);
+            }
         }
 
         public void RunOrder(Packet pkt)
@@ -356,9 +369,10 @@ namespace AsyncSocketServer
             }
             byte[] buffer = DataPacket.StructToByte(pkt);
             Send(buffer, 0, buffer.Length);
+            UpdateLogMsgWithName("Sent data: " + pkt.ToString());
+
             // insert history
             hisDB.InsertAccessHis(pkt.userId, name, code.ToString(), pkt.errMsg);
-            UpdateLogMsgWithName("Sent data: " + pkt.ToString());
         }
 
         public bool CheckLoginUser(int matchedUserId, int userId)

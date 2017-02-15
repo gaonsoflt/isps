@@ -85,33 +85,12 @@ namespace AsyncSocketServer
             db = new DBManager();
         }
 
-        /*
-         * 
-         * 
-         * insert into isps_access_info(
-  access_info_sq,
-  user_id,
-  psg_cnt, -- 동승자수
-  allow_start_dt,
-  allow_end_dt
-) values (
-  nextval('sq_isps_access_info'),
-  3,
-  1,
-  to_timestamp('2017-01-19 12:00:00', 'yyyy-mm-dd hh24:mi:ss'),
-  to_timestamp('2017-01-19 12:00:00', 'yyyy-mm-dd hh24:mi:ss')
-);
-
-
-         * 
-         */
-
         public int InsertAccessInfo(AccessInfo info)
         {
             Console.Write("Insert AccessInfo: ");
 
-            string sql_insert = "INSERT INTO isps_access_info(access_info_sq, user_id, psg_cnt, allow_start_dt, allow_end_dt, is_access, car_id, purpose, reg_dt)"
-                + " VALUES (nextval('sq_isps_access_info'), :USER_ID, :PSG_CNT, :ALLOW_START_DT, :ALLOW_END_DT, :IS_ACCESS, :CAR_ID, :PURPOSE, now())";
+            string sql_insert = "INSERT INTO isps_access_info(access_info_sq, user_id, psg_cnt, allow_start_dt, allow_end_dt, car_id, purpose, reg_dt)"
+                + " VALUES (nextval('sq_isps_access_info'), :USER_ID, :PSG_CNT, :ALLOW_START_DT, :ALLOW_END_DT, :CAR_ID, :PURPOSE, now())";
             int executeCnt = 0;
             NpgsqlConnection conn = db.GetPostConnection();
             // 커넥션 오픈
@@ -131,9 +110,6 @@ namespace AsyncSocketServer
                     // set parameters
                     cmd.Parameters.Add(new NpgsqlParameter(":USER_ID", info.user.Id));
                     cmd.Parameters.Add(new NpgsqlParameter(":PSG_CNT", info.psgCnt));
-                    NpgsqlParameter p_isAccess = new NpgsqlParameter(":IS_ACCESS", NpgsqlDbType.Integer);
-                    p_isAccess.Value = 0;
-                    cmd.Parameters.Add(p_isAccess);
                     cmd.Parameters.Add(new NpgsqlParameter(":CAR_ID", info.carId));
                     cmd.Parameters.Add(new NpgsqlParameter(":PURPOSE", info.purpose));
                     cmd.Parameters.Add(new NpgsqlParameter(":ALLOW_START_DT", info.allowStartDt));
@@ -208,6 +184,50 @@ namespace AsyncSocketServer
             }
         }
 
+        public int UpdateAccessDate(int seq)
+        {
+            Console.Write("Update UpdateAccessDate: ");
+            string sql_insert = "UPDATE isps_access_info SET access_dt = now()"
+                + " WHERE access_info_sq = :ACCESS_INFO_SQ";
+            int executeCnt = 0;
+            NpgsqlConnection conn = db.GetPostConnection();
+            // 커넥션 오픈
+            conn.Open();
+
+            using (NpgsqlCommand cmd = new NpgsqlCommand())
+            {
+                try
+                {
+                    // 커맨드에 커넥션, 트랜잭선 추가
+                    cmd.Connection = conn;
+                    cmd.Transaction = conn.BeginTransaction();
+
+                    // set query
+                    cmd.CommandText = sql_insert;
+
+                    // set parameters
+                    cmd.Parameters.Add(new NpgsqlParameter(":ACCESS_INFO_SQ", seq));
+
+                    // execute query
+                    executeCnt = cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    cmd.Transaction.Commit();
+                }
+                catch (Exception ee)
+                {
+                    cmd.Transaction.Rollback();
+                    Console.WriteLine(ee.Message);
+                    throw ee;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+                Console.WriteLine(executeCnt);
+                return executeCnt;
+            }
+        }
+
         public int SelectAccessPsgCnt(string guid, string carId)
         {
             //string nowTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -260,19 +280,18 @@ namespace AsyncSocketServer
 
         public AccessInfo SelectNowAccessibleInfo(string guid, string carId)
         {
-            //string nowTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             //string sql_selete_ora = "SELECT ACCESS_INFO_SQ, USER_ID, PSG_CNT, TO_CHAR(ALLOW_START_DT,'yyyy-mm-dd HH24:MI:SS') AS ALLOW_START_DT, TO_CHAR(ALLOW_END_DT,'yyyy-mm-dd HH24:MI:SS') AS ALLOW_END_DT" 
             //    + " FROM ISPS_ACCESS_INFO"
             //    + " WHERE USER_ID = (SELECT USER_ID FROM ISPS_USER WHERE USER_GUID = :USER_GUID)"
             //    + " AND TO_DATE('" + nowTime + "', 'yyyy-mm-dd HH24:MI:SS') >= ALLOW_START_DT"
             //    + " AND TO_DATE('" + nowTime + "', 'yyyy-mm-dd HH24:MI:SS') < ALLOW_END_DT";
-            string sql_selete = "SELECT access_info_sq, user_id, car_id, psg_cnt, allow_start_dt, allow_end_dt"
+            string sql_selete = "SELECT access_info_sq, user_id, car_id, psg_cnt, allow_start_dt, allow_end_dt, access_dt"
                 + " FROM isps_access_info"
                 + " WHERE user_id = (SELECT user_id FROM isps_user WHERE user_guid = :USER_GUID)"
                 + " AND car_id = :CAR_ID"
-                + " AND now() >= ALLOW_START_DT"
-                + " AND now() < ALLOW_END_DT";
-            AccessInfo accessInfo = new AccessInfo();
+                + " AND now() >= allow_start_dt"
+                + " AND now() < allow_end_dt";
+            AccessInfo info = null;
             NpgsqlConnection conn = db.GetPostConnection();
             try
             {
@@ -289,15 +308,20 @@ namespace AsyncSocketServer
                     // select 문 쿼리
                     using (NpgsqlDataReader reader = cmd.ExecuteReader())
                     {
-                        while (reader.Read())
+                        if (reader.Read())
                         {
-                            accessInfo.seq = Int32.Parse(reader["access_info_sq"].ToString());
-                            accessInfo.user.Id = Int32.Parse(reader["user_id"].ToString());
-                            accessInfo.carId = reader["car_id"].ToString();
-                            accessInfo.psgCnt = Int32.Parse(reader["psg_cnt"].ToString());
-                            accessInfo.allowStartDt = DateTime.Parse(reader["allow_start_dt"].ToString());
-                            accessInfo.allowEndDt = DateTime.Parse(reader["allow_end_dt"].ToString());
-                            Console.WriteLine(accessInfo.ToString());
+                            info = new AccessInfo();
+                            info.seq = Int32.Parse(reader["access_info_sq"].ToString());
+                            info.user.Id = Int32.Parse(reader["user_id"].ToString());
+                            info.carId = reader["car_id"].ToString();
+                            info.psgCnt = Int32.Parse(reader["psg_cnt"].ToString());
+                            info.allowStartDt = DateTime.Parse(reader["allow_start_dt"].ToString());
+                            info.allowEndDt = DateTime.Parse(reader["allow_end_dt"].ToString());
+                            if (ColumnExists(reader, "access_dt"))
+                            {
+                                info.access_dt = DateTime.Parse(reader["access_dt"].ToString());
+                            }
+                            Console.WriteLine(info.ToString());
                         }
                     }
                 }
@@ -310,7 +334,7 @@ namespace AsyncSocketServer
             {
                 conn.Close();
             }
-            return accessInfo;
+            return info;
         }
 
         public AccessInfo SelectAccessInfo(int seq)
@@ -343,10 +367,9 @@ namespace AsyncSocketServer
                             accessInfo.psgCnt = Int32.Parse(reader["psg_cnt"].ToString());
                             accessInfo.allowStartDt = DateTime.Parse(reader["allow_start_dt"].ToString());
                             accessInfo.allowEndDt = DateTime.Parse(reader["allow_end_dt"].ToString());
-                            accessInfo.isAccess = (Int32.Parse(reader["is_access"].ToString()) > 0) ? true : false;
                             accessInfo.carId = reader["car_id"].ToString();
                             accessInfo.purpose = reader["purpose"].ToString();
-                            if (accessInfo.isAccess)
+                            if (ColumnExists(reader, "access_dt"))
                             {
                                 accessInfo.access_dt = DateTime.Parse(reader["access_dt"].ToString());
                             }
@@ -371,6 +394,18 @@ namespace AsyncSocketServer
             string sql = "SELECT access_info_sq, psg_cnt, allow_start_dt, allow_end_dt, purpose, access_dt"
                 + " FROM isps_access_info WHERE user_id = " + keyword + " ORDER BY allow_start_dt DESC";
             return new DBManager().GetDBTable(sql);
+        }
+
+        public bool ColumnExists(IDataReader reader, string columnName)
+        {
+            for (int i = 0; i < reader.FieldCount; i++)
+            {
+                if (reader.GetName(i) == columnName)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
@@ -832,7 +867,13 @@ namespace AsyncSocketServer
             {
                 sql += " WHERE car_id LIKE '%" + keyword + "%' ORDER BY car_id";
             }
-            return new DBManager().GetDBTable(sql);
+            return db.GetDBTable(sql);
+        }
+
+        public DataTable GetCarIdDBTable()
+        {
+            string sql = "SELECT car_id FROM isps_car ORDER BY car_id";
+            return db.GetDBTable(sql);
         }
 
         public string[] GetCarIds(string keyword)
@@ -843,7 +884,7 @@ namespace AsyncSocketServer
             {
                 sql += " WHERE car_id LIKE '%" + keyword + "%' ORDER BY car_id";
             }
-            return new DBManager().GetDBTable(sql)
+            return db.GetDBTable(sql)
                 .AsEnumerable()
                 .Select(row => row.Field<string>("car_id"))
                 .ToArray();
@@ -869,7 +910,7 @@ namespace AsyncSocketServer
             string sql_selete = "SELECT access_info_sq, order_id, work_dt, reg_dt, mod_dt"
                 + " FROM isps_order_info"
                 + " WHERE access_info_sq = :ACCESS_INFO_SQ";
-            OrderInfo info = new OrderInfo();
+            OrderInfo info = null;
             NpgsqlConnection conn = db.GetPostConnection();
             try
             {
@@ -889,9 +930,11 @@ namespace AsyncSocketServer
                         //while (reader.Read())
                         if (reader.Read())
                         {
+                            info = new OrderInfo();
                             info.accessId = Int32.Parse(reader["access_info_sq"].ToString());
                             info.orderId = reader["order_id"].ToString();
                             info.work_dt = DateTime.Parse(reader["work_dt"].ToString());
+                            Console.WriteLine(info.ToString());
                         }
                     }
                 }
@@ -904,7 +947,6 @@ namespace AsyncSocketServer
             {
                 conn.Close();
             }
-            Console.WriteLine(info.ToString());
             return info;
         }
 

@@ -167,7 +167,7 @@
             this.statusStrip1.Location = new System.Drawing.Point(0, 599);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
-            this.statusStrip1.Size = new System.Drawing.Size(722, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1114, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -180,12 +180,12 @@
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(691, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(1083, 17);
             this.toolStripStatusLabel2.Spring = true;
             // 
             // tbPsgCnt
             // 
-            this.tbPsgCnt.Location = new System.Drawing.Point(280, 158);
+            this.tbPsgCnt.Location = new System.Drawing.Point(604, 161);
             this.tbPsgCnt.Name = "tbPsgCnt";
             this.tbPsgCnt.Size = new System.Drawing.Size(44, 21);
             this.tbPsgCnt.TabIndex = 12;
@@ -194,7 +194,7 @@
             // 
             // tbUserId
             // 
-            this.tbUserId.Location = new System.Drawing.Point(278, 73);
+            this.tbUserId.Location = new System.Drawing.Point(602, 76);
             this.tbUserId.Name = "tbUserId";
             this.tbUserId.Size = new System.Drawing.Size(44, 21);
             this.tbUserId.TabIndex = 11;
@@ -204,7 +204,7 @@
             // btnReqOrder
             // 
             this.btnReqOrder.Enabled = false;
-            this.btnReqOrder.Location = new System.Drawing.Point(275, 185);
+            this.btnReqOrder.Location = new System.Drawing.Point(599, 188);
             this.btnReqOrder.Name = "btnReqOrder";
             this.btnReqOrder.Size = new System.Drawing.Size(188, 33);
             this.btnReqOrder.TabIndex = 10;
@@ -215,7 +215,7 @@
             // btnPassenger
             // 
             this.btnPassenger.Enabled = false;
-            this.btnPassenger.Location = new System.Drawing.Point(278, 100);
+            this.btnPassenger.Location = new System.Drawing.Point(602, 103);
             this.btnPassenger.Name = "btnPassenger";
             this.btnPassenger.Size = new System.Drawing.Size(136, 33);
             this.btnPassenger.TabIndex = 9;
@@ -226,7 +226,7 @@
             // btnAuth
             // 
             this.btnAuth.Enabled = false;
-            this.btnAuth.Location = new System.Drawing.Point(278, 12);
+            this.btnAuth.Location = new System.Drawing.Point(602, 15);
             this.btnAuth.Name = "btnAuth";
             this.btnAuth.Size = new System.Drawing.Size(136, 33);
             this.btnAuth.TabIndex = 8;
@@ -236,9 +236,9 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(472, 18);
+            this.pictureBox1.Location = new System.Drawing.Point(799, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(238, 214);
+            this.pictureBox1.Size = new System.Drawing.Size(303, 259);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
@@ -246,16 +246,17 @@
             // lstText
             // 
             this.lstText.FormattingEnabled = true;
+            this.lstText.HorizontalScrollbar = true;
             this.lstText.ItemHeight = 12;
             this.lstText.Location = new System.Drawing.Point(12, 277);
             this.lstText.Name = "lstText";
             this.lstText.ScrollAlwaysVisible = true;
-            this.lstText.Size = new System.Drawing.Size(698, 316);
+            this.lstText.Size = new System.Drawing.Size(1090, 316);
             this.lstText.TabIndex = 5;
             // 
             // tbCarId
             // 
-            this.tbCarId.Location = new System.Drawing.Point(328, 73);
+            this.tbCarId.Location = new System.Drawing.Point(652, 76);
             this.tbCarId.Name = "tbCarId";
             this.tbCarId.Size = new System.Drawing.Size(86, 21);
             this.tbCarId.TabIndex = 13;
@@ -264,7 +265,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(278, 58);
+            this.label1.Location = new System.Drawing.Point(602, 61);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(40, 12);
             this.label1.TabIndex = 8;
@@ -273,7 +274,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(326, 58);
+            this.label2.Location = new System.Drawing.Point(650, 61);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(33, 12);
             this.label2.TabIndex = 14;
@@ -282,7 +283,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(278, 143);
+            this.label3.Location = new System.Drawing.Point(602, 146);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 12);
             this.label3.TabIndex = 15;
@@ -292,7 +293,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(722, 621);
+            this.ClientSize = new System.Drawing.Size(1114, 621);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);

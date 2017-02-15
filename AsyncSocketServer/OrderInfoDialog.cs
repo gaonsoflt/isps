@@ -13,38 +13,48 @@ namespace AsyncSocketServer
 {
     public partial class OrderInfoDialog : Form
     {
-        int accessId;
         OrderInfoManager orderMgr;
-        const string customDateFormat = "yyyy년 MM월 dd일 (ddd) HH시 mm분";
+        const string customDateFormat = "yyyy년 MM월 dd일 (ddd)";
+        OrderInfo order;
+        AccessDialog parents;
 
-        public OrderInfoDialog(int accessId)
+        public OrderInfoDialog(AccessDialog parents)
         {
             InitializeComponent();
-            this.accessId = accessId;
+            this.parents = parents;
+            //this.order = order;
         }
 
         private void OrderInfoDialog_Load(object sender, EventArgs e)
         {
             orderMgr = new OrderInfoManager();
-            DateTime dt = DateTime.Now;
-            workDt.Value = dt;
-            LoadOrderInfoDB();
+            workDt.CustomFormat = customDateFormat;
+
+            //LoadOrderInfoDB();
+            UpdateComponents(parents.accessInfo.order);
         }
 
-        private void UpdateComponents(OrderInfo info)
+        private void UpdateComponents(OrderInfo order)
         {
-            tbOrderId.Text = info.orderId.ToString();
-            workDt.Value = info.work_dt;
-        }
-
-        private void LoadOrderInfoDB()
-        {
-            OrderInfo orderInfo = orderMgr.FindOrderInfoByAccessId(this.accessId);
-            if (orderInfo != null)
+            if(order != null)
             {
-                UpdateComponents(orderInfo);
+                tbOrderId.Text = order.orderId.ToString();
+                workDt.Value = order.work_dt;
+            }
+            else
+            {
+                workDt.Value = DateTime.Now;
             }
         }
+
+        //private void LoadOrderInfoDB()
+        //{
+        //    OrderInfo orderInfo = orderMgr.FindOrderInfoByAccessId(this.accessId);
+        //    if (orderInfo != null)
+        //    {
+        //        UpdateComponents(orderInfo);
+        //    }
+        //}
 
         private void UpdateStatusMessage(String msg)
         {
@@ -56,23 +66,28 @@ namespace AsyncSocketServer
 
         private void btnApply_Click(object sender, EventArgs e)
         {
+            if (tbOrderId.Text == "")
+            {
+                MessageBox.Show("지시서번호를 입력하세요.", "알림", MessageBoxButtons.OK);
+                return;
+            }
+
             if (MessageBox.Show("저장하시겠습니까?", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                OrderInfo orderInfo = new OrderInfo();
-                orderInfo.accessId = this.accessId;
-                orderInfo.orderId = tbOrderId.Text;
-                orderInfo.work_dt = workDt.Value;
+                if(parents.accessInfo.order == null)
+                {
+                    parents.accessInfo.order = new OrderInfo();
+                }
+                //OrderInfo orderInfo = new OrderInfo();
+                //orderInfo.orderId = tbOrderId.Text;
+                //orderInfo.work_dt = workDt.Value;
+                //order = orderInfo;
+                parents.accessInfo.order.orderId = tbOrderId.Text;
+                parents.accessInfo.order.work_dt = workDt.Value;
 
-                if (orderMgr.SaveOrderInfo(orderInfo) > 0)
-                {
-                    UpdateStatusMessage("정상적으로 처리 되었습니다.");
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
-                }
-                else
-                {
-                    UpdateStatusMessage("정상적으로 처리되지 않았습니다.");
-                }
+                UpdateStatusMessage("정상적으로 처리 되었습니다.");
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
         }
 

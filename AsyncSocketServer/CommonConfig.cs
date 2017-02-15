@@ -39,6 +39,7 @@ namespace AsyncSocketServer
                 SUCCESS_PASSENGER,
                 SUCCESS_ORDER,
                 INVALID_USER,
+                ALREADY_ACCESS,
                 NOT_FND_ACCESS_INFO,
                 NOT_FND_FINGERPRINT,
                 NOT_FND_ORDER_INFO,

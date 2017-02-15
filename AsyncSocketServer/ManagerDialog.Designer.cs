@@ -80,9 +80,9 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(294, 20);
+            this.btnClose.Location = new System.Drawing.Point(294, 16);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(88, 22);
+            this.btnClose.Size = new System.Drawing.Size(88, 36);
             this.btnClose.TabIndex = 16;
             this.btnClose.Text = "닫기";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -92,9 +92,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 562);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 639);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(747, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(884, 22);
             this.statusStrip1.TabIndex = 17;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -106,9 +106,9 @@
             // 
             // btnModify
             // 
-            this.btnModify.Location = new System.Drawing.Point(200, 20);
+            this.btnModify.Location = new System.Drawing.Point(200, 16);
             this.btnModify.Name = "btnModify";
-            this.btnModify.Size = new System.Drawing.Size(88, 22);
+            this.btnModify.Size = new System.Drawing.Size(88, 36);
             this.btnModify.TabIndex = 18;
             this.btnModify.Text = "수정";
             this.btnModify.UseVisualStyleBackColor = true;
@@ -116,9 +116,9 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(206, 20);
+            this.btnSearch.Location = new System.Drawing.Point(206, 16);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(88, 22);
+            this.btnSearch.Size = new System.Drawing.Size(88, 36);
             this.btnSearch.TabIndex = 21;
             this.btnSearch.Text = "조회";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -126,7 +126,7 @@
             // 
             // tbKeyword
             // 
-            this.tbKeyword.Location = new System.Drawing.Point(56, 20);
+            this.tbKeyword.Location = new System.Drawing.Point(56, 25);
             this.tbKeyword.Name = "tbKeyword";
             this.tbKeyword.Size = new System.Drawing.Size(144, 21);
             this.tbKeyword.TabIndex = 20;
@@ -135,7 +135,7 @@
             // lbKeyword
             // 
             this.lbKeyword.AutoSize = true;
-            this.lbKeyword.Location = new System.Drawing.Point(12, 25);
+            this.lbKeyword.Location = new System.Drawing.Point(8, 29);
             this.lbKeyword.Name = "lbKeyword";
             this.lbKeyword.Size = new System.Drawing.Size(29, 12);
             this.lbKeyword.TabIndex = 21;
@@ -144,9 +144,9 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(106, 20);
+            this.btnDelete.Location = new System.Drawing.Point(106, 16);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(88, 22);
+            this.btnDelete.Size = new System.Drawing.Size(88, 36);
             this.btnDelete.TabIndex = 22;
             this.btnDelete.Text = "삭제";
             this.btnDelete.UseVisualStyleBackColor = true;
@@ -154,9 +154,9 @@
             // 
             // btnEnroll
             // 
-            this.btnEnroll.Location = new System.Drawing.Point(12, 20);
+            this.btnEnroll.Location = new System.Drawing.Point(12, 16);
             this.btnEnroll.Name = "btnEnroll";
-            this.btnEnroll.Size = new System.Drawing.Size(88, 22);
+            this.btnEnroll.Size = new System.Drawing.Size(88, 36);
             this.btnEnroll.TabIndex = 23;
             this.btnEnroll.Text = "등록";
             this.btnEnroll.UseVisualStyleBackColor = true;
@@ -171,7 +171,7 @@
             this.dgvAccessUser.ReadOnly = true;
             this.dgvAccessUser.RowTemplate.Height = 23;
             this.dgvAccessUser.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAccessUser.Size = new System.Drawing.Size(705, 226);
+            this.dgvAccessUser.Size = new System.Drawing.Size(840, 269);
             this.dgvAccessUser.TabIndex = 0;
             this.dgvAccessUser.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
@@ -182,7 +182,7 @@
             this.groupBox1.Controls.Add(this.lbKeyword);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(305, 57);
+            this.groupBox1.Size = new System.Drawing.Size(460, 62);
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "검색";
@@ -197,9 +197,9 @@
             this.gbGroup.Controls.Add(this.btnDelete);
             this.gbGroup.Controls.Add(this.dataGridView3);
             this.gbGroup.Controls.Add(this.groupBox4);
-            this.gbGroup.Location = new System.Drawing.Point(333, 12);
+            this.gbGroup.Location = new System.Drawing.Point(478, 12);
             this.gbGroup.Name = "gbGroup";
-            this.gbGroup.Size = new System.Drawing.Size(394, 57);
+            this.gbGroup.Size = new System.Drawing.Size(394, 62);
             this.gbGroup.TabIndex = 25;
             this.gbGroup.TabStop = false;
             this.gbGroup.Text = "관리";
@@ -311,13 +311,13 @@
             // dgvAccessInfo
             // 
             this.dgvAccessInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAccessInfo.Location = new System.Drawing.Point(6, 238);
+            this.dgvAccessInfo.Location = new System.Drawing.Point(6, 281);
             this.dgvAccessInfo.MultiSelect = false;
             this.dgvAccessInfo.Name = "dgvAccessInfo";
             this.dgvAccessInfo.ReadOnly = true;
             this.dgvAccessInfo.RowTemplate.Height = 23;
             this.dgvAccessInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAccessInfo.Size = new System.Drawing.Size(705, 204);
+            this.dgvAccessInfo.Size = new System.Drawing.Size(840, 243);
             this.dgvAccessInfo.TabIndex = 26;
             this.dgvAccessInfo.SelectionChanged += new System.EventHandler(this.dataGridView2_SelectionChanged);
             // 
@@ -330,7 +330,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 80);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(726, 474);
+            this.tabControl1.Size = new System.Drawing.Size(860, 556);
             this.tabControl1.TabIndex = 27;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -341,7 +341,7 @@
             this.tpAccess.Location = new System.Drawing.Point(4, 22);
             this.tpAccess.Name = "tpAccess";
             this.tpAccess.Padding = new System.Windows.Forms.Padding(3);
-            this.tpAccess.Size = new System.Drawing.Size(718, 448);
+            this.tpAccess.Size = new System.Drawing.Size(852, 530);
             this.tpAccess.TabIndex = 0;
             this.tpAccess.Text = "출입관리";
             this.tpAccess.UseVisualStyleBackColor = true;
@@ -352,7 +352,7 @@
             this.tpUser.Location = new System.Drawing.Point(4, 22);
             this.tpUser.Name = "tpUser";
             this.tpUser.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUser.Size = new System.Drawing.Size(718, 448);
+            this.tpUser.Size = new System.Drawing.Size(852, 530);
             this.tpUser.TabIndex = 1;
             this.tpUser.Text = "인원관리";
             this.tpUser.UseVisualStyleBackColor = true;
@@ -366,7 +366,7 @@
             this.dgvUser.ReadOnly = true;
             this.dgvUser.RowTemplate.Height = 23;
             this.dgvUser.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUser.Size = new System.Drawing.Size(705, 437);
+            this.dgvUser.Size = new System.Drawing.Size(840, 518);
             this.dgvUser.TabIndex = 26;
             this.dgvUser.SelectionChanged += new System.EventHandler(this.dgvUser_SelectionChanged);
             // 
@@ -375,7 +375,7 @@
             this.tpCar.Controls.Add(this.dgvCar);
             this.tpCar.Location = new System.Drawing.Point(4, 22);
             this.tpCar.Name = "tpCar";
-            this.tpCar.Size = new System.Drawing.Size(718, 448);
+            this.tpCar.Size = new System.Drawing.Size(852, 530);
             this.tpCar.TabIndex = 2;
             this.tpCar.Text = "차량관리";
             this.tpCar.UseVisualStyleBackColor = true;
@@ -389,7 +389,7 @@
             this.dgvCar.ReadOnly = true;
             this.dgvCar.RowTemplate.Height = 23;
             this.dgvCar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCar.Size = new System.Drawing.Size(705, 437);
+            this.dgvCar.Size = new System.Drawing.Size(840, 518);
             this.dgvCar.TabIndex = 27;
             this.dgvCar.SelectionChanged += new System.EventHandler(this.dgvCar_SelectionChanged);
             // 
@@ -399,7 +399,7 @@
             this.tbHistory.Location = new System.Drawing.Point(4, 22);
             this.tbHistory.Name = "tbHistory";
             this.tbHistory.Padding = new System.Windows.Forms.Padding(3);
-            this.tbHistory.Size = new System.Drawing.Size(718, 448);
+            this.tbHistory.Size = new System.Drawing.Size(852, 530);
             this.tbHistory.TabIndex = 3;
             this.tbHistory.Text = "이력관리";
             this.tbHistory.UseVisualStyleBackColor = true;
@@ -413,18 +413,20 @@
             this.dgvHistory.ReadOnly = true;
             this.dgvHistory.RowTemplate.Height = 23;
             this.dgvHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvHistory.Size = new System.Drawing.Size(705, 437);
+            this.dgvHistory.Size = new System.Drawing.Size(840, 518);
             this.dgvHistory.TabIndex = 28;
             // 
             // ManagerDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(747, 584);
+            this.ClientSize = new System.Drawing.Size(884, 661);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gbGroup);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
+            this.MaximumSize = new System.Drawing.Size(900, 700);
+            this.MinimumSize = new System.Drawing.Size(900, 700);
             this.Name = "ManagerDialog";
             this.Text = "시스템관리";
             this.Activated += new System.EventHandler(this.UserForm_Activated);

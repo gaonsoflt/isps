@@ -13,7 +13,7 @@ namespace AsyncSocketServer
 {
     public partial class AccessDialog : Form
     {
-        AccessInfo accessInfo;
+        public AccessInfo accessInfo;
         AccessInfoManager accessMgr;
         CarInfoManager carMgr;
         DIALOG_MODE mode;
@@ -21,6 +21,7 @@ namespace AsyncSocketServer
         TimeSpan minAccessDt;
         DateTime oldStartDt;
         DateTime oldEndDt;
+        DataTable carId;
 
         public AccessDialog(DIALOG_MODE mode, AccessInfo accessInfo)
         {
@@ -39,15 +40,19 @@ namespace AsyncSocketServer
             allowEndDt.Format = DateTimePickerFormat.Custom;
             allowEndDt.CustomFormat = customDateFormat;
 
-            tbCarId.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            tbCarId.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            carId = carMgr.GetCarIdDBTable();
+            cbCarId.DataSource = carId;
+            cbCarId.DisplayMember = "car_id";
+            cbCarId.ValueMember = "car_id";
+            cbCarId.SelectedIndex = -1;
 
             InitComponents();
         }
 
         private void LoadAccessInfoDB()
         {
-            accessInfo = new AccessInfoDB().SelectAccessInfo(accessInfo.seq);
+            //accessInfo = new AccessInfoDB().SelectAccessInfo(accessInfo.seq);
+            accessInfo = accessMgr.SelectAccessInfoWithOrder(accessInfo.seq);
         }
 
         private void InitComponents()
@@ -58,7 +63,6 @@ namespace AsyncSocketServer
                     this.Text = "등록";
                     if (accessInfo != null)
                     {
-                        tbSeq.Text = accessInfo.seq.ToString();
                         tbUserId.Text = accessInfo.user.Id.ToString();
                         tbUserNm.Text = accessInfo.user.Name.ToString();
                         DateTime dt = DateTime.Now;
@@ -74,12 +78,16 @@ namespace AsyncSocketServer
                         tbSeq.Text = accessInfo.seq.ToString();
                         tbUserId.Text = accessInfo.user.Id.ToString();
                         tbUserNm.Text = accessInfo.user.Name.ToString();
-                        ShowAccessText(accessInfo.isAccess, accessInfo.access_dt);
+                        CheckAccessDt(accessInfo.access_dt);
                         nudPsgCnt.Value = accessInfo.psgCnt;
                         allowEndDt.Value = accessInfo.allowEndDt;
                         allowStartDt.Value = accessInfo.allowStartDt;
-                        tbCarId.Text = accessInfo.carId;
+                        cbCarId.Text = accessInfo.carId;
                         tbPurpose.Text = accessInfo.purpose;
+                        if(accessInfo.order != null)
+                        {
+                            tbOrderId.Text = accessInfo.order.orderId;
+                        }
                     }
                     else
                     {
@@ -89,42 +97,66 @@ namespace AsyncSocketServer
             }
         }
 
-        private void ShowAccessText(Boolean isAccess, DateTime AccessDt)
+        private void CheckAccessDt(DateTime accessDt)
         {
-            tbIsAccess.Text = isAccess ? "출입" : "미출입";
-            if (isAccess)
+            // [BBAEK] null 체크가 안됨
+            if (accessDt == default(DateTime)) {
+                tbIsAccess.Text = "미출입";
+            }
+            else
             {
-                if (AccessDt != null) {
-                    tbAccessDt.Text = AccessDt.ToString(customDateFormat);
-                }
+                tbIsAccess.Text = "출입";
+                tbAccessDt.Text = accessDt.ToString(customDateFormat);
+                btnApply.Enabled = false;
+                btnOrder.Enabled = false;
             }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnApply_Click(object sender, EventArgs e)
         {
+            if (allowStartDt.Value == default(DateTime))
+            {
+                MessageBox.Show("출입시간일시를 입력하세요.", "알림", MessageBoxButtons.OK);
+                return;
+            }
+            else if (allowEndDt.Value == default(DateTime))
+            {
+                MessageBox.Show("출입종료일시를 입력하세요.", "알림", MessageBoxButtons.OK);
+                return;
+            }
+            else if (tbPurpose.Text == "")
+            {
+                MessageBox.Show("출입 목적을 입력하세요.", "알림", MessageBoxButtons.OK);
+                return;
+            }
+            else if (cbCarId.SelectedIndex == -1)
+            {
+                MessageBox.Show("차량번호를 입력하세요.", "알림", MessageBoxButtons.OK);
+                return;
+            }
+
             if (MessageBox.Show("저장하시겠습니까?", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                AccessInfo info = new AccessInfo();
-                info.psgCnt = Int32.Parse(nudPsgCnt.Value.ToString());
-                info.allowStartDt = allowStartDt.Value;
-                info.allowEndDt = allowEndDt.Value;
-                info.purpose = tbPurpose.Text;
-                info.carId = tbCarId.Text;
+                accessInfo.psgCnt = Int32.Parse(nudPsgCnt.Value.ToString());
+                accessInfo.allowStartDt = allowStartDt.Value;
+                accessInfo.allowEndDt = allowEndDt.Value;
+                accessInfo.purpose = tbPurpose.Text;
+                accessInfo.carId = cbCarId.Text;
                 switch (mode)
                 {
                     case DIALOG_MODE.SAVE:
-                        info.user.Id = Int32.Parse(tbUserId.Text);
+                        accessInfo.user.Id = Int32.Parse(tbUserId.Text);
                         break;
                     case DIALOG_MODE.MODIFY:
-                        info.seq = Int32.Parse(tbSeq.Text.ToString());
+                        accessInfo.seq = Int32.Parse(tbSeq.Text.ToString());
                         break;
                 }
-                if (accessMgr.SaveAccessInfo(info) > 0)
+                if (accessMgr.SaveAccessInfoWithOrder(accessInfo) > 0)
                 {
                     UpdateStatusMessage("정상적으로 처리 되었습니다.");
                     this.DialogResult = DialogResult.OK;
@@ -188,29 +220,9 @@ namespace AsyncSocketServer
             return allowEndDt.Value - allowStartDt.Value;
         }
 
-        private void tbCarId_TextChanged(object sender, EventArgs e)
-        {
-            //TextBox t = sender as TextBox;
-            //if (t != null)
-            //{
-            //    //say you want to do a search when user types 3 or more chars
-            //    if (t.Text.Length >= 2)
-            //    {
-            //        //SuggestStrings will have the logic to return array of strings either from cache/db
-            //        string[] arr = carMgr.SuggestStrings(t.Text);
-            //        if (arr != null)
-            //        {
-            //            AutoCompleteStringCollection collection = new AutoCompleteStringCollection();
-            //            collection.AddRange(arr);
-            //            tbCarId.AutoCompleteCustomSource = collection;
-            //        }
-            //    }
-            //}
-        }
-
         private void btnOrder_Click(object sender, EventArgs e)
         {
-            OrderInfoDialog dlg = new OrderInfoDialog(accessInfo.seq);
+            OrderInfoDialog dlg = new OrderInfoDialog(this);
             UpdateDialogResult(dlg.ShowDialog());
         }
 
@@ -218,8 +230,12 @@ namespace AsyncSocketServer
         {
             if (dlgRt == DialogResult.OK)
             {
-                // 작업지시서 등록 여부 표시(tbOrderId)
                 UpdateStatusMessage("정상적으로 처리 되었습니다.");
+                // 작업지시서 등록 여부 표시(tbOrderId)
+                if(accessInfo.order != null && accessInfo.order.orderId != null)
+                {
+                    tbOrderId.Text = accessInfo.order.orderId;
+                }
             }
             else
             {

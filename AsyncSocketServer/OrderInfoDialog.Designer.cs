@@ -70,8 +70,8 @@
             // 
             this.workDt.Location = new System.Drawing.Point(14, 76);
             this.workDt.Name = "workDt";
-            this.workDt.Size = new System.Drawing.Size(229, 21);
-            this.workDt.TabIndex = 24;
+            this.workDt.Size = new System.Drawing.Size(312, 21);
+            this.workDt.TabIndex = 2;
             this.workDt.Value = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
             // 
             // label8
@@ -90,7 +90,7 @@
             this.tbOrderId.Location = new System.Drawing.Point(14, 25);
             this.tbOrderId.Name = "tbOrderId";
             this.tbOrderId.Size = new System.Drawing.Size(152, 21);
-            this.tbOrderId.TabIndex = 42;
+            this.tbOrderId.TabIndex = 1;
             this.tbOrderId.TabStop = false;
             // 
             // btnApply

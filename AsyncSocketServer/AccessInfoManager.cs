@@ -25,12 +25,12 @@ namespace AsyncSocketServer
             public int psgCnt;
             public DateTime allowStartDt;
             public DateTime allowEndDt;
-            public bool isAccess;
             public DateTime access_dt;
             public string carId;
             public string purpose;
             public DateTime reg_dt;
             public DateTime mod_dt;
+            public OrderInfo order;
         }
 
         public AccessInfoManager()
@@ -57,18 +57,45 @@ namespace AsyncSocketServer
             }
         }
 
-        public int UpdateAccessInfo(AccessInfo info)
+        public AccessInfo SelectNowAccessibleInfo(string guid, string carId)
         {
-            Console.Write("Updating database...[");
+            return db.SelectNowAccessibleInfo(guid, carId);
+        }
+
+        public AccessInfo SelectAccessInfoWithOrder(int seq)
+        {
+            AccessInfo info = db.SelectAccessInfo(seq);
+            info.order = new OrderInfoDB().SelectOrderInfo(seq);
+            return info;
+        }
+
+        public int SaveAccessInfoWithOrder(AccessInfo info)
+        {
+            Console.WriteLine("Save AccessInfoWithOrder database...");
             try
             {
-                int executeCnt = new AccessInfoDB().UpdateAccessInfo(info);
-                Console.WriteLine(executeCnt + "]");
-                return executeCnt;
+                int executeCnt = db.UpdateAccessInfo(info);
+                if (executeCnt <= 0)
+                {
+                    executeCnt = db.InsertAccessInfo(info);
+                }
+                // 귀차니즘~~ 나중에 바꿔야함 ㅠㅠ
+                int executeCnt1 = 0;
+                if (info.order != null)
+                {
+                    OrderInfoDB orderDB = new OrderInfoDB();
+                    info.order.accessId = info.seq;
+                    executeCnt1 = orderDB.UpdateOrderInfo(info.order);
+                    if (executeCnt1 <= 0)
+                    {
+                        executeCnt1 = orderDB.InsertOrderInfo(info.order);
+                    }
+                }
+                return executeCnt + executeCnt1;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message + "]");
+                Console.WriteLine(e.Message);
                 return 0;
             }
         }

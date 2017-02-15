@@ -89,6 +89,7 @@ namespace AsyncSocketClient
                     {
                         UpdateStatusMessage("Success login.", pkt.guid);
                         guid = pkt.guid;
+                        UpdateCompLogMsg(pkt.guid);
                     }
                     else
                     {
@@ -100,6 +101,7 @@ namespace AsyncSocketClient
                     {
                         UpdateStatusMessage("Success passenger count.", pkt.accessId.ToString());
                         accessId = pkt.accessId;
+                        UpdateCompLogMsg(pkt.accessId.ToString());
                     }
                     else
                     {
@@ -110,6 +112,7 @@ namespace AsyncSocketClient
                     if (pkt.response == PKT_ACK)
                     {
                         UpdateStatusMessage("Success receive order.", pkt.order.orderId);
+                        UpdateCompLogMsg(pkt.order.orderId);
                     }
                     else
                     {

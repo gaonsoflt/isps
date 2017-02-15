@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -52,12 +53,13 @@
             this.tbAccessDay = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.tbCarId = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.tbPurpose = new System.Windows.Forms.TextBox();
             this.btnOrder = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.tbOrderId = new System.Windows.Forms.TextBox();
+            this.cbCarId = new System.Windows.Forms.ComboBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.nudPsgCnt)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -68,7 +70,7 @@
             this.btnCancel.Location = new System.Drawing.Point(14, 396);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(154, 38);
-            this.btnCancel.TabIndex = 16;
+            this.btnCancel.TabIndex = 35;
             this.btnCancel.Text = "취소";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -78,7 +80,7 @@
             this.btnApply.Location = new System.Drawing.Point(174, 396);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(154, 38);
-            this.btnApply.TabIndex = 17;
+            this.btnApply.TabIndex = 40;
             this.btnApply.Text = "저장";
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
@@ -119,7 +121,7 @@
             this.allowStartDt.Location = new System.Drawing.Point(14, 221);
             this.allowStartDt.Name = "allowStartDt";
             this.allowStartDt.Size = new System.Drawing.Size(229, 21);
-            this.allowStartDt.TabIndex = 22;
+            this.allowStartDt.TabIndex = 4;
             this.allowStartDt.Value = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
             this.allowStartDt.ValueChanged += new System.EventHandler(this.allowStartDt_ValueChanged);
             // 
@@ -150,7 +152,7 @@
             this.allowEndDt.Location = new System.Drawing.Point(14, 269);
             this.allowEndDt.Name = "allowEndDt";
             this.allowEndDt.Size = new System.Drawing.Size(229, 21);
-            this.allowEndDt.TabIndex = 25;
+            this.allowEndDt.TabIndex = 5;
             this.allowEndDt.Value = new System.DateTime(2017, 1, 20, 15, 27, 9, 0);
             this.allowEndDt.ValueChanged += new System.EventHandler(this.allowEndDt_ValueChanged);
             // 
@@ -159,7 +161,7 @@
             this.nudPsgCnt.Location = new System.Drawing.Point(174, 123);
             this.nudPsgCnt.Name = "nudPsgCnt";
             this.nudPsgCnt.Size = new System.Drawing.Size(152, 21);
-            this.nudPsgCnt.TabIndex = 26;
+            this.nudPsgCnt.TabIndex = 2;
             // 
             // label3
             // 
@@ -299,15 +301,6 @@
             this.label8.TabIndex = 39;
             this.label8.Text = "차량번호";
             // 
-            // tbCarId
-            // 
-            this.tbCarId.Location = new System.Drawing.Point(14, 123);
-            this.tbCarId.Name = "tbCarId";
-            this.tbCarId.Size = new System.Drawing.Size(152, 21);
-            this.tbCarId.TabIndex = 40;
-            this.tbCarId.TabStop = false;
-            this.tbCarId.TextChanged += new System.EventHandler(this.tbCarId_TextChanged);
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -324,7 +317,7 @@
             this.tbPurpose.Location = new System.Drawing.Point(12, 171);
             this.tbPurpose.Name = "tbPurpose";
             this.tbPurpose.Size = new System.Drawing.Size(314, 21);
-            this.tbPurpose.TabIndex = 42;
+            this.tbPurpose.TabIndex = 3;
             this.tbPurpose.TabStop = false;
             // 
             // btnOrder
@@ -332,7 +325,7 @@
             this.btnOrder.Location = new System.Drawing.Point(172, 352);
             this.btnOrder.Name = "btnOrder";
             this.btnOrder.Size = new System.Drawing.Size(154, 38);
-            this.btnOrder.TabIndex = 43;
+            this.btnOrder.TabIndex = 30;
             this.btnOrder.Text = "작업지시서";
             this.btnOrder.UseVisualStyleBackColor = true;
             this.btnOrder.Click += new System.EventHandler(this.btnOrder_Click);
@@ -357,18 +350,32 @@
             this.tbOrderId.TabIndex = 45;
             this.tbOrderId.TabStop = false;
             // 
+            // cbCarId
+            // 
+            this.cbCarId.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cbCarId.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbCarId.FormattingEnabled = true;
+            this.cbCarId.Location = new System.Drawing.Point(12, 123);
+            this.cbCarId.Name = "cbCarId";
+            this.cbCarId.Size = new System.Drawing.Size(154, 20);
+            this.cbCarId.TabIndex = 46;
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1500;
+            // 
             // AccessDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(338, 467);
+            this.Controls.Add(this.cbCarId);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.tbOrderId);
             this.Controls.Add(this.btnOrder);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.tbPurpose);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.tbCarId);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tbAccessDt);
             this.Controls.Add(this.label7);
@@ -429,11 +436,12 @@
         private System.Windows.Forms.TextBox tbAccessDay;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox tbCarId;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox tbPurpose;
         private System.Windows.Forms.Button btnOrder;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox tbOrderId;
+        private System.Windows.Forms.ComboBox cbCarId;
+        private System.Windows.Forms.Timer timer1;
     }
 }

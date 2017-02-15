@@ -21,6 +21,7 @@ namespace AsyncSocketServer
         {
             InitializeComponent();
             this.mode = mode;
+            m_car = new CarInfo();
         }
 
         public CarInfoDialog(CarInfoManager.DIALOG_MODE mode, string carId)

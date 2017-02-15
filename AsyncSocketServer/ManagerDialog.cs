@@ -151,9 +151,9 @@ namespace AsyncSocketServer
                     dgvHistory.DataSource = m_historyDB.GetAccessHisDBTable(keyword);
                     dgvHistory.Columns["reg_dt"].HeaderText = "일자";
                     dgvHistory.Columns["rt_code"].HeaderText = "결과";
-                    dgvHistory.Columns["user_id"].HeaderText = "유저번호";
+                    dgvHistory.Columns["user_id"].HeaderText = "아이디";
                     dgvHistory.Columns["user_nm"].HeaderText = "이름";
-                    dgvHistory.Columns["ip"].HeaderText = "접속아이피";
+                    dgvHistory.Columns["ip"].HeaderText = "아이피";
                     dgvHistory.Columns["reg_dt"].DefaultCellStyle.Format = "yyyy/MM/dd HH:mm:ss";
                     dgvHistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                     dgvHistory.Columns["reg_dt"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
@@ -248,7 +248,6 @@ namespace AsyncSocketServer
             if (dgvAccessUser.RowCount > 0)
             {
                 AccessInfoManager.AccessInfo accessInfo = new AccessInfoManager.AccessInfo();
-                accessInfo.seq = m_accessSeq;
                 accessInfo.user = m_user;
                 AccessDialog dlg = new AccessDialog(AccessInfoManager.DIALOG_MODE.SAVE, accessInfo);
                 UpdateDialogResult(dlg.ShowDialog());
@@ -279,6 +278,7 @@ namespace AsyncSocketServer
         {
             if (dgvAccessInfo.RowCount > 0)
             {
+                // accessInfo not delete
             }
             else
             {
@@ -388,7 +388,6 @@ namespace AsyncSocketServer
         private void UserForm_Activated(object sender, EventArgs e)
         {
             Console.WriteLine("Activated");
-            UpdateComponents();
         }
 
         private void UserForm_Enter(object sender, EventArgs e)
@@ -410,6 +409,7 @@ namespace AsyncSocketServer
             });
         }
 
+
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in dgvAccessUser.SelectedRows)
@@ -417,6 +417,7 @@ namespace AsyncSocketServer
                 m_user.Id = Int32.Parse(row.Cells["user_id"].Value.ToString());
                 m_user.Name = row.Cells["user_nm"].Value.ToString();
                 UpdateStatusMessage("Selected row: USER_ID[" + m_user.Id + "]");
+
                 updateAccessDB();
             }
         }
