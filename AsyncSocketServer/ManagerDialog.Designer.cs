@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManagerDialog));
             this.btnClose = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -37,7 +38,6 @@
             this.lbKeyword = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnEnroll = new System.Windows.Forms.Button();
-            this.dgvAccessUser = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.gbGroup = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -53,14 +53,43 @@
             this.dgvAccessInfo = new System.Windows.Forms.DataGridView();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpAccess = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.toolStripPagingAccessUser = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLbTotal2 = new System.Windows.Forms.ToolStripLabel();
+            this.btnFirst2 = new System.Windows.Forms.ToolStripButton();
+            this.btnBackward2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton12 = new System.Windows.Forms.ToolStripButton();
+            this.btnForward2 = new System.Windows.Forms.ToolStripButton();
+            this.btnLast2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripCbCount2 = new System.Windows.Forms.ToolStripComboBox();
+            this.dgvAccessUser = new System.Windows.Forms.DataGridView();
             this.tpUser = new System.Windows.Forms.TabPage();
             this.dgvUser = new System.Windows.Forms.DataGridView();
             this.tpCar = new System.Windows.Forms.TabPage();
             this.dgvCar = new System.Windows.Forms.DataGridView();
             this.tbHistory = new System.Windows.Forms.TabPage();
             this.dgvHistory = new System.Windows.Forms.DataGridView();
+            this.toolStripPaging = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLbTotal = new System.Windows.Forms.ToolStripLabel();
+            this.btnFirst = new System.Windows.Forms.ToolStripButton();
+            this.btnBackward = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.btnForward = new System.Windows.Forms.ToolStripButton();
+            this.btnLast = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripCbCount = new System.Windows.Forms.ToolStripComboBox();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAccessUser)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.gbGroup.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -70,12 +99,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccessInfo)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tpAccess.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.toolStripPagingAccessUser.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAccessUser)).BeginInit();
             this.tpUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUser)).BeginInit();
             this.tpCar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCar)).BeginInit();
             this.tbHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).BeginInit();
+            this.toolStripPaging.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnClose
@@ -92,7 +125,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 639);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 683);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(884, 22);
             this.statusStrip1.TabIndex = 17;
@@ -116,7 +149,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(206, 16);
+            this.btnSearch.Location = new System.Drawing.Point(220, 15);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(88, 36);
             this.btnSearch.TabIndex = 21;
@@ -126,7 +159,7 @@
             // 
             // tbKeyword
             // 
-            this.tbKeyword.Location = new System.Drawing.Point(56, 25);
+            this.tbKeyword.Location = new System.Drawing.Point(70, 24);
             this.tbKeyword.Name = "tbKeyword";
             this.tbKeyword.Size = new System.Drawing.Size(144, 21);
             this.tbKeyword.TabIndex = 20;
@@ -135,7 +168,7 @@
             // lbKeyword
             // 
             this.lbKeyword.AutoSize = true;
-            this.lbKeyword.Location = new System.Drawing.Point(8, 29);
+            this.lbKeyword.Location = new System.Drawing.Point(22, 28);
             this.lbKeyword.Name = "lbKeyword";
             this.lbKeyword.Size = new System.Drawing.Size(29, 12);
             this.lbKeyword.TabIndex = 21;
@@ -161,19 +194,6 @@
             this.btnEnroll.Text = "등록";
             this.btnEnroll.UseVisualStyleBackColor = true;
             this.btnEnroll.Click += new System.EventHandler(this.btnEnroll_Click);
-            // 
-            // dgvAccessUser
-            // 
-            this.dgvAccessUser.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAccessUser.Location = new System.Drawing.Point(6, 6);
-            this.dgvAccessUser.MultiSelect = false;
-            this.dgvAccessUser.Name = "dgvAccessUser";
-            this.dgvAccessUser.ReadOnly = true;
-            this.dgvAccessUser.RowTemplate.Height = 23;
-            this.dgvAccessUser.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAccessUser.Size = new System.Drawing.Size(840, 269);
-            this.dgvAccessUser.TabIndex = 0;
-            this.dgvAccessUser.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
             // groupBox1
             // 
@@ -267,7 +287,6 @@
             this.dataGridView3.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView3.Size = new System.Drawing.Size(705, 254);
             this.dataGridView3.TabIndex = 0;
-            this.dataGridView3.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
             // groupBox4
             // 
@@ -311,13 +330,13 @@
             // dgvAccessInfo
             // 
             this.dgvAccessInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAccessInfo.Location = new System.Drawing.Point(6, 281);
+            this.dgvAccessInfo.Location = new System.Drawing.Point(6, 253);
             this.dgvAccessInfo.MultiSelect = false;
             this.dgvAccessInfo.Name = "dgvAccessInfo";
             this.dgvAccessInfo.ReadOnly = true;
             this.dgvAccessInfo.RowTemplate.Height = 23;
             this.dgvAccessInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAccessInfo.Size = new System.Drawing.Size(840, 243);
+            this.dgvAccessInfo.Size = new System.Drawing.Size(840, 287);
             this.dgvAccessInfo.TabIndex = 26;
             this.dgvAccessInfo.SelectionChanged += new System.EventHandler(this.dataGridView2_SelectionChanged);
             // 
@@ -330,21 +349,178 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 80);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(860, 556);
+            this.tabControl1.Size = new System.Drawing.Size(860, 566);
             this.tabControl1.TabIndex = 27;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tpAccess
             // 
-            this.tpAccess.Controls.Add(this.dgvAccessUser);
             this.tpAccess.Controls.Add(this.dgvAccessInfo);
+            this.tpAccess.Controls.Add(this.panel1);
             this.tpAccess.Location = new System.Drawing.Point(4, 22);
             this.tpAccess.Name = "tpAccess";
             this.tpAccess.Padding = new System.Windows.Forms.Padding(3);
-            this.tpAccess.Size = new System.Drawing.Size(852, 530);
+            this.tpAccess.Size = new System.Drawing.Size(852, 540);
             this.tpAccess.TabIndex = 0;
             this.tpAccess.Text = "출입관리";
             this.tpAccess.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.panel1.Controls.Add(this.toolStripPagingAccessUser);
+            this.panel1.Controls.Add(this.dgvAccessUser);
+            this.panel1.Location = new System.Drawing.Point(6, 6);
+            this.panel1.Name = "panel1";
+            this.panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.panel1.Size = new System.Drawing.Size(840, 250);
+            this.panel1.TabIndex = 28;
+            // 
+            // toolStripPagingAccessUser
+            // 
+            this.toolStripPagingAccessUser.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.toolStripPagingAccessUser.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStripPagingAccessUser.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStripPagingAccessUser.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel3,
+            this.toolStripLbTotal2,
+            this.btnFirst2,
+            this.btnBackward2,
+            this.toolStripButton8,
+            this.toolStripButton9,
+            this.toolStripButton10,
+            this.toolStripButton11,
+            this.toolStripButton12,
+            this.btnForward2,
+            this.btnLast2,
+            this.toolStripLabel5,
+            this.toolStripCbCount2});
+            this.toolStripPagingAccessUser.Location = new System.Drawing.Point(210, 212);
+            this.toolStripPagingAccessUser.Name = "toolStripPagingAccessUser";
+            this.toolStripPagingAccessUser.Size = new System.Drawing.Size(425, 25);
+            this.toolStripPagingAccessUser.TabIndex = 2;
+            this.toolStripPagingAccessUser.Text = "toolStrip1";
+            this.toolStripPagingAccessUser.Visible = false;
+            // 
+            // toolStripLabel3
+            // 
+            this.toolStripLabel3.Name = "toolStripLabel3";
+            this.toolStripLabel3.Size = new System.Drawing.Size(34, 24);
+            this.toolStripLabel3.Text = "전체:";
+            // 
+            // toolStripLbTotal2
+            // 
+            this.toolStripLbTotal2.Margin = new System.Windows.Forms.Padding(0, 1, 20, 2);
+            this.toolStripLbTotal2.Name = "toolStripLbTotal2";
+            this.toolStripLbTotal2.Size = new System.Drawing.Size(14, 24);
+            this.toolStripLbTotal2.Text = "0";
+            // 
+            // btnFirst2
+            // 
+            this.btnFirst2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnFirst2.Image = ((System.Drawing.Image)(resources.GetObject("btnFirst2.Image")));
+            this.btnFirst2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnFirst2.Name = "btnFirst2";
+            this.btnFirst2.Size = new System.Drawing.Size(23, 22);
+            this.btnFirst2.Text = "toolStripButton1";
+            // 
+            // btnBackward2
+            // 
+            this.btnBackward2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnBackward2.Image = ((System.Drawing.Image)(resources.GetObject("btnBackward2.Image")));
+            this.btnBackward2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBackward2.Name = "btnBackward2";
+            this.btnBackward2.Size = new System.Drawing.Size(23, 24);
+            this.btnBackward2.Text = "toolStripButton1";
+            // 
+            // toolStripButton8
+            // 
+            this.toolStripButton8.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton8.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton8.Image")));
+            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton8.Name = "toolStripButton8";
+            this.toolStripButton8.Size = new System.Drawing.Size(23, 24);
+            this.toolStripButton8.Text = "1";
+            // 
+            // toolStripButton9
+            // 
+            this.toolStripButton9.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton9.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton9.Image")));
+            this.toolStripButton9.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton9.Name = "toolStripButton9";
+            this.toolStripButton9.Size = new System.Drawing.Size(23, 24);
+            this.toolStripButton9.Text = "2";
+            // 
+            // toolStripButton10
+            // 
+            this.toolStripButton10.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton10.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton10.Image")));
+            this.toolStripButton10.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton10.Name = "toolStripButton10";
+            this.toolStripButton10.Size = new System.Drawing.Size(23, 24);
+            this.toolStripButton10.Text = "3";
+            // 
+            // toolStripButton11
+            // 
+            this.toolStripButton11.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton11.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton11.Image")));
+            this.toolStripButton11.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton11.Name = "toolStripButton11";
+            this.toolStripButton11.Size = new System.Drawing.Size(23, 24);
+            this.toolStripButton11.Text = "4";
+            // 
+            // toolStripButton12
+            // 
+            this.toolStripButton12.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton12.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton12.Image")));
+            this.toolStripButton12.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton12.Name = "toolStripButton12";
+            this.toolStripButton12.Size = new System.Drawing.Size(23, 24);
+            this.toolStripButton12.Text = "5";
+            // 
+            // btnForward2
+            // 
+            this.btnForward2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnForward2.Image = ((System.Drawing.Image)(resources.GetObject("btnForward2.Image")));
+            this.btnForward2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnForward2.Name = "btnForward2";
+            this.btnForward2.Size = new System.Drawing.Size(23, 24);
+            this.btnForward2.Text = "toolStripButton6";
+            // 
+            // btnLast2
+            // 
+            this.btnLast2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnLast2.Image = ((System.Drawing.Image)(resources.GetObject("btnLast2.Image")));
+            this.btnLast2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLast2.Name = "btnLast2";
+            this.btnLast2.Size = new System.Drawing.Size(23, 24);
+            this.btnLast2.Text = "toolStripButton6";
+            // 
+            // toolStripLabel5
+            // 
+            this.toolStripLabel5.Margin = new System.Windows.Forms.Padding(20, 1, 0, 2);
+            this.toolStripLabel5.Name = "toolStripLabel5";
+            this.toolStripLabel5.Size = new System.Drawing.Size(50, 24);
+            this.toolStripLabel5.Text = "출력수: ";
+            // 
+            // toolStripCbCount2
+            // 
+            this.toolStripCbCount2.Name = "toolStripCbCount2";
+            this.toolStripCbCount2.Size = new System.Drawing.Size(75, 27);
+            this.toolStripCbCount2.Text = "ALL";
+            // 
+            // dgvAccessUser
+            // 
+            this.dgvAccessUser.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAccessUser.Location = new System.Drawing.Point(0, 0);
+            this.dgvAccessUser.MultiSelect = false;
+            this.dgvAccessUser.Name = "dgvAccessUser";
+            this.dgvAccessUser.ReadOnly = true;
+            this.dgvAccessUser.RowTemplate.Height = 23;
+            this.dgvAccessUser.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvAccessUser.Size = new System.Drawing.Size(840, 209);
+            this.dgvAccessUser.TabIndex = 3;
+            this.dgvAccessUser.SelectionChanged += new System.EventHandler(this.dgvAccessUser_SelectionChanged);
             // 
             // tpUser
             // 
@@ -352,7 +528,7 @@
             this.tpUser.Location = new System.Drawing.Point(4, 22);
             this.tpUser.Name = "tpUser";
             this.tpUser.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUser.Size = new System.Drawing.Size(852, 530);
+            this.tpUser.Size = new System.Drawing.Size(852, 540);
             this.tpUser.TabIndex = 1;
             this.tpUser.Text = "인원관리";
             this.tpUser.UseVisualStyleBackColor = true;
@@ -366,7 +542,7 @@
             this.dgvUser.ReadOnly = true;
             this.dgvUser.RowTemplate.Height = 23;
             this.dgvUser.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUser.Size = new System.Drawing.Size(840, 518);
+            this.dgvUser.Size = new System.Drawing.Size(840, 534);
             this.dgvUser.TabIndex = 26;
             this.dgvUser.SelectionChanged += new System.EventHandler(this.dgvUser_SelectionChanged);
             // 
@@ -375,7 +551,7 @@
             this.tpCar.Controls.Add(this.dgvCar);
             this.tpCar.Location = new System.Drawing.Point(4, 22);
             this.tpCar.Name = "tpCar";
-            this.tpCar.Size = new System.Drawing.Size(852, 530);
+            this.tpCar.Size = new System.Drawing.Size(852, 540);
             this.tpCar.TabIndex = 2;
             this.tpCar.Text = "차량관리";
             this.tpCar.UseVisualStyleBackColor = true;
@@ -389,7 +565,7 @@
             this.dgvCar.ReadOnly = true;
             this.dgvCar.RowTemplate.Height = 23;
             this.dgvCar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCar.Size = new System.Drawing.Size(840, 518);
+            this.dgvCar.Size = new System.Drawing.Size(840, 534);
             this.dgvCar.TabIndex = 27;
             this.dgvCar.SelectionChanged += new System.EventHandler(this.dgvCar_SelectionChanged);
             // 
@@ -399,7 +575,7 @@
             this.tbHistory.Location = new System.Drawing.Point(4, 22);
             this.tbHistory.Name = "tbHistory";
             this.tbHistory.Padding = new System.Windows.Forms.Padding(3);
-            this.tbHistory.Size = new System.Drawing.Size(852, 530);
+            this.tbHistory.Size = new System.Drawing.Size(852, 540);
             this.tbHistory.TabIndex = 3;
             this.tbHistory.Text = "이력관리";
             this.tbHistory.UseVisualStyleBackColor = true;
@@ -413,19 +589,160 @@
             this.dgvHistory.ReadOnly = true;
             this.dgvHistory.RowTemplate.Height = 23;
             this.dgvHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvHistory.Size = new System.Drawing.Size(840, 518);
+            this.dgvHistory.Size = new System.Drawing.Size(840, 534);
             this.dgvHistory.TabIndex = 28;
+            // 
+            // toolStripPaging
+            // 
+            this.toolStripPaging.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.toolStripPaging.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStripPaging.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStripPaging.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.toolStripLbTotal,
+            this.btnFirst,
+            this.btnBackward,
+            this.toolStripButton1,
+            this.toolStripButton2,
+            this.toolStripButton3,
+            this.toolStripButton4,
+            this.toolStripButton5,
+            this.btnForward,
+            this.btnLast,
+            this.toolStripLabel2,
+            this.toolStripCbCount});
+            this.toolStripPaging.Location = new System.Drawing.Point(232, 649);
+            this.toolStripPaging.Name = "toolStripPaging";
+            this.toolStripPaging.Size = new System.Drawing.Size(458, 27);
+            this.toolStripPaging.TabIndex = 2;
+            this.toolStripPaging.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(34, 22);
+            this.toolStripLabel1.Text = "전체:";
+            // 
+            // toolStripLbTotal
+            // 
+            this.toolStripLbTotal.Margin = new System.Windows.Forms.Padding(0, 1, 20, 2);
+            this.toolStripLbTotal.Name = "toolStripLbTotal";
+            this.toolStripLbTotal.Size = new System.Drawing.Size(14, 22);
+            this.toolStripLbTotal.Text = "0";
+            // 
+            // btnFirst
+            // 
+            this.btnFirst.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnFirst.Image = ((System.Drawing.Image)(resources.GetObject("btnFirst.Image")));
+            this.btnFirst.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnFirst.Name = "btnFirst";
+            this.btnFirst.Size = new System.Drawing.Size(23, 22);
+            this.btnFirst.Text = "toolStripButton1";
+            this.btnFirst.Click += new System.EventHandler(this.ToolStripButtonClick);
+            // 
+            // btnBackward
+            // 
+            this.btnBackward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnBackward.Image = ((System.Drawing.Image)(resources.GetObject("btnBackward.Image")));
+            this.btnBackward.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBackward.Name = "btnBackward";
+            this.btnBackward.Size = new System.Drawing.Size(23, 22);
+            this.btnBackward.Text = "toolStripButton1";
+            this.btnBackward.Click += new System.EventHandler(this.ToolStripButtonClick);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "1";
+            this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButtonClick);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton2.Text = "2";
+            this.toolStripButton2.Click += new System.EventHandler(this.ToolStripButtonClick);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton3.Text = "3";
+            this.toolStripButton3.Click += new System.EventHandler(this.ToolStripButtonClick);
+            // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton4.Text = "4";
+            this.toolStripButton4.Click += new System.EventHandler(this.ToolStripButtonClick);
+            // 
+            // toolStripButton5
+            // 
+            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
+            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton5.Text = "5";
+            this.toolStripButton5.Click += new System.EventHandler(this.ToolStripButtonClick);
+            // 
+            // btnForward
+            // 
+            this.btnForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnForward.Image = ((System.Drawing.Image)(resources.GetObject("btnForward.Image")));
+            this.btnForward.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnForward.Name = "btnForward";
+            this.btnForward.Size = new System.Drawing.Size(23, 22);
+            this.btnForward.Text = "toolStripButton6";
+            this.btnForward.Click += new System.EventHandler(this.ToolStripButtonClick);
+            // 
+            // btnLast
+            // 
+            this.btnLast.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnLast.Image = ((System.Drawing.Image)(resources.GetObject("btnLast.Image")));
+            this.btnLast.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLast.Name = "btnLast";
+            this.btnLast.Size = new System.Drawing.Size(23, 22);
+            this.btnLast.Text = "toolStripButton6";
+            this.btnLast.Click += new System.EventHandler(this.ToolStripButtonClick);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Margin = new System.Windows.Forms.Padding(20, 1, 0, 2);
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(50, 22);
+            this.toolStripLabel2.Text = "출력수: ";
+            // 
+            // toolStripCbCount
+            // 
+            this.toolStripCbCount.Name = "toolStripCbCount";
+            this.toolStripCbCount.Size = new System.Drawing.Size(75, 25);
+            this.toolStripCbCount.Text = "ALL";
             // 
             // ManagerDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(884, 661);
+            this.ClientSize = new System.Drawing.Size(884, 705);
+            this.Controls.Add(this.toolStripPaging);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gbGroup);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
-            this.MaximumSize = new System.Drawing.Size(900, 700);
             this.MinimumSize = new System.Drawing.Size(900, 700);
             this.Name = "ManagerDialog";
             this.Text = "시스템관리";
@@ -434,7 +751,6 @@
             this.Enter += new System.EventHandler(this.UserForm_Enter);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAccessUser)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.gbGroup.ResumeLayout(false);
@@ -446,12 +762,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccessInfo)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tpAccess.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.toolStripPagingAccessUser.ResumeLayout(false);
+            this.toolStripPagingAccessUser.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAccessUser)).EndInit();
             this.tpUser.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvUser)).EndInit();
             this.tpCar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCar)).EndInit();
             this.tbHistory.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).EndInit();
+            this.toolStripPaging.ResumeLayout(false);
+            this.toolStripPaging.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -467,7 +790,6 @@
         private System.Windows.Forms.Label lbKeyword;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnEnroll;
-        private System.Windows.Forms.DataGridView dgvAccessUser;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox gbGroup;
         private System.Windows.Forms.DataGridView dgvAccessInfo;
@@ -489,5 +811,35 @@
         private System.Windows.Forms.DataGridView dgvCar;
         private System.Windows.Forms.TabPage tbHistory;
         private System.Windows.Forms.DataGridView dgvHistory;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStrip toolStripPaging;
+        private System.Windows.Forms.ToolStripButton btnFirst;
+        private System.Windows.Forms.ToolStripButton btnBackward;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripButton toolStripButton5;
+        private System.Windows.Forms.ToolStripButton btnForward;
+        private System.Windows.Forms.ToolStripButton btnLast;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripLabel toolStripLbTotal;
+        private System.Windows.Forms.DataGridView dgvAccessUser;
+        private System.Windows.Forms.ToolStrip toolStripPagingAccessUser;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
+        private System.Windows.Forms.ToolStripLabel toolStripLbTotal2;
+        private System.Windows.Forms.ToolStripButton btnFirst2;
+        private System.Windows.Forms.ToolStripButton btnBackward2;
+        private System.Windows.Forms.ToolStripButton toolStripButton8;
+        private System.Windows.Forms.ToolStripButton toolStripButton9;
+        private System.Windows.Forms.ToolStripButton toolStripButton10;
+        private System.Windows.Forms.ToolStripButton toolStripButton11;
+        private System.Windows.Forms.ToolStripButton toolStripButton12;
+        private System.Windows.Forms.ToolStripButton btnForward2;
+        private System.Windows.Forms.ToolStripButton btnLast2;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel5;
+        private System.Windows.Forms.ToolStripComboBox toolStripCbCount2;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripComboBox toolStripCbCount;
     }
 }

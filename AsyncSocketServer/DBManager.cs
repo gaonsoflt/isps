@@ -391,9 +391,19 @@ namespace AsyncSocketServer
 
         public DataTable GetAccessInfoDBTable(int keyword)
         {
-            string sql = "SELECT access_info_sq, psg_cnt, allow_start_dt, allow_end_dt, purpose, access_dt"
-                + " FROM isps_access_info WHERE user_id = " + keyword + " ORDER BY allow_start_dt DESC";
-            return new DBManager().GetDBTable(sql);
+            return GetAccessInfoDBTable(keyword, 0, 0);
+        }
+
+        public DataTable GetAccessInfoDBTable(int keyword, int currentPage, int count)
+        {
+            string sql = "WITH tmp AS (SELECT access_info_sq, psg_cnt, allow_start_dt, allow_end_dt, purpose, access_dt, COUNT(*) OVER (RANGE UNBOUNDED PRECEDING)"
+                + " FROM isps_access_info WHERE user_id = " + keyword + ") SELECT * FROM tmp ORDER BY allow_start_dt DESC";
+
+            if (count > 0)
+            {
+                sql += " LIMIT " + count + " OFFSET(" + currentPage + " - 1) * " + count;
+            }
+            return db.GetDBTable(sql);
         }
 
         public bool ColumnExists(IDataReader reader, string columnName)
@@ -672,12 +682,25 @@ namespace AsyncSocketServer
 
         public DataTable GetUserDBTable(string keyword)
         {
-            string sql = "SELECT user_id, user_guid, user_nm, user_idnum, phone, fp_data FROM isps_user";
-            if (keyword != null && keyword != String.Empty)
+            return GetUserDBTable(keyword, 0, 0);
+        }
+
+        public DataTable GetUserDBTable(string keyword, int currentPage, int count)
+        {
+            string sql = "WITH tmp AS (SELECT user_id, user_guid, user_nm, user_idnum, phone, fp_data, COUNT(*) OVER (RANGE UNBOUNDED PRECEDING)"
+                + " FROM isps_user";
+
+            if (keyword != null && keyword != string.Empty)
             {
                 sql += " WHERE user_nm LIKE '%" + keyword + "%'";
             }
-            return new DBManager().GetDBTable(sql);
+            sql += ") SELECT * FROM tmp ORDER BY user_nm";
+
+            if (count > 0)
+            {
+                sql += " LIMIT " + count + " OFFSET(" + currentPage + " - 1) * " + count;
+            }
+            return db.GetDBTable(sql);
         }
     }
 
@@ -861,11 +884,23 @@ namespace AsyncSocketServer
 
         public DataTable GetCarInfoDBTable(string keyword)
         {
-            string sql = "SELECT car_id, car_owner, reg_dt FROM isps_car";
+            return GetCarInfoDBTable(keyword, 0, 0);
+        }
 
-            if (keyword != null && keyword != String.Empty)
+        public DataTable GetCarInfoDBTable(string keyword, int currentPage, int count)
+        {
+            string sql = "WITH tmp AS (SELECT car_id, car_owner, reg_dt, COUNT(*) OVER (RANGE UNBOUNDED PRECEDING)"
+                + " FROM isps_car";
+
+            if (keyword != null && keyword != string.Empty)
             {
-                sql += " WHERE car_id LIKE '%" + keyword + "%' ORDER BY car_id";
+                sql += " WHERE car_id LIKE '%" + keyword + "%'";
+            }
+            sql += ") SELECT * FROM tmp ORDER BY car_id";
+
+            if (count > 0)
+            {
+                sql += " LIMIT " + count + " OFFSET(" + currentPage + " - 1) * " + count;
             }
             return db.GetDBTable(sql);
         }
@@ -1058,17 +1093,27 @@ namespace AsyncSocketServer
 
         public DataTable GetAccessHisDBTable(string keyword)
         {
-            string sql = "SELECT a.reg_dt, a.rt_code, a.user_id, u.user_nm, a.ip"
-                + " FROM isps_access_his a, isps_user u, isps_comm_code c"
-                + " WHERE a.user_id = u.user_id"
-                + " AND a.rt_code = c.code";
+            return GetAccessHisDBTable(keyword, 0, 0);
+        }
 
-            if (keyword != null && keyword != String.Empty)
+
+        public DataTable GetAccessHisDBTable(string keyword, int currentPage, int count)
+        {
+            string sql = "WITH tmp AS (SELECT a.reg_dt, a.rt_code, a.user_id, u.user_nm, a.ip, COUNT(*) OVER (RANGE UNBOUNDED PRECEDING)"
+                + " FROM isps_access_his a, isps_user u, isps_comm_code c "
+                + " WHERE a.user_id = u.user_id AND a.rt_code = c.code";
+
+            if (keyword != null && keyword != string.Empty)
             {
                 sql += " AND u.user_nm LIKE '%" + keyword + "%'";
             }
-            sql += " ORDER BY a.reg_dt DESC";
-            return new DBManager().GetDBTable(sql);
+            sql += ") SELECT * FROM tmp ORDER BY reg_dt DESC";
+
+            if (count > 0)
+            {
+                sql += " LIMIT " + count + " OFFSET(" + currentPage + " - 1) * " + count;
+            }
+            return db.GetDBTable(sql);
         }
 
         public int InsertAccessHis(int userId, string ip, string rtCode, string errMsg)

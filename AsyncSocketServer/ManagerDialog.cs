@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,13 @@ namespace AsyncSocketServer
         const int TAB_USER = 1;
         const int TAB_CAR = 2;
         const int TAB_ACCESS_HIS = 3;
+
+        int currentPage = 1;
+        int pageTotal = 1;
+        int total = 0;
+        //int pageCount = 10;
+
+        string[] selectCountCbDatas = { "ALL", "5", "10", "20", "30", "50" };
 
         UserDB m_userDB;
         AccessInfoDB m_accessDB;
@@ -45,6 +53,12 @@ namespace AsyncSocketServer
 
             m_user = new MyPerson();
             m_car = new CarInfo();
+
+            toolStripCbCount.Items.AddRange(selectCountCbDatas);
+            toolStripCbCount.SelectedIndex = 2;
+            toolStripCbCount.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            InitDataGridViews();
             UpdateComponents();
         }
 
@@ -56,121 +70,345 @@ namespace AsyncSocketServer
 
         private void updateAccessDB()
         {
-            dgvAccessInfo.DataSource = m_accessDB.GetAccessInfoDBTable(m_user.Id);
-            dgvAccessInfo.Columns["access_info_sq"].HeaderText = "SEQ";
-            dgvAccessInfo.Columns["psg_cnt"].HeaderText = "동승자수";
-            dgvAccessInfo.Columns["allow_start_dt"].HeaderText = "출입시작일시";
-            dgvAccessInfo.Columns["allow_end_dt"].HeaderText = "출입종료일시";
-            dgvAccessInfo.Columns["purpose"].HeaderText = "출입목적";
-            dgvAccessInfo.Columns["access_dt"].HeaderText = "출입시간";
-            dgvAccessInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvAccessInfo.Columns["access_info_sq"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dgvAccessInfo.Columns["psg_cnt"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dgvAccessInfo.Columns["purpose"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            for (int i = 0; i < dgvAccessInfo.Columns.Count; i++)
+            //dgvAccessInfo.DataSource = m_accessDB.GetAccessInfoDBTable(m_user.Id);
+            dgvAccessInfo.DataSource = m_accessDB.GetAccessInfoDBTable(m_user.Id, currentPage, GetPageCount());
+            dgvAccessInfo.Refresh();
+            total = Int32.Parse(dgvAccessInfo.Rows[0].Cells["count"].Value.ToString());
+        }
+
+        private int GetPageCount()
+        {
+            int count = 0;
+            try
             {
-                dgvAccessInfo.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                count = Int32.Parse(toolStripCbCount.SelectedItem.ToString());
             }
-            dgvAccessInfo.AllowUserToAddRows = false;
+            catch
+            {
+                count = 0;
+            }
+            return count;
         }
 
         private void UpdateComponents()
         {
-            string keyword = tbKeyword.Text;
-            gbGroup.Text = tabControl1.SelectedTab.Text;
             UpdateStatusMessage("");
+            gbGroup.Text = tabControl1.SelectedTab.Text;
 
             switch (tabControl1.SelectedIndex)
             {
                 case TAB_ACCESS:
                     Console.WriteLine("TAB_ACCESS");
                     lbKeyword.Text = "이름";
-                    dgvAccessUser.DataSource = m_userDB.GetUserDBTable(keyword);
-                    dgvAccessUser.Columns["user_id"].HeaderText = "아이디";
-                    dgvAccessUser.Columns["user_guid"].HeaderText = "GUID";
-                    dgvAccessUser.Columns["user_nm"].HeaderText = "이름";
-                    dgvAccessUser.Columns["user_idnum"].HeaderText = "주민번호";
-                    dgvAccessUser.Columns["phone"].HeaderText = "연락처";
-                    dgvAccessUser.Columns["fp_data"].HeaderText = "지문정보";
-                    dgvAccessUser.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                    dgvAccessUser.Columns["user_id"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    dgvAccessUser.Columns["user_guid"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    dgvAccessUser.Columns["user_nm"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    dgvAccessUser.Columns["user_idnum"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    dgvAccessUser.Columns["phone"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    for (int i = 0; i < dgvAccessUser.Columns.Count; i++)
-                    {
-                        dgvAccessUser.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                    }
-                    dgvAccessUser.AllowUserToAddRows = false;
-                    EnableButton(true);
+                    dgvAccessUser.DataSource = m_userDB.GetUserDBTable(tbKeyword.Text, currentPage, GetPageCount());
+                    dgvAccessUser.Refresh();
+                    EnableCRUDButton(true);
                     break;
                 case TAB_USER:
                     Console.WriteLine("TAB_USER");
                     lbKeyword.Text = "이름";
-                    dgvUser.DataSource = m_userDB.GetUserDBTable(keyword);
-                    dgvUser.Columns["user_id"].HeaderText = "아이디";
-                    dgvUser.Columns["user_guid"].HeaderText = "GUID";
-                    dgvUser.Columns["user_nm"].HeaderText = "이름";
-                    dgvUser.Columns["user_idnum"].HeaderText = "주민번호";
-                    dgvUser.Columns["phone"].HeaderText = "연락처";
-                    dgvUser.Columns["fp_data"].HeaderText = "지문정보";
-                    dgvUser.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                    dgvUser.Columns["user_id"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    dgvUser.Columns["user_guid"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    dgvUser.Columns["user_nm"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    dgvUser.Columns["user_idnum"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    dgvUser.Columns["phone"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    for (int i = 0; i < dgvUser.Columns.Count; i++)
-                    {
-                        dgvUser.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                    }
-                    dgvUser.AllowUserToAddRows = false;
-                    EnableButton(true);
+                    EnableCRUDButton(true);
                     break;
                 case TAB_CAR:
                     Console.WriteLine("TAB_CAR");
                     lbKeyword.Text = "번호";
-                    dgvCar.DataSource = m_carDB.GetCarInfoDBTable(keyword);
-                    dgvCar.Columns["car_id"].HeaderText = "차량번호";
-                    dgvCar.Columns["car_owner"].HeaderText = "차량소유자";
-                    dgvCar.Columns["reg_dt"].HeaderText = "등록일";
-                    dgvCar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                    dgvCar.Columns["car_id"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    dgvCar.Columns["car_owner"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    for (int i = 0; i < dgvCar.Columns.Count; i++)
-                    {
-                        dgvCar.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                    }
-                    dgvCar.AllowUserToAddRows = false;
-                    EnableButton(true);
+                    EnableCRUDButton(true);
                     break;
                 case TAB_ACCESS_HIS:
                     Console.WriteLine("TAB_ACCESS_HIS");
                     lbKeyword.Text = "이름";
-                    dgvHistory.DataSource = m_historyDB.GetAccessHisDBTable(keyword);
-                    dgvHistory.Columns["reg_dt"].HeaderText = "일자";
-                    dgvHistory.Columns["rt_code"].HeaderText = "결과";
-                    dgvHistory.Columns["user_id"].HeaderText = "아이디";
-                    dgvHistory.Columns["user_nm"].HeaderText = "이름";
-                    dgvHistory.Columns["ip"].HeaderText = "아이피";
-                    dgvHistory.Columns["reg_dt"].DefaultCellStyle.Format = "yyyy/MM/dd HH:mm:ss";
-                    dgvHistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                    dgvHistory.Columns["reg_dt"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    dgvHistory.Columns["rt_code"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    dgvHistory.Columns["user_id"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    dgvHistory.Columns["user_nm"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    for (int i = 0; i < dgvHistory.Columns.Count; i++)
-                    {
-                        dgvHistory.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                    }
-                    dgvHistory.AllowUserToAddRows = false;
-                    EnableButton(false);
+                    EnableCRUDButton(false);
                     break;
             }
+
+            // datagridview paging
+            currentPage = 1;
+            RebindGridForPageChange(tbKeyword.Text);
+            RefreshPagination();
+            toolStripLbTotal.Text = total.ToString();
         }
 
-        private void EnableButton(bool enabled)
+        private void InitDataGridViews()
+        {
+            /*
+             * datagridview access user
+             */
+            dgvAccessUser.AutoGenerateColumns = false;
+            DataGridViewTextBoxColumn accessCol_id = new DataGridViewTextBoxColumn();
+            accessCol_id.DataPropertyName = "user_id";
+            accessCol_id.Name = "user_id";
+            accessCol_id.HeaderText = "아이디";
+
+            DataGridViewTextBoxColumn accessCol_guid = new DataGridViewTextBoxColumn();
+            accessCol_guid.DataPropertyName = "user_guid";
+            accessCol_guid.Name = "user_guid";
+            accessCol_guid.HeaderText = "GUID";
+
+            DataGridViewTextBoxColumn accessCol_name = new DataGridViewTextBoxColumn();
+            accessCol_name.DataPropertyName = "user_nm";
+            accessCol_name.Name = "user_nm";
+            accessCol_name.HeaderText = "이름";
+
+            DataGridViewTextBoxColumn accessCol_idNum = new DataGridViewTextBoxColumn();
+            accessCol_idNum.DataPropertyName = "user_idnum";
+            accessCol_idNum.Name = "user_idnum";
+            accessCol_idNum.HeaderText = "주민번호";
+
+            DataGridViewTextBoxColumn accessCol_phone = new DataGridViewTextBoxColumn();
+            accessCol_phone.DataPropertyName = "phone";
+            accessCol_phone.Name = "phone";
+            accessCol_phone.HeaderText = "연락처";
+
+            DataGridViewImageColumn accessCol_fp = new DataGridViewImageColumn();
+            accessCol_fp.DataPropertyName = "fp_data";
+            accessCol_fp.Name = "fp_data";
+            accessCol_fp.HeaderText = "지문정보";
+
+            DataGridViewTextBoxColumn accessCol_count = new DataGridViewTextBoxColumn();
+            accessCol_count.DataPropertyName = "count";
+            accessCol_count.Name = "count";
+            accessCol_count.HeaderText = "전체";
+            accessCol_count.Visible = false;
+
+            dgvAccessUser.Columns.Add(accessCol_id);
+            dgvAccessUser.Columns.Add(accessCol_guid);
+            dgvAccessUser.Columns.Add(accessCol_name);
+            dgvAccessUser.Columns.Add(accessCol_idNum);
+            dgvAccessUser.Columns.Add(accessCol_phone);
+            dgvAccessUser.Columns.Add(accessCol_fp);
+            dgvAccessUser.Columns.Add(accessCol_count);
+
+            foreach (DataGridViewColumn col in dgvAccessUser.Columns)
+            {
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.HeaderCell.Style.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Pixel);
+                col.HeaderCell.Style.ForeColor = Color.White;
+
+                // Set the column size automatically
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+            dgvAccessUser.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkOrange;
+            dgvAccessUser.EnableHeadersVisualStyles = false;
+            dgvAccessUser.AllowUserToAddRows = false;
+
+
+            /*
+             * datagridview user
+             */
+            dgvUser.AutoGenerateColumns = false;
+            DataGridViewTextBoxColumn userCol_id = new DataGridViewTextBoxColumn();
+            userCol_id.DataPropertyName = "user_id";
+            userCol_id.Name = "user_id";
+            userCol_id.HeaderText = "아이디";
+
+            DataGridViewTextBoxColumn userCol_guid = new DataGridViewTextBoxColumn();
+            userCol_guid.DataPropertyName = "user_guid";
+            userCol_guid.Name = "user_guid";
+            userCol_guid.HeaderText = "GUID";
+
+            DataGridViewTextBoxColumn userCol_name = new DataGridViewTextBoxColumn();
+            userCol_name.DataPropertyName = "user_nm";
+            userCol_name.Name = "user_nm";
+            userCol_name.HeaderText = "이름";
+
+            DataGridViewTextBoxColumn userCol_idNum = new DataGridViewTextBoxColumn();
+            userCol_idNum.DataPropertyName = "user_idnum";
+            userCol_idNum.Name = "user_idnum";
+            userCol_idNum.HeaderText = "주민번호";
+
+            DataGridViewTextBoxColumn userCol_phone = new DataGridViewTextBoxColumn();
+            userCol_phone.DataPropertyName = "phone";
+            userCol_phone.Name = "phone";
+            userCol_phone.HeaderText = "연락처";
+
+            DataGridViewImageColumn userCol_fp = new DataGridViewImageColumn();
+            userCol_fp.DataPropertyName = "fp_data";
+            userCol_fp.Name = "fp_data";
+            userCol_fp.HeaderText = "지문정보";
+
+            DataGridViewTextBoxColumn userCol_count = new DataGridViewTextBoxColumn();
+            userCol_count.DataPropertyName = "count";
+            userCol_count.Name = "count";
+            userCol_count.HeaderText = "전체";
+            userCol_count.Visible = false;
+
+            dgvUser.Columns.Add(userCol_id);
+            dgvUser.Columns.Add(userCol_guid);
+            dgvUser.Columns.Add(userCol_name);
+            dgvUser.Columns.Add(userCol_idNum);
+            dgvUser.Columns.Add(userCol_phone);
+            dgvUser.Columns.Add(userCol_fp);
+            dgvUser.Columns.Add(userCol_count);
+
+            foreach (DataGridViewColumn col in dgvUser.Columns)
+            {
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.HeaderCell.Style.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Pixel);
+                col.HeaderCell.Style.ForeColor = Color.White;
+
+                // Set the column size automatically
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+            dgvUser.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkOrange;
+            dgvUser.EnableHeadersVisualStyles = false;
+            dgvUser.AllowUserToAddRows = false;
+
+
+            /*
+             * datagridview car
+             */
+            dgvCar.AutoGenerateColumns = false;
+            DataGridViewTextBoxColumn carCol_carId = new DataGridViewTextBoxColumn();
+            carCol_carId.DataPropertyName = "car_id";
+            carCol_carId.Name = "car_id";
+            carCol_carId.HeaderText = "차량번호";
+
+            DataGridViewTextBoxColumn carCol_carOwner = new DataGridViewTextBoxColumn();
+            carCol_carOwner.DataPropertyName = "car_owner";
+            carCol_carOwner.Name = "car_owner";
+            carCol_carOwner.HeaderText = "차량소유자";
+
+            DataGridViewTextBoxColumn carCol_regDt = new DataGridViewTextBoxColumn();
+            carCol_regDt.DataPropertyName = "reg_dt";
+            carCol_carOwner.Name = "reg_dt";
+            carCol_regDt.HeaderText = "등록일";
+
+            DataGridViewTextBoxColumn carCol_count = new DataGridViewTextBoxColumn();
+            carCol_count.DataPropertyName = "count";
+            carCol_count.Name = "count";
+            carCol_count.HeaderText = "전체";
+            carCol_count.Visible = false;
+
+            dgvCar.Columns.Add(carCol_carId);
+            dgvCar.Columns.Add(carCol_carOwner);
+            dgvCar.Columns.Add(carCol_regDt);
+            dgvCar.Columns.Add(carCol_count);
+
+            foreach (DataGridViewColumn col in dgvCar.Columns)
+            {
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.HeaderCell.Style.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Pixel);
+                col.HeaderCell.Style.ForeColor = Color.White;
+
+                // Set the column size automatically
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+            dgvCar.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkOrange;
+            dgvCar.EnableHeadersVisualStyles = false;
+            dgvCar.AllowUserToAddRows = false;
+
+            /*
+             * datagridview history
+             */
+            dgvHistory.AutoGenerateColumns = false;
+            DataGridViewTextBoxColumn hisCol_regDt = new DataGridViewTextBoxColumn();
+            hisCol_regDt.DataPropertyName = "reg_dt";
+            hisCol_regDt.Name = "reg_dt";
+            hisCol_regDt.HeaderText = "일자";
+            hisCol_regDt.DefaultCellStyle.Format = "yyyy/MM/dd HH:mm:ss";
+
+            DataGridViewTextBoxColumn hisCol_rtCode = new DataGridViewTextBoxColumn();
+            hisCol_rtCode.DataPropertyName = "rt_code";
+            hisCol_rtCode.Name = "rt_code";
+            hisCol_rtCode.HeaderText = "처리결과";
+
+            DataGridViewTextBoxColumn hisCol_userId = new DataGridViewTextBoxColumn();
+            hisCol_userId.DataPropertyName = "user_id";
+            hisCol_userId.Name = "user_id";
+            hisCol_userId.HeaderText = "아이디";
+
+            DataGridViewTextBoxColumn hisCol_userNm = new DataGridViewTextBoxColumn();
+            hisCol_userNm.DataPropertyName = "user_nm";
+            hisCol_userNm.Name = "user_nm";
+            hisCol_userNm.HeaderText = "이름";
+
+            DataGridViewTextBoxColumn hisCol_ip = new DataGridViewTextBoxColumn();
+            hisCol_ip.DataPropertyName = "ip";
+            hisCol_ip.Name = "ip";
+            hisCol_ip.HeaderText = "아이피";
+
+            DataGridViewTextBoxColumn hisCol_count = new DataGridViewTextBoxColumn();
+            hisCol_count.DataPropertyName = "count";
+            hisCol_count.Name = "count";
+            hisCol_count.HeaderText = "전체";
+            hisCol_count.Visible = false;
+
+            dgvHistory.Columns.Add(hisCol_regDt);
+            dgvHistory.Columns.Add(hisCol_rtCode);
+            dgvHistory.Columns.Add(hisCol_userId);
+            dgvHistory.Columns.Add(hisCol_userNm);
+            dgvHistory.Columns.Add(hisCol_ip);
+            dgvHistory.Columns.Add(hisCol_count);
+
+            foreach (DataGridViewColumn col in dgvHistory.Columns)
+            {
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.HeaderCell.Style.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Pixel);
+                col.HeaderCell.Style.ForeColor = Color.White;
+
+                // Set the column size automatically
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+            dgvHistory.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkOrange;
+            dgvHistory.EnableHeadersVisualStyles = false;
+            dgvHistory.AllowUserToAddRows = false;
+
+            /*
+             * datagridview access info
+             */
+            dgvAccessInfo.AutoGenerateColumns = false;
+            DataGridViewTextBoxColumn accessCol_seq = new DataGridViewTextBoxColumn();
+            accessCol_seq.DataPropertyName = "access_info_sq";
+            accessCol_seq.Name = "access_info_sq";
+            accessCol_seq.HeaderText = "SEQ";
+
+            DataGridViewTextBoxColumn accessCol_psgCnt = new DataGridViewTextBoxColumn();
+            accessCol_psgCnt.DataPropertyName = "psg_cnt";
+            accessCol_psgCnt.Name = "psg_cnt";
+            accessCol_psgCnt.HeaderText = "동승자수";
+
+            DataGridViewTextBoxColumn accessCol_startDt = new DataGridViewTextBoxColumn();
+            accessCol_startDt.DataPropertyName = "allow_start_dt";
+            accessCol_startDt.Name = "allow_start_dt";
+            accessCol_startDt.HeaderText = "출입시작일시";
+
+            DataGridViewTextBoxColumn accessCol_endDt = new DataGridViewTextBoxColumn();
+            accessCol_endDt.DataPropertyName = "allow_end_dt";
+            accessCol_endDt.Name = "allow_end_dt";
+            accessCol_endDt.HeaderText = "출입종료일시";
+
+            DataGridViewTextBoxColumn accessCol_purpose = new DataGridViewTextBoxColumn();
+            accessCol_purpose.DataPropertyName = "purpose";
+            accessCol_purpose.Name = "purpose";
+            accessCol_purpose.HeaderText = "출입목적";
+
+            DataGridViewTextBoxColumn accessCol_accessDt = new DataGridViewTextBoxColumn();
+            accessCol_accessDt.DataPropertyName = "access_dt";
+            accessCol_accessDt.Name = "access_dt";
+            accessCol_accessDt.HeaderText = "출입시간";
+
+            dgvAccessInfo.Columns.Add(accessCol_seq);
+            dgvAccessInfo.Columns.Add(accessCol_psgCnt);
+            dgvAccessInfo.Columns.Add(accessCol_startDt);
+            dgvAccessInfo.Columns.Add(accessCol_endDt);
+            dgvAccessInfo.Columns.Add(accessCol_purpose);
+            dgvAccessInfo.Columns.Add(accessCol_accessDt);
+
+            foreach (DataGridViewColumn col in dgvAccessInfo.Columns)
+            {
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.HeaderCell.Style.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Pixel);
+                col.HeaderCell.Style.ForeColor = Color.White;
+
+                // Set the column size automatically
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+            dgvAccessInfo.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkOrange;
+            dgvAccessInfo.EnableHeadersVisualStyles = false;
+            dgvAccessInfo.AllowUserToAddRows = false;
+        }
+
+        private void EnableCRUDButton(bool enabled)
         {
             btnDelete.Enabled = enabled;
             btnEnroll.Enabled = enabled;
@@ -409,8 +647,7 @@ namespace AsyncSocketServer
             });
         }
 
-
-        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        private void dgvAccessUser_SelectionChanged(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in dgvAccessUser.SelectedRows)
             {
@@ -418,7 +655,8 @@ namespace AsyncSocketServer
                 m_user.Name = row.Cells["user_nm"].Value.ToString();
                 UpdateStatusMessage("Selected row: USER_ID[" + m_user.Id + "]");
 
-                updateAccessDB();
+                //updateAccessDB();
+                RebindGridForPageChange("");
             }
         }
 
@@ -426,7 +664,7 @@ namespace AsyncSocketServer
         {
             foreach (DataGridViewRow row in dgvAccessInfo.SelectedRows)
             {
-                m_accessSeq = Int32.Parse(row.Cells[0].Value.ToString());
+                m_accessSeq = Int32.Parse(row.Cells["access_info_sq"].Value.ToString());
                 UpdateStatusMessage("Selected row: USER_ID[" + m_user.Id + "] ACCESS_INFO_SQ[" + m_accessSeq + "]");
             }
         }
@@ -449,5 +687,183 @@ namespace AsyncSocketServer
                 UpdateStatusMessage("Selected row: CAR_ID[" + m_car.id + "]");
             }
         }
+
+        private void ToolStripButtonClick(object sender, EventArgs e)
+        {
+            try
+            {
+                ToolStripButton ToolStripButton = ((ToolStripButton)sender);
+
+                //Determining the current page
+                if (ToolStripButton == btnBackward)
+                    currentPage--;
+                else if (ToolStripButton == btnForward)
+                    currentPage++;
+                else if (ToolStripButton == btnLast)
+                    currentPage = pageTotal;
+                else if (ToolStripButton == btnFirst)
+                    currentPage = 1;
+                else
+                    currentPage = Convert.ToInt32(ToolStripButton.Text, CultureInfo.InvariantCulture);
+
+                if (currentPage < 1)
+                    currentPage = 1;
+                else if (currentPage > pageTotal)
+                    currentPage = pageTotal;
+
+                //Rebind the Datagridview with the data.
+                RebindGridForPageChange(tbKeyword.Text.ToString());
+
+                //Change the pagiantions buttons according to page number
+                RefreshPagination();
+            }
+            catch (Exception) { }
+        }
+
+        private void RefreshPagination()
+        {
+            ToolStripButton[] items = new ToolStripButton[] { toolStripButton1, toolStripButton2, toolStripButton3, toolStripButton4, toolStripButton5 };
+
+            //pageStartIndex contains the first button number of pagination.
+            int pageStartIndex = 1;
+
+            if (pageTotal > 5 && currentPage > 2)
+                pageStartIndex = currentPage - 2;
+
+            if (pageTotal > 5 && currentPage > pageTotal - 2)
+                pageStartIndex = pageTotal - 4;
+
+            for (int i = pageStartIndex; i < pageStartIndex + 5; i++)
+            {
+                if (i > pageTotal)
+                {
+                    items[i - pageStartIndex].Visible = false;
+                }
+                else
+                {
+                    //Changing the page numbers
+                    items[i - pageStartIndex].Text = i.ToString(CultureInfo.InvariantCulture);
+                    items[i - pageStartIndex].Visible = true;
+
+                    //Setting the Appearance of the page number buttons
+                    if (i == currentPage)
+                    {
+                        items[i - pageStartIndex].BackColor = Color.Black;
+                        items[i - pageStartIndex].ForeColor = Color.White;
+                    }
+                    else
+                    {
+                        items[i - pageStartIndex].BackColor = Color.White;
+                        items[i - pageStartIndex].ForeColor = Color.Black;
+                    }
+                }
+            }
+
+            //Enabling or Disalbing pagination first, last, previous , next buttons
+            if (currentPage == 1)
+                btnBackward.Enabled = btnFirst.Enabled = false;
+            else
+                btnBackward.Enabled = btnFirst.Enabled = true;
+
+            if (currentPage == pageTotal)
+                btnForward.Enabled = btnLast.Enabled = false;
+
+            else
+                btnForward.Enabled = btnLast.Enabled = true;
+        }
+
+        //private void RefreshPagination2()
+        //{
+        //    ToolStripButton[] items = new ToolStripButton[] { toolStripButton8, toolStripButton9, toolStripButton10, toolStripButton11, toolStripButton12 };
+
+        //    //pageStartIndex contains the first button number of pagination.
+        //    int pageStartIndex = 1;
+
+        //    if (pageTotal > 5 && currentPage > 2)
+        //        pageStartIndex = currentPage - 2;
+
+        //    if (pageTotal > 5 && currentPage > pageTotal - 2)
+        //        pageStartIndex = pageTotal - 4;
+
+        //    for (int i = pageStartIndex; i < pageStartIndex + 5; i++)
+        //    {
+        //        if (i > pageTotal)
+        //        {
+        //            items[i - pageStartIndex].Visible = false;
+        //        }
+        //        else
+        //        {
+        //            //Changing the page numbers
+        //            items[i - pageStartIndex].Text = i.ToString(CultureInfo.InvariantCulture);
+        //            items[i - pageStartIndex].Visible = true;
+
+        //            //Setting the Appearance of the page number buttons
+        //            if (i == currentPage)
+        //            {
+        //                items[i - pageStartIndex].BackColor = Color.Black;
+        //                items[i - pageStartIndex].ForeColor = Color.White;
+        //            }
+        //            else
+        //            {
+        //                items[i - pageStartIndex].BackColor = Color.White;
+        //                items[i - pageStartIndex].ForeColor = Color.Black;
+        //            }
+        //        }
+        //    }
+
+        //    //Enabling or Disalbing pagination first, last, previous , next buttons
+        //    if (currentPage == 1)
+        //        btnBackward.Enabled = btnFirst.Enabled = false;
+        //    else
+        //        btnBackward.Enabled = btnFirst.Enabled = true;
+
+        //    if (currentPage == pageTotal)
+        //        btnForward.Enabled = btnLast.Enabled = false;
+
+        //    else
+        //        btnForward.Enabled = btnLast.Enabled = true;
+        //}
+
+        private void RebindGridForPageChange(string keyword)
+        {
+            total = 0;
+            try
+            {
+                switch (tabControl1.SelectedIndex)
+                {
+                    case TAB_ACCESS:
+                        //dt = m_userDB.GetUserDBTable(keyword, currentPage, GetPageCount());
+                        //dgvAccessUser.DataSource = dt;
+                        //dgvAccessUser.Refresh();
+                        //total = Int32.Parse(dgvAccessUser.Rows[0].Cells["count"].Value.ToString());
+                        dgvAccessInfo.DataSource = m_accessDB.GetAccessInfoDBTable(m_user.Id, currentPage, GetPageCount());
+                        dgvAccessInfo.Refresh();
+                        total = Int32.Parse(dgvAccessInfo.Rows[0].Cells["count"].Value.ToString());
+                        break;
+                    case TAB_USER:
+                        dgvUser.DataSource = m_userDB.GetUserDBTable(keyword, currentPage, GetPageCount());
+                        dgvUser.Refresh();
+                        total = Int32.Parse(dgvUser.Rows[0].Cells["count"].Value.ToString());
+                        break;
+                    case TAB_CAR:
+                        dgvCar.DataSource = m_carDB.GetCarInfoDBTable(keyword, currentPage, GetPageCount());
+                        dgvCar.Refresh();
+                        total = Int32.Parse(dgvCar.Rows[0].Cells["count"].Value.ToString());
+                        break;
+                    case TAB_ACCESS_HIS:
+                        dgvHistory.DataSource = m_historyDB.GetAccessHisDBTable(keyword, currentPage, GetPageCount());
+                        dgvHistory.Refresh();
+                        total = Int32.Parse(dgvHistory.Rows[0].Cells["count"].Value.ToString());
+                        break;
+                }
+                pageTotal = Convert.ToInt32(Math.Ceiling(total * 1.0 / ((GetPageCount()) < 1 ? 1 : GetPageCount())));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+
     }
 }
