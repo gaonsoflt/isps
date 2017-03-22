@@ -47,6 +47,7 @@
             this.tbPhone = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnConfirm = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnEnroll = new System.Windows.Forms.Button();
@@ -58,7 +59,6 @@
             this.btnSerialOpen = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFPRef)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -119,9 +119,9 @@
             this.Label2.ForeColor = System.Drawing.Color.DarkOrange;
             this.Label2.Location = new System.Drawing.Point(14, 9);
             this.Label2.Name = "Label2";
-            this.Label2.Size = new System.Drawing.Size(72, 12);
+            this.Label2.Size = new System.Drawing.Size(29, 12);
             this.Label2.TabIndex = 3;
-            this.Label2.Text = "Client Log";
+            this.Label2.Text = "Log";
             // 
             // label1
             // 
@@ -272,6 +272,13 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Server";
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(13, 582);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(161, 21);
+            this.textBox1.TabIndex = 17;
+            // 
             // btnConfirm
             // 
             this.btnConfirm.Enabled = false;
@@ -380,13 +387,6 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(16, 17);
             this.toolStripStatusLabel1.Text = "...";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(13, 582);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(161, 21);
-            this.textBox1.TabIndex = 17;
             // 
             // MainForm
             // 

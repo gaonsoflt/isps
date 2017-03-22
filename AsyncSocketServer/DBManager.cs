@@ -47,6 +47,97 @@ namespace AsyncSocketServer
             return postConn;
         }
 
+        // select
+        public List<Dictionary<string, object>> ExecuteQuery(string sql, NpgsqlParameter[] param)
+        {
+            NpgsqlConnection con = GetPostConnection();
+            try
+            {
+                con.Open();
+                using (NpgsqlCommand cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = con;
+                    cmd.CommandText = sql;
+                    if (param != null)
+                    {
+                        foreach (NpgsqlParameter op in param)
+                        {
+                            cmd.Parameters.Add(op);
+                        }
+                    }
+
+                    List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Dictionary<string, object> obj = new Dictionary<string, object>();
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                obj.Add(reader.GetName(i), reader[reader.GetName(i)]);
+                            }
+                            result.Add(obj);
+                        }
+                    }
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+            return null;
+        }
+
+        // update, insert, delete
+        public int ExecuteNonQuery(string sql, NpgsqlParameterCollection param)
+        {
+            NpgsqlConnection con = GetPostConnection();
+            int executeCnt = 0;
+            try
+            {
+                con.Open();
+                using (NpgsqlCommand cmd = new NpgsqlCommand())
+                {
+                    try
+                    {
+                        cmd.Connection = con;
+                        cmd.Transaction = con.BeginTransaction();
+                        cmd.CommandText = sql;
+                        if (param != null)
+                        {
+                            foreach (NpgsqlParameter op in param)
+                            {
+                                cmd.Parameters.Add(new NpgsqlParameter(op.ParameterName, op.Value));
+                            }
+                        }
+
+                        executeCnt = cmd.ExecuteNonQuery();
+                        cmd.Parameters.Clear();
+                        cmd.Transaction.Commit();
+                    }
+                    catch
+                    {
+                        cmd.Transaction.Rollback();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw e;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return executeCnt;
+        }
+
         public DataTable GetDBTable(string sql)
         {
             DataTable dt = new DataTable();

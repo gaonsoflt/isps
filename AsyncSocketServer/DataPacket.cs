@@ -68,32 +68,38 @@ namespace AsyncSocketServer
         {
             BinaryReader br = new BinaryReader(ms);
 
-            Packet pkt = new Packet();
-            pkt.type = (PktType)br.ReadInt32();
-            pkt.userId = br.ReadInt32();
-            pkt.carId = StringUtil.ExtendedTrim(Encoding.UTF8.GetString(br.ReadBytes(16)));
-            pkt.response = br.ReadInt32();
-            pkt.dataLen = br.ReadInt32();
-            switch (pkt.type)
+            try
             {
-                case PktType.AUTH:
-                    pkt.data = br.ReadBytes(pkt.dataLen);
-                    pkt.fingerPrint = Image.FromStream(new MemoryStream(pkt.data));
-                    break;
-                case PktType.PASSENGER:
-                    pkt.guid = BBDataConverter.ByteToString(br.ReadBytes(pkt.dataLen - 4));
-                    pkt.psgCnt = BitConverter.ToInt32(br.ReadBytes(4), 0);
-                    break;
-                case PktType.ORDER:
-                    pkt.guid = BBDataConverter.ByteToString(br.ReadBytes(pkt.dataLen - 4));
-                    pkt.accessId = BitConverter.ToInt32(br.ReadBytes(4), 0);
-                    break;
+                Packet pkt = new Packet();
+                pkt.type = (PktType)br.ReadInt32();
+                pkt.userId = br.ReadInt32();
+                pkt.carId = StringUtil.ExtendedTrim(Encoding.UTF8.GetString(br.ReadBytes(16)));
+                pkt.response = br.ReadInt32();
+                pkt.dataLen = br.ReadInt32();
+                switch (pkt.type)
+                {
+                    case PktType.AUTH:
+                        pkt.data = br.ReadBytes(pkt.dataLen);
+                        pkt.fingerPrint = Image.FromStream(new MemoryStream(pkt.data));
+                        break;
+                    case PktType.PASSENGER:
+                        pkt.guid = BBDataConverter.ByteToString(br.ReadBytes(pkt.dataLen - 4));
+                        pkt.psgCnt = BitConverter.ToInt32(br.ReadBytes(4), 0);
+                        break;
+                    case PktType.ORDER:
+                        pkt.guid = BBDataConverter.ByteToString(br.ReadBytes(pkt.dataLen - 4));
+                        pkt.accessId = BitConverter.ToInt32(br.ReadBytes(4), 0);
+                        break;
+                }
+
+                br.Close();
+                ms.Close();
+                return pkt;
+            } 
+            catch (Exception e)
+            {
+                throw e;
             }
-
-            br.Close();
-            ms.Close();
-
-            return pkt;
         }
 
         public static byte[] StructToByte(Packet pkt)

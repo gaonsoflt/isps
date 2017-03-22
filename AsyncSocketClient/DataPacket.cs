@@ -79,9 +79,15 @@ namespace AsyncSocketClient
             switch (pkt.type)
             {
                 case PktType.AUTH:
-                    byte[] fp = BBDataConverter.ImageToByte(pkt.fingerPrint);
-                    bw.Write(fp.Length);
-                    bw.Write(fp);
+                    if (pkt.fingerPrint != null)
+                    {
+                        byte[] fp = BBDataConverter.ImageToByte(pkt.fingerPrint);
+                        bw.Write(fp.Length);
+                        bw.Write(fp);
+                    } else
+                    {
+                        bw.Write(0);
+                    }
                     break;
                 case PktType.PASSENGER:
                     guid = BBDataConverter.StringToByte(pkt.guid);

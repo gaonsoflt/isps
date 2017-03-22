@@ -53,6 +53,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.cbSerial = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -99,6 +100,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbSerial);
             this.groupBox1.Controls.Add(this.cbComport);
             this.groupBox1.Controls.Add(this.cbRate);
             this.groupBox1.Controls.Add(this.btnSerialClose);
@@ -113,17 +115,17 @@
             // cbComport
             // 
             this.cbComport.FormattingEnabled = true;
-            this.cbComport.Location = new System.Drawing.Point(5, 20);
+            this.cbComport.Location = new System.Drawing.Point(67, 20);
             this.cbComport.Name = "cbComport";
-            this.cbComport.Size = new System.Drawing.Size(114, 20);
+            this.cbComport.Size = new System.Drawing.Size(89, 20);
             this.cbComport.TabIndex = 7;
             // 
             // cbRate
             // 
             this.cbRate.FormattingEnabled = true;
-            this.cbRate.Location = new System.Drawing.Point(133, 20);
+            this.cbRate.Location = new System.Drawing.Point(162, 20);
             this.cbRate.Name = "cbRate";
-            this.cbRate.Size = new System.Drawing.Size(114, 20);
+            this.cbRate.Size = new System.Drawing.Size(85, 20);
             this.cbRate.TabIndex = 6;
             // 
             // btnSerialClose
@@ -289,6 +291,16 @@
             this.label3.TabIndex = 15;
             this.label3.Text = "passenger count";
             // 
+            // cbSerial
+            // 
+            this.cbSerial.AutoSize = true;
+            this.cbSerial.Location = new System.Drawing.Point(7, 21);
+            this.cbSerial.Name = "cbSerial";
+            this.cbSerial.Size = new System.Drawing.Size(32, 16);
+            this.cbSerial.TabIndex = 8;
+            this.cbSerial.Text = "P";
+            this.cbSerial.UseVisualStyleBackColor = true;
+            // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -317,6 +329,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -351,5 +364,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox cbSerial;
     }
 }

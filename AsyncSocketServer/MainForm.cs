@@ -58,6 +58,19 @@ namespace AsyncSocketServer
             InitFuction();
         }
 
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("Local IP Address Not Found!");
+        }
+
         private void InitFuction()
         {
             Client.UpdateLogMsg += new Client.SetLogHandler(UpdateCompLogMsg);
@@ -83,7 +96,7 @@ namespace AsyncSocketServer
                 listener = new Listener();
                 listener.Accepted += new Listener.SocketAcceptedHandler(listener_Accepted);
                 listener.Start(port);
-                UpdateStatusMessage("Server started!!! (127.0.0.1:" + port + ")");
+                UpdateCompLogMsg("Server started!!! (" + GetLocalIPAddress() + ": " + port + ")");
                 EnableSocketComponent(false);
             }
             catch
@@ -271,21 +284,30 @@ namespace AsyncSocketServer
 
         void client_DataReceived(Client sender, ReceiveBuffer e)
         {
-            Packet pkt = DataPacket.ByteToStruct(e.BufStream);
-            PktType header = pkt.type;
-            UpdateCompLogMsg(sender.name + " - Received data: " + pkt.ToString());
-            switch (header)
+            //BinaryReader br = new BinaryReader(e.BufStream);
+            //UpdateCompLogMsg(BBDataConverter.ByteToHexString(br.ReadBytes(19232)));
+            try
             {
-                case PktType.AUTH:
-                    pbImage.Image = pkt.fingerPrint;
-                    sender.RunAuth(pkt);
-                    break;
-                case PktType.PASSENGER:
-                    sender.RunPassenger(pkt);
-                    break;
-                case PktType.ORDER:
-                    sender.RunOrder(pkt);
-                    break;
+                Packet pkt = DataPacket.ByteToStruct(e.BufStream);
+                PktType header = pkt.type;
+                UpdateCompLogMsg(sender.name + " - Received data: " + pkt.ToString());
+                switch (header)
+                {
+                    case PktType.AUTH:
+                        pbImage.Image = pkt.fingerPrint;
+                        sender.RunAuth(pkt);
+                        break;
+                    case PktType.PASSENGER:
+                        sender.RunPassenger(pkt);
+                        break;
+                    case PktType.ORDER:
+                        sender.RunOrder(pkt);
+                        break;
+                }
+            }
+            catch (Exception ee)
+            {
+                UpdateCompLogMsg(ee.Message);
             }
         }
 

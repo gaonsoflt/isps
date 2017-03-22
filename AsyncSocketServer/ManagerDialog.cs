@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using static AsyncSocketServer.CarInfoManager;
 using static AsyncSocketServer.UserManager;
 
@@ -16,10 +17,11 @@ namespace AsyncSocketServer
     public partial class ManagerDialog : Form
     {
 
-        const int TAB_ACCESS = 0;
-        const int TAB_USER = 1;
-        const int TAB_CAR = 2;
-        const int TAB_ACCESS_HIS = 3;
+        const int TAB_AVERAGE = 0;
+        const int TAB_ACCESS = 1;
+        const int TAB_USER = 2;
+        const int TAB_CAR = 3;
+        const int TAB_ACCESS_HIS = 4;
 
         int currentPage = 1;
         int pageTotal = 1;
@@ -32,6 +34,8 @@ namespace AsyncSocketServer
         AccessInfoDB m_accessDB;
         CarInfoDB m_carDB;
         AccessHisDB m_historyDB;
+
+        AverageInfoManager m_avrMgr;
 
         MyPerson m_user;
         CarInfo m_car;
@@ -51,12 +55,17 @@ namespace AsyncSocketServer
             m_carDB = new CarInfoDB();
             m_historyDB = new AccessHisDB();
 
+            m_avrMgr = new AverageInfoManager();
+
             m_user = new MyPerson();
             m_car = new CarInfo();
 
             toolStripCbCount.Items.AddRange(selectCountCbDatas);
             toolStripCbCount.SelectedIndex = 2;
             toolStripCbCount.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            dtpAvgDate.Format = DateTimePickerFormat.Custom;
+            dtpAvgDate.CustomFormat = "yyyy년 MM월 dd일 (ddd)";
 
             InitDataGridViews();
             UpdateComponents();
@@ -97,27 +106,43 @@ namespace AsyncSocketServer
 
             switch (tabControl1.SelectedIndex)
             {
+                case TAB_AVERAGE:
+                    Console.WriteLine("TAB_AVERAGE");
+                    EnableCRUDButton(false);
+                    EnableSearchComponent(false);
+                    toolStripPaging.Enabled = false;
+                    UpdateAccessTotal();
+                    UpdateChart();
+                    break;
                 case TAB_ACCESS:
                     Console.WriteLine("TAB_ACCESS");
                     lbKeyword.Text = "이름";
                     dgvAccessUser.DataSource = m_userDB.GetUserDBTable(tbKeyword.Text, currentPage, GetPageCount());
                     dgvAccessUser.Refresh();
                     EnableCRUDButton(true);
+                    EnableSearchComponent(true);
+                    toolStripPaging.Enabled = true;
                     break;
                 case TAB_USER:
                     Console.WriteLine("TAB_USER");
                     lbKeyword.Text = "이름";
                     EnableCRUDButton(true);
+                    EnableSearchComponent(true);
+                    toolStripPaging.Enabled = true;
                     break;
                 case TAB_CAR:
                     Console.WriteLine("TAB_CAR");
                     lbKeyword.Text = "번호";
                     EnableCRUDButton(true);
+                    EnableSearchComponent(true);
+                    toolStripPaging.Enabled = true;
                     break;
                 case TAB_ACCESS_HIS:
                     Console.WriteLine("TAB_ACCESS_HIS");
                     lbKeyword.Text = "이름";
                     EnableCRUDButton(false);
+                    EnableSearchComponent(true);
+                    toolStripPaging.Enabled = true;
                     break;
             }
 
@@ -180,9 +205,9 @@ namespace AsyncSocketServer
 
             foreach (DataGridViewColumn col in dgvAccessUser.Columns)
             {
-                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 col.HeaderCell.Style.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Pixel);
                 col.HeaderCell.Style.ForeColor = Color.White;
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                 // Set the column size automatically
                 col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -272,6 +297,7 @@ namespace AsyncSocketServer
             carCol_regDt.DataPropertyName = "reg_dt";
             carCol_carOwner.Name = "reg_dt";
             carCol_regDt.HeaderText = "등록일";
+            carCol_regDt.DefaultCellStyle.Format = "yyyy년 MM월 dd일 HH시 mm분";
 
             DataGridViewTextBoxColumn carCol_count = new DataGridViewTextBoxColumn();
             carCol_count.DataPropertyName = "count";
@@ -305,7 +331,7 @@ namespace AsyncSocketServer
             hisCol_regDt.DataPropertyName = "reg_dt";
             hisCol_regDt.Name = "reg_dt";
             hisCol_regDt.HeaderText = "일자";
-            hisCol_regDt.DefaultCellStyle.Format = "yyyy/MM/dd HH:mm:ss";
+            hisCol_regDt.DefaultCellStyle.Format = "yyyy년 MM월 dd일 HH시 mm분 ss초";
 
             DataGridViewTextBoxColumn hisCol_rtCode = new DataGridViewTextBoxColumn();
             hisCol_rtCode.DataPropertyName = "rt_code";
@@ -353,6 +379,44 @@ namespace AsyncSocketServer
             dgvHistory.EnableHeadersVisualStyles = false;
             dgvHistory.AllowUserToAddRows = false;
 
+
+            /*
+             * datagridview average history
+             */
+            dgvAvgAccessHis.AutoGenerateColumns = false;
+            DataGridViewTextBoxColumn avrHisCol_regDt = new DataGridViewTextBoxColumn();
+            avrHisCol_regDt.DataPropertyName = "access_dt";
+            avrHisCol_regDt.Name = "access_dt";
+            avrHisCol_regDt.HeaderText = "출입일시";
+            avrHisCol_regDt.DefaultCellStyle.Format = "yyyy년 MM월 dd일 HH시 mm분 ss초";
+
+            DataGridViewTextBoxColumn avrHisCol_userNm = new DataGridViewTextBoxColumn();
+            avrHisCol_userNm.DataPropertyName = "user_nm";
+            avrHisCol_userNm.Name = "user_nm";
+            avrHisCol_userNm.HeaderText = "출입자";
+
+            DataGridViewTextBoxColumn avrHisCol_car = new DataGridViewTextBoxColumn();
+            avrHisCol_car.DataPropertyName = "car_id";
+            avrHisCol_car.Name = "car_id";
+            avrHisCol_car.HeaderText = "차량번호";
+
+            dgvAvgAccessHis.Columns.Add(avrHisCol_regDt);
+            dgvAvgAccessHis.Columns.Add(avrHisCol_userNm);
+            dgvAvgAccessHis.Columns.Add(avrHisCol_car);
+
+            foreach (DataGridViewColumn col in dgvAvgAccessHis.Columns)
+            {
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.HeaderCell.Style.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Pixel);
+                col.HeaderCell.Style.ForeColor = Color.White;
+
+                // Set the column size automatically
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+            dgvAvgAccessHis.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkOrange;
+            dgvAvgAccessHis.EnableHeadersVisualStyles = false;
+            dgvAvgAccessHis.AllowUserToAddRows = false;
+
             /*
              * datagridview access info
              */
@@ -371,11 +435,13 @@ namespace AsyncSocketServer
             accessCol_startDt.DataPropertyName = "allow_start_dt";
             accessCol_startDt.Name = "allow_start_dt";
             accessCol_startDt.HeaderText = "출입시작일시";
+            accessCol_startDt.DefaultCellStyle.Format = "yyyy년 MM월 dd일 HH시 mm분";
 
             DataGridViewTextBoxColumn accessCol_endDt = new DataGridViewTextBoxColumn();
             accessCol_endDt.DataPropertyName = "allow_end_dt";
             accessCol_endDt.Name = "allow_end_dt";
             accessCol_endDt.HeaderText = "출입종료일시";
+            accessCol_endDt.DefaultCellStyle.Format = "yyyy년 MM월 dd일 HH시 mm분";
 
             DataGridViewTextBoxColumn accessCol_purpose = new DataGridViewTextBoxColumn();
             accessCol_purpose.DataPropertyName = "purpose";
@@ -386,6 +452,13 @@ namespace AsyncSocketServer
             accessCol_accessDt.DataPropertyName = "access_dt";
             accessCol_accessDt.Name = "access_dt";
             accessCol_accessDt.HeaderText = "출입시간";
+            accessCol_accessDt.DefaultCellStyle.Format = "yyyy년 MM월 dd일 HH시 mm분 ss초";
+
+            DataGridViewTextBoxColumn accessCol_count2 = new DataGridViewTextBoxColumn();
+            accessCol_count2.DataPropertyName = "count";
+            accessCol_count2.Name = "count";
+            accessCol_count2.HeaderText = "전체";
+            accessCol_count2.Visible = false;
 
             dgvAccessInfo.Columns.Add(accessCol_seq);
             dgvAccessInfo.Columns.Add(accessCol_psgCnt);
@@ -393,6 +466,7 @@ namespace AsyncSocketServer
             dgvAccessInfo.Columns.Add(accessCol_endDt);
             dgvAccessInfo.Columns.Add(accessCol_purpose);
             dgvAccessInfo.Columns.Add(accessCol_accessDt);
+            dgvAccessInfo.Columns.Add(accessCol_count2);
 
             foreach (DataGridViewColumn col in dgvAccessInfo.Columns)
             {
@@ -413,6 +487,12 @@ namespace AsyncSocketServer
             btnDelete.Enabled = enabled;
             btnEnroll.Enabled = enabled;
             btnModify.Enabled = enabled;
+        }
+
+        private void EnableSearchComponent(bool enabled)
+        {
+            tbKeyword.Enabled = enabled;
+            btnSearch.Enabled = enabled;
         }
 
         private void tbKeyword_KeyUp(object sender, KeyEventArgs e)
@@ -831,6 +911,10 @@ namespace AsyncSocketServer
             {
                 switch (tabControl1.SelectedIndex)
                 {
+                    case TAB_AVERAGE:
+                        dgvAvgAccessHis.DataSource = m_avrMgr.SelectAccessHistoryInfo(dtpAvgDate.Value);
+                        dgvAvgAccessHis.Refresh();
+                        break;
                     case TAB_ACCESS:
                         //dt = m_userDB.GetUserDBTable(keyword, currentPage, GetPageCount());
                         //dgvAccessUser.DataSource = dt;
@@ -864,6 +948,33 @@ namespace AsyncSocketServer
             }
         }
 
+        private void UpdateAccessTotal()
+        {
+            List<Dictionary<string, object>> result = m_avrMgr.SelectAccessTotalInfo(dtpAvgDate.Value);
+            long req = 0;
+            long ok = 0;
+            long no = 0;
+            if(result != null)
+            {
+                req = (long)result[0]["req_total"];
+                ok = (long)result[0]["access_cnt"];
+                no = (long)result[0]["not_access_cnt"];
+            }
+            dataAccessReqTotal.Text = req.ToString();
+            dataAccessTotal.Text = ok.ToString();
+            dataNotAccessTotal.Text = no.ToString();
+        }
 
+        private void UpdateChart()
+        {
+            chart1.Series.Clear();
+            Series accessUserCnt = chart1.Series.Add("accessUserCnt");
+            accessUserCnt.ChartType = SeriesChartType.Bar;
+        }
+
+        private void dtpAvgDate_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateComponents();
+        }
     }
 }

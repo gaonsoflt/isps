@@ -182,7 +182,7 @@ namespace AsyncSocketClient
             pkt.userId = userId;
             pkt.carId = carId;
             pkt.response = 0;
-            pkt.fingerPrint = image;
+            if(image != null) pkt.fingerPrint = image;
             SendResponse(pkt);
         }
 
