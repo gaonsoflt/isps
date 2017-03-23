@@ -34,6 +34,7 @@
             this.tbIp = new System.Windows.Forms.TextBox();
             this.tbPort = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbSerial = new System.Windows.Forms.CheckBox();
             this.cbComport = new System.Windows.Forms.ComboBox();
             this.cbRate = new System.Windows.Forms.ComboBox();
             this.btnSerialClose = new System.Windows.Forms.Button();
@@ -53,7 +54,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.cbSerial = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -111,6 +111,18 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Serial";
+            // 
+            // cbSerial
+            // 
+            this.cbSerial.AutoSize = true;
+            this.cbSerial.Checked = true;
+            this.cbSerial.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbSerial.Location = new System.Drawing.Point(7, 21);
+            this.cbSerial.Name = "cbSerial";
+            this.cbSerial.Size = new System.Drawing.Size(32, 16);
+            this.cbSerial.TabIndex = 8;
+            this.cbSerial.Text = "P";
+            this.cbSerial.UseVisualStyleBackColor = true;
             // 
             // cbComport
             // 
@@ -290,16 +302,6 @@
             this.label3.Size = new System.Drawing.Size(100, 12);
             this.label3.TabIndex = 15;
             this.label3.Text = "passenger count";
-            // 
-            // cbSerial
-            // 
-            this.cbSerial.AutoSize = true;
-            this.cbSerial.Location = new System.Drawing.Point(7, 21);
-            this.cbSerial.Name = "cbSerial";
-            this.cbSerial.Size = new System.Drawing.Size(32, 16);
-            this.cbSerial.TabIndex = 8;
-            this.cbSerial.Text = "P";
-            this.cbSerial.UseVisualStyleBackColor = true;
             // 
             // ClientForm
             // 

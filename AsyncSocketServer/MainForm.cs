@@ -278,14 +278,11 @@ namespace AsyncSocketServer
             GCHandle handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
             T theStructure = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
             handle.Free();
-
             return theStructure;
         }
 
         void client_DataReceived(Client sender, ReceiveBuffer e)
         {
-            //BinaryReader br = new BinaryReader(e.BufStream);
-            //UpdateCompLogMsg(BBDataConverter.ByteToHexString(br.ReadBytes(19232)));
             try
             {
                 Packet pkt = DataPacket.ByteToStruct(e.BufStream);
@@ -353,7 +350,7 @@ namespace AsyncSocketServer
                         if (fingerSensor.CmdGetRawImage() == 0)
                         {
                             UpdateStatusMessage("Succeed export fingerprint data.");
-                            byte[] iBytes = BBDataConverter.ImageToByte(BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), 320, 240));
+                            byte[] iBytes = BBDataConverter.ImageToByte(BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), FingerSensorPacket.SIZE_FP_WIDTH, FingerSensorPacket.SIZE_FP_HEIGHT));
                             UserManager fpm = new UserManager();
                             MyPerson guest = fpm.Enroll(iBytes, "guest");
                             MyPerson match = fpm.recognition(guest);

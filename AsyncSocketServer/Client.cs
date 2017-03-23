@@ -18,7 +18,8 @@ namespace AsyncSocketServer
     #region ReceiveBuffer define
     struct ReceiveBuffer
     {
-        public const int BUFFER_SIZE = 1024;
+        //public const int BUFFER_SIZE = 1024;
+        public const int BUFFER_SIZE = 4096;
         public byte[] Buffer;
         public int ToReceive;
         public MemoryStream BufStream;
@@ -207,8 +208,8 @@ namespace AsyncSocketServer
 
         void Send(byte[] data, int index, int length)
         {
-            Console.WriteLine("send byte size: " + FingerSensorPacket.ByteToHexString(data));
-            socket.BeginSend(BitConverter.GetBytes(length), 0, 4, SocketFlags.None, sendCallBack, null);
+            UpdateLogMsg("send data: " + BBDataConverter.ByteToHexString(data));
+            //socket.BeginSend(BitConverter.GetBytes(length), 0, 4, SocketFlags.None, sendCallBack, null);
             System.Threading.Thread.Sleep(500);
             socket.BeginSend(data, index, length, SocketFlags.None, sendCallBack, null);
         }
@@ -236,7 +237,7 @@ namespace AsyncSocketServer
             Code code;
             try
             {
-                MyPerson match = fpm.recognition(fpm.Enroll(pkt.data, "guest"));
+                MyPerson match = fpm.recognition(fpm.Enroll(BBDataConverter.ImageToByte(pkt.fingerPrint), "guest"));
                 if (match != null)
                 {
                     Console.WriteLine("Found matched fingerprint.");
@@ -251,7 +252,7 @@ namespace AsyncSocketServer
                     }
                     else
                     {
-                        UpdateLogMsgWithName("Not Matched person(" + match.Name.ToString() + ")");
+                        UpdateLogMsgWithName("Not Matched person");
                         code = Code.NOT_MATCH_LOGIN_FP;
                     }
                 }
@@ -369,7 +370,6 @@ namespace AsyncSocketServer
             }
             byte[] buffer = DataPacket.StructToByte(pkt);
             Send(buffer, 0, buffer.Length);
-            UpdateLogMsgWithName("Sent data: " + pkt.ToString());
 
             // insert history
             hisDB.InsertAccessHis(pkt.userId, name, code.ToString(), pkt.errMsg);

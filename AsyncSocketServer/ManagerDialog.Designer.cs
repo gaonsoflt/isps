@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManagerDialog));
             this.btnClose = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -57,9 +58,16 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpAverage = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.cbChartType = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.dgvAvgAccessHis = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.dataAccessReqTotal = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.dataAccessTotal = new System.Windows.Forms.Label();
+            this.dataNotAccessTotal = new System.Windows.Forms.Label();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.dtpAvgDate = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
@@ -100,13 +108,6 @@
             this.btnLast = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripCbCount = new System.Windows.Forms.ToolStripComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.dataNotAccessTotal = new System.Windows.Forms.Label();
-            this.dataAccessTotal = new System.Windows.Forms.Label();
-            this.dataAccessReqTotal = new System.Windows.Forms.Label();
-            this.dgvAvgAccessHis = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cbMonth = new System.Windows.Forms.ComboBox();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.gbGroup.SuspendLayout();
@@ -118,6 +119,7 @@
             this.tabControl1.SuspendLayout();
             this.tpAverage.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAvgAccessHis)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.tpAccess.SuspendLayout();
@@ -131,7 +133,6 @@
             this.tbHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).BeginInit();
             this.toolStripPaging.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAvgAccessHis)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClose
@@ -389,7 +390,7 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.cbMonth);
+            this.panel2.Controls.Add(this.cbChartType);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.dgvAvgAccessHis);
             this.panel2.Controls.Add(this.tableLayoutPanel1);
@@ -400,6 +401,36 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(845, 533);
             this.panel2.TabIndex = 0;
+            // 
+            // cbChartType
+            // 
+            this.cbChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbChartType.FormattingEnabled = true;
+            this.cbChartType.Location = new System.Drawing.Point(612, 229);
+            this.cbChartType.Name = "cbChartType";
+            this.cbChartType.Size = new System.Drawing.Size(170, 20);
+            this.cbChartType.TabIndex = 6;
+            this.cbChartType.SelectedIndexChanged += new System.EventHandler(this.cbChartType_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("굴림", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.Location = new System.Drawing.Point(345, 124);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(19, 17);
+            this.label1.TabIndex = 5;
+            this.label1.Text = ">";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // dgvAvgAccessHis
+            // 
+            this.dgvAvgAccessHis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAvgAccessHis.Location = new System.Drawing.Point(370, 56);
+            this.dgvAvgAccessHis.Name = "dgvAvgAccessHis";
+            this.dgvAvgAccessHis.RowTemplate.Height = 23;
+            this.dgvAvgAccessHis.Size = new System.Drawing.Size(412, 156);
+            this.dgvAvgAccessHis.TabIndex = 4;
             // 
             // tableLayoutPanel1
             // 
@@ -422,16 +453,28 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(261, 156);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
+            // dataAccessReqTotal
+            // 
+            this.dataAccessReqTotal.AutoSize = true;
+            this.dataAccessReqTotal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataAccessReqTotal.Font = new System.Drawing.Font("굴림", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.dataAccessReqTotal.Location = new System.Drawing.Point(107, 0);
+            this.dataAccessReqTotal.Name = "dataAccessReqTotal";
+            this.dataAccessReqTotal.Size = new System.Drawing.Size(151, 52);
+            this.dataAccessReqTotal.TabIndex = 7;
+            this.dataAccessReqTotal.Text = "0";
+            this.dataAccessReqTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.YellowGreen;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Font = new System.Drawing.Font("굴림", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label5.Location = new System.Drawing.Point(0, 51);
+            this.label5.Location = new System.Drawing.Point(0, 52);
             this.label5.Margin = new System.Windows.Forms.Padding(0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(104, 51);
+            this.label5.Size = new System.Drawing.Size(104, 52);
             this.label5.TabIndex = 4;
             this.label5.Text = "출입";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -443,26 +486,72 @@
             this.label4.Font = new System.Drawing.Font("굴림", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label4.Location = new System.Drawing.Point(3, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(98, 51);
+            this.label4.Size = new System.Drawing.Size(98, 52);
             this.label4.TabIndex = 0;
             this.label4.Text = "출입신청";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Coral;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label6.Font = new System.Drawing.Font("굴림", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label6.Location = new System.Drawing.Point(0, 104);
+            this.label6.Margin = new System.Windows.Forms.Padding(0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(104, 52);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "미출입";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // dataAccessTotal
+            // 
+            this.dataAccessTotal.AutoSize = true;
+            this.dataAccessTotal.BackColor = System.Drawing.Color.YellowGreen;
+            this.dataAccessTotal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataAccessTotal.Font = new System.Drawing.Font("굴림", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.dataAccessTotal.Location = new System.Drawing.Point(104, 52);
+            this.dataAccessTotal.Margin = new System.Windows.Forms.Padding(0);
+            this.dataAccessTotal.Name = "dataAccessTotal";
+            this.dataAccessTotal.Size = new System.Drawing.Size(157, 52);
+            this.dataAccessTotal.TabIndex = 7;
+            this.dataAccessTotal.Text = "0";
+            this.dataAccessTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // dataNotAccessTotal
+            // 
+            this.dataNotAccessTotal.AutoSize = true;
+            this.dataNotAccessTotal.BackColor = System.Drawing.Color.Coral;
+            this.dataNotAccessTotal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataNotAccessTotal.Font = new System.Drawing.Font("굴림", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.dataNotAccessTotal.Location = new System.Drawing.Point(104, 104);
+            this.dataNotAccessTotal.Margin = new System.Windows.Forms.Padding(0);
+            this.dataNotAccessTotal.Name = "dataNotAccessTotal";
+            this.dataNotAccessTotal.Size = new System.Drawing.Size(157, 52);
+            this.dataNotAccessTotal.TabIndex = 7;
+            this.dataNotAccessTotal.Text = "0";
+            this.dataNotAccessTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(84, 249);
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chart1.Legends.Add(legend2);
+            this.chart1.Location = new System.Drawing.Point(3, 229);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(743, 268);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart1.Series.Add(series2);
+            this.chart1.Size = new System.Drawing.Size(839, 301);
             this.chart1.TabIndex = 2;
             this.chart1.Text = "chart1";
+            title2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            title2.Name = "title";
+            title2.Text = "TITLE";
+            this.chart1.Titles.Add(title2);
             // 
             // dtpAvgDate
             // 
@@ -863,88 +952,6 @@
             this.toolStripCbCount.Size = new System.Drawing.Size(75, 25);
             this.toolStripCbCount.Text = "ALL";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.Coral;
-            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Font = new System.Drawing.Font("굴림", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label6.Location = new System.Drawing.Point(0, 102);
-            this.label6.Margin = new System.Windows.Forms.Padding(0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(104, 54);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "미출입";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // dataNotAccessTotal
-            // 
-            this.dataNotAccessTotal.AutoSize = true;
-            this.dataNotAccessTotal.BackColor = System.Drawing.Color.Coral;
-            this.dataNotAccessTotal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataNotAccessTotal.Font = new System.Drawing.Font("굴림", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.dataNotAccessTotal.Location = new System.Drawing.Point(104, 102);
-            this.dataNotAccessTotal.Margin = new System.Windows.Forms.Padding(0);
-            this.dataNotAccessTotal.Name = "dataNotAccessTotal";
-            this.dataNotAccessTotal.Size = new System.Drawing.Size(157, 54);
-            this.dataNotAccessTotal.TabIndex = 7;
-            this.dataNotAccessTotal.Text = "0";
-            this.dataNotAccessTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // dataAccessTotal
-            // 
-            this.dataAccessTotal.AutoSize = true;
-            this.dataAccessTotal.BackColor = System.Drawing.Color.YellowGreen;
-            this.dataAccessTotal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataAccessTotal.Font = new System.Drawing.Font("굴림", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.dataAccessTotal.Location = new System.Drawing.Point(104, 51);
-            this.dataAccessTotal.Margin = new System.Windows.Forms.Padding(0);
-            this.dataAccessTotal.Name = "dataAccessTotal";
-            this.dataAccessTotal.Size = new System.Drawing.Size(157, 51);
-            this.dataAccessTotal.TabIndex = 7;
-            this.dataAccessTotal.Text = "0";
-            this.dataAccessTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // dataAccessReqTotal
-            // 
-            this.dataAccessReqTotal.AutoSize = true;
-            this.dataAccessReqTotal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataAccessReqTotal.Font = new System.Drawing.Font("굴림", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.dataAccessReqTotal.Location = new System.Drawing.Point(107, 0);
-            this.dataAccessReqTotal.Name = "dataAccessReqTotal";
-            this.dataAccessReqTotal.Size = new System.Drawing.Size(151, 51);
-            this.dataAccessReqTotal.TabIndex = 7;
-            this.dataAccessReqTotal.Text = "0";
-            this.dataAccessReqTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // dgvAvgAccessHis
-            // 
-            this.dgvAvgAccessHis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAvgAccessHis.Location = new System.Drawing.Point(370, 56);
-            this.dgvAvgAccessHis.Name = "dgvAvgAccessHis";
-            this.dgvAvgAccessHis.RowTemplate.Height = 23;
-            this.dgvAvgAccessHis.Size = new System.Drawing.Size(412, 156);
-            this.dgvAvgAccessHis.TabIndex = 4;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("굴림", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.Location = new System.Drawing.Point(345, 124);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(19, 17);
-            this.label1.TabIndex = 5;
-            this.label1.Text = ">";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // cbMonth
-            // 
-            this.cbMonth.FormattingEnabled = true;
-            this.cbMonth.Location = new System.Drawing.Point(16, 262);
-            this.cbMonth.Name = "cbMonth";
-            this.cbMonth.Size = new System.Drawing.Size(82, 20);
-            this.cbMonth.TabIndex = 6;
-            // 
             // ManagerDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -976,6 +983,7 @@
             this.tpAverage.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAvgAccessHis)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
@@ -993,7 +1001,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).EndInit();
             this.toolStripPaging.ResumeLayout(false);
             this.toolStripPaging.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAvgAccessHis)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1074,6 +1081,6 @@
         private System.Windows.Forms.Label dataNotAccessTotal;
         private System.Windows.Forms.DataGridView dgvAvgAccessHis;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cbMonth;
+        private System.Windows.Forms.ComboBox cbChartType;
     }
 }

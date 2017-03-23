@@ -119,6 +119,11 @@ namespace AsyncSocketServer
             return Enroll(BBDataConverter.ByteToBitmapImage(source), name, idnum, phone, email);
         }
 
+        public MyPerson Enroll(BitmapImage source, string name)
+        {
+            return Enroll(source, name, "", "", "");
+        }
+        
         private MyPerson Enroll(BitmapImage source, string name, string idnum, string phone, string email)
         {
             Console.WriteLine("Enrolling {0}...", name);

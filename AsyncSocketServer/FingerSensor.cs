@@ -301,6 +301,11 @@ namespace AsyncSocketServer
             return this.gbyImgRaw;
         }
 
+        public byte[] getRawImage160x120()
+        {
+            return this.gbyImgRaw_tmp;
+        }
+
         private void SendCmd(FingerSensorPacket.SB_OEM_PKT pkt, int pktSize)
         {
             byte[] _pkt = FingerSensorPacket.StructureToByte(pkt);

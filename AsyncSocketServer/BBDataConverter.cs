@@ -74,6 +74,18 @@ namespace AsyncSocketServer
             return (byte[])converter.ConvertTo(img, typeof(byte[]));
         }
 
+        public static Image BytesToImage(byte[] bytes)
+        {
+            try
+            {
+                return Image.FromStream(new MemoryStream(bytes));
+            }
+            catch
+            {
+                return Image.FromStream(new MemoryStream(ImageToByte(GrayRawToBitmap(bytes, FingerSensorPacket.SIZE_FP_WIDTH, FingerSensorPacket.SIZE_FP_HEIGHT))));
+            }
+        }
+
         public static BitmapImage ByteToBitmapImage(Byte[] bytes)
         {
             MemoryStream stream = new MemoryStream(bytes);

@@ -304,7 +304,7 @@ namespace AsyncSocketClient
                             {
                                 UpdateStatusMessage("Succeed export fingerprint data.");
                                 //byte[] iBytes = ImageUtil.ImageToByte(BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), 320, 240));
-                                pictureBox1.Image = BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), 320, 240);
+                                pictureBox1.Image = BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage160x120(), FingerSensorPacket.SIZE_FP_WIDTH, FingerSensorPacket.SIZE_FP_HEIGHT);
 
                                 // send data
                                 client.SendAuthUserByFingerPrint(GetUserId(), tbCarId.Text, pictureBox1.Image);

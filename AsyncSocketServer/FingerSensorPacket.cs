@@ -21,6 +21,8 @@ namespace AsyncSocketServer
         //    WORD wCmd;// or nAck
         //    WORD wChkSum;
         //} SB_OEM_PKT;		
+        public static int SIZE_FP_WIDTH = 160;
+        public static int SIZE_FP_HEIGHT = 120;
 
         public struct SB_OEM_PKT
         {

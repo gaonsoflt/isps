@@ -80,7 +80,9 @@ namespace AsyncSocketServer
                 {
                     case PktType.AUTH:
                         pkt.data = br.ReadBytes(pkt.dataLen);
-                        pkt.fingerPrint = Image.FromStream(new MemoryStream(pkt.data));
+                        //pkt.fingerPrint = Image.FromStream(new MemoryStream(pkt.data));
+                        //pkt.fingerPrint = Image.FromStream(new MemoryStream(BBDataConverter.ImageToByte(BBDataConverter.GrayRawToBitmap(pkt.data, 160, 120))));
+                        pkt.fingerPrint = BBDataConverter.BytesToImage(pkt.data);
                         break;
                     case PktType.PASSENGER:
                         pkt.guid = BBDataConverter.ByteToString(br.ReadBytes(pkt.dataLen - 4));

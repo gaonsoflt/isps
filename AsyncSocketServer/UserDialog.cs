@@ -106,7 +106,7 @@ namespace AsyncSocketServer
             if (MessageBox.Show("저장하시겠습니까?", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 int rtn = 0;
-                byte[] iBytes = BBDataConverter.ImageToByte(BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), 320, 240));
+                byte[] iBytes = BBDataConverter.ImageToByte(BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), FingerSensorPacket.SIZE_FP_WIDTH, FingerSensorPacket.SIZE_FP_HEIGHT));
                 m_user = userManager.Enroll(iBytes, tbName.Text, tbIdnum.Text, tbPhone.Text, tbEmail.Text);
                 switch (mode)
                 {

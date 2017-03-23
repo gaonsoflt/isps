@@ -29,6 +29,7 @@ namespace AsyncSocketServer
         //int pageCount = 10;
 
         string[] selectCountCbDatas = { "ALL", "5", "10", "20", "30", "50" };
+        string[] chartTypeCbdatas = { "월별 출입신청 건수" };
 
         UserDB m_userDB;
         AccessInfoDB m_accessDB;
@@ -66,6 +67,8 @@ namespace AsyncSocketServer
 
             dtpAvgDate.Format = DateTimePickerFormat.Custom;
             dtpAvgDate.CustomFormat = "yyyy년 MM월 dd일 (ddd)";
+            cbChartType.Items.AddRange(chartTypeCbdatas);
+            cbChartType.SelectedIndex = 0;
 
             InitDataGridViews();
             UpdateComponents();
@@ -968,13 +971,31 @@ namespace AsyncSocketServer
         private void UpdateChart()
         {
             chart1.Series.Clear();
-            Series accessUserCnt = chart1.Series.Add("accessUserCnt");
-            accessUserCnt.ChartType = SeriesChartType.Bar;
+            Series series = chart1.Series.Add("chart");
+            chart1.Series["chart"].IsVisibleInLegend = false;
+            chart1.Titles["title"].Text = chartTypeCbdatas[cbChartType.SelectedIndex];
+
+            switch (cbChartType.SelectedIndex)
+            {
+                case 0:
+                    series.ChartType = SeriesChartType.Column;
+                    List<Dictionary<string, object>> result = m_avrMgr.SelectAccessMonthlyTotal(dtpAvgDate.Value);
+                    foreach(Dictionary<string, object> d in result)
+                    {
+                        chart1.Series["chart"].Points.AddXY(d["mon"].ToString(), Convert.ToDouble(d["count"]));
+                    }
+                    break;
+            }
         }
 
         private void dtpAvgDate_ValueChanged(object sender, EventArgs e)
         {
             UpdateComponents();
+        }
+
+        private void cbChartType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateChart();
         }
     }
 }
