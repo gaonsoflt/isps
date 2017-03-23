@@ -29,7 +29,7 @@ namespace AsyncSocketServer
         //int pageCount = 10;
 
         string[] selectCountCbDatas = { "ALL", "5", "10", "20", "30", "50" };
-        string[] chartTypeCbdatas = { "월별 출입신청 건수" };
+        string[] chartTypeCbdatas = { "월별 출입신청 건수", "시간별 출입 건수" };
 
         UserDB m_userDB;
         AccessInfoDB m_accessDB;
@@ -975,16 +975,33 @@ namespace AsyncSocketServer
             chart1.Series["chart"].IsVisibleInLegend = false;
             chart1.Titles["title"].Text = chartTypeCbdatas[cbChartType.SelectedIndex];
 
-            switch (cbChartType.SelectedIndex)
+            List<Dictionary<string, object>> result;
+            try
             {
-                case 0:
-                    series.ChartType = SeriesChartType.Column;
-                    List<Dictionary<string, object>> result = m_avrMgr.SelectAccessMonthlyTotal(dtpAvgDate.Value);
-                    foreach(Dictionary<string, object> d in result)
-                    {
-                        chart1.Series["chart"].Points.AddXY(d["mon"].ToString(), Convert.ToDouble(d["count"]));
-                    }
-                    break;
+                switch (cbChartType.SelectedIndex)
+                {
+                    case 0:
+                        result = m_avrMgr.SelectAccessMonthlyTotal(dtpAvgDate.Value);
+                        foreach (Dictionary<string, object> d in result)
+                        {
+                            chart1.Series["chart"].Points.AddXY(d["mon"].ToString(), Convert.ToDouble(d["count"]));
+                        } 
+                        series.ChartType = SeriesChartType.Column;
+                        chart1.ChartAreas[0].AxisX.Interval = 1;
+                        break;
+                    case 1:
+                        result = m_avrMgr.SelectAccessDailyTimeTotal(dtpAvgDate.Value);
+                        foreach (Dictionary<string, object> d in result)
+                        {
+                            chart1.Series["chart"].Points.AddXY(d["hm"].ToString(), Convert.ToDouble(d["count"]));
+                        }
+                        series.ChartType = SeriesChartType.Column;
+                        chart1.ChartAreas[0].AxisX.Interval = 1;
+                        break;
+                }
+            } catch(Exception e)
+            {
+                MessageBox.Show(e.Message, "에러", MessageBoxButtons.OK);
             }
         }
 

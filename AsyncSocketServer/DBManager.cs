@@ -85,12 +85,12 @@ namespace AsyncSocketServer
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                throw e;
             }
             finally
             {
                 con.Close();
             }
-            return null;
         }
 
         // update, insert, delete
@@ -125,6 +125,7 @@ namespace AsyncSocketServer
                         cmd.Transaction.Rollback();
                     }
                 }
+                return executeCnt;
             }
             catch (Exception e)
             {
@@ -135,7 +136,6 @@ namespace AsyncSocketServer
             {
                 con.Close();
             }
-            return executeCnt;
         }
 
         public DataTable GetDBTable(string sql)
