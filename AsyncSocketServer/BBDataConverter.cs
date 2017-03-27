@@ -28,6 +28,26 @@ namespace AsyncSocketServer
             return BitConverter.GetBytes(value);
         }
 
+        static public int BytesToInt32(byte[] bytes)
+        {
+            return BytesToInt32(bytes, 0);
+        }
+
+        static public int BytesToInt32(byte[] bytes, int startIdx)
+        {
+            return BitConverter.ToInt32(bytes, startIdx);
+        }
+
+        static public long BytesToInt64(byte[] bytes)
+        {
+            return BitConverter.ToInt64(bytes, 0);
+        }
+
+        static public double BytesToDouble(byte[] bytes)
+        {
+            return BitConverter.ToDouble(bytes, 0);
+        }
+
         // 바이트 배열을 String으로 변환 
         static public string ByteToString(byte[] b)
         {

@@ -78,11 +78,9 @@ namespace AsyncSocketClient
 
         void client_DataReceived(Client sender, ReceiveBuffer e)
         {
-            Packet pkt = DataPacket.ByteToStruct(e.BufStream);
-            PktType header = pkt.type;
+            Packet pkt = DataPacket.DataParser(e.BufStream, e.pkt);
             UpdateCompLogMsg("Received data: " + pkt.ToString());
-
-            switch (header)
+            switch (pkt.type)
             {
                 case PktType.AUTH:
                     if (pkt.response == PKT_ACK)

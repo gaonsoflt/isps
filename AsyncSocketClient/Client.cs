@@ -21,16 +21,31 @@ namespace AsyncSocketClient
         public byte[] Buffer;
         public int ToReceive;
         public MemoryStream BufStream;
+        public Packet pkt;
 
-        public ReceiveBuffer(int toRec)
+        public ReceiveBuffer(byte[] bytes)
         {
             Buffer = new byte[BUFFER_SIZE];
-            ToReceive = toRec;
-            BufStream = new MemoryStream(toRec);
+            pkt = DataPacket.ByteToStructHeader(bytes);
+            ToReceive = pkt.dataLen;
+            BufStream = new MemoryStream(pkt.dataLen);
         }
+
+        //public const int BUFFER_SIZE = 1024;
+        //public byte[] Buffer;
+        //public int ToReceive;
+        //public MemoryStream BufStream;
+
+        //public ReceiveBuffer(int toRec)
+        //{
+        //    Buffer = new byte[BUFFER_SIZE];
+        //    ToReceive = toRec;
+        //    BufStream = new MemoryStream(toRec);
+        //}
 
         public void Dispose()
         {
+            pkt = new Packet();
             Buffer = null;
             ToReceive = 0;
             Close();
@@ -69,7 +84,7 @@ namespace AsyncSocketClient
 
         Socket socket;
         string responseText = string.Empty;
-        byte[] lenBuffer;
+        byte[] headBuf;
         ReceiveBuffer buffer;
 
         public bool Connected
@@ -88,7 +103,7 @@ namespace AsyncSocketClient
         public Client()
         {
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            lenBuffer = new byte[4];
+            headBuf = new byte[32];
         }
 
         public void Connect(string ipAddress, int port)
@@ -98,7 +113,7 @@ namespace AsyncSocketClient
                 if (socket == null)
                 {
                     socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                    lenBuffer = new byte[4];
+                    headBuf = new byte[4];
                 }
 
                 socket.Connect(IPAddress.Parse(ipAddress), port);
@@ -159,8 +174,8 @@ namespace AsyncSocketClient
 
         void Send(byte[] data, int index, int length)
         {
-            socket.BeginSend(BitConverter.GetBytes(length), 0, 4, SocketFlags.None, sendCallBack, null);
-            System.Threading.Thread.Sleep(500);
+            //socket.BeginSend(BitConverter.GetBytes(length), 0, 4, SocketFlags.None, sendCallBack, null);
+            //System.Threading.Thread.Sleep(500);
             socket.BeginSend(data, index, length, SocketFlags.None, sendCallBack, null);
         }
 
@@ -241,7 +256,7 @@ namespace AsyncSocketClient
                     }
                     buffer.Dispose();
                     socket = null;
-                    lenBuffer = null;
+                    headBuf = null;
                     //OnDisconnect = null;
                 }
             }
@@ -253,7 +268,7 @@ namespace AsyncSocketClient
 
         public void ReceiveAsync()
         {
-            socket.BeginReceive(lenBuffer, 0, lenBuffer.Length, SocketFlags.None, receiveCallBack, null);
+            socket.BeginReceive(headBuf, 0, headBuf.Length, SocketFlags.None, receiveCallBack, null);
         }
 
         public void receiveCallBack(IAsyncResult ar)
@@ -271,7 +286,7 @@ namespace AsyncSocketClient
                     }
                 }
 
-                if (rec != 4)
+                if (rec != headBuf.Length)
                 {
                     throw new Exception();
                 }
@@ -304,8 +319,7 @@ namespace AsyncSocketClient
                 return;
             }
 
-            buffer = new ReceiveBuffer(BitConverter.ToInt32(lenBuffer, 0));
-
+            buffer = new ReceiveBuffer(headBuf);
             socket.BeginReceive(buffer.Buffer, 0, buffer.Buffer.Length, SocketFlags.None, receivePacketCallBack, null);
         }
 

@@ -285,7 +285,7 @@ namespace AsyncSocketServer
         {
             try
             {
-                Packet pkt = DataPacket.ByteToStruct(e.BufStream);
+                Packet pkt = DataPacket.DataParser(e.BufStream, e.pkt);
                 PktType header = pkt.type;
                 UpdateCompLogMsg(sender.name + " - Received data: " + pkt.ToString());
                 switch (header)

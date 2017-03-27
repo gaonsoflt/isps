@@ -12,42 +12,59 @@ namespace AsyncSocketClient
 {
     class DataPacket
     {
-        public static Packet ByteToStruct(byte[] buffer)
+        public static Packet ByteToStructHeader(byte[] buffer)
         {
             MemoryStream ms = new MemoryStream(buffer, false);
-            return ByteToStruct(ms);
+            return ByteToStructHeader(ms);
         }
 
-        public static Packet ByteToStruct(MemoryStream ms)
+        public static Packet ByteToStructHeader(MemoryStream ms)
         {
             BinaryReader br = new BinaryReader(ms);
 
-            Packet pkt = new Packet();
-            pkt.type = (PktType)br.ReadInt32();
-            pkt.userId = br.ReadInt32();
-            pkt.carId = StringUtil.ExtendedTrim(Encoding.UTF8.GetString(br.ReadBytes(16)));
-            pkt.response = br.ReadInt32();
-            pkt.dataLen = br.ReadInt32();
+            try
+            {
+                Packet pkt = new Packet();
+                pkt.type = (PktType)br.ReadInt32();
+                pkt.userId = br.ReadInt32();
+                pkt.carId = StringUtil.ExtendedTrim(Encoding.UTF8.GetString(br.ReadBytes(16)));
+                pkt.response = br.ReadInt32();
+                pkt.dataLen = br.ReadInt32();
+
+                br.Close();
+                ms.Close();
+                return pkt;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static Packet DataParser(MemoryStream ms, Packet pkt)
+        {
+            BinaryReader br = new BinaryReader(ms);
             if (pkt.response == PKT_NACK)
             {
                 pkt.errMsg = BBDataConverter.ByteToString(br.ReadBytes(pkt.dataLen));
             }
             else
             {
+                pkt.data = br.ReadBytes(pkt.dataLen);
                 switch (pkt.type)
                 {
                     case PktType.AUTH:
-                        pkt.guid = BBDataConverter.ByteToString(br.ReadBytes(pkt.dataLen));
+                        pkt.guid = BBDataConverter.ByteToString(pkt.data);
                         break;
                     case PktType.PASSENGER:
-                        pkt.accessId = BitConverter.ToInt32(br.ReadBytes(pkt.dataLen), 0);
+                        pkt.accessId = BBDataConverter.BytesToInt32(pkt.data);
                         break;
                     case PktType.ORDER:
                         if (pkt.order == null)
                         {
                             pkt.order = new OrderInfo();
                         }
-                        pkt.order.orderId = BBDataConverter.ByteToString(br.ReadBytes(pkt.dataLen));
+                        pkt.order.orderId = BBDataConverter.ByteToString(pkt.data);
                         break;
                 }
             }

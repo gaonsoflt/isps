@@ -54,6 +54,10 @@ namespace AsyncSocketServer
                 {
                     pktStr.Append("ERROR_MSG[").Append(errMsg).Append("]");
                 }
+                if(dataLen > 10 && data != null)
+                {
+                    pktStr.Append("DATA[").Append(BBDataConverter.ByteToHexString(data.Take(10).ToArray())).Append("...]");
+                }
                 return pktStr.ToString();
             }
         }
@@ -98,6 +102,71 @@ namespace AsyncSocketServer
                 ms.Close();
                 return pkt;
             } 
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static Packet DataParser(MemoryStream ms, Packet pkt)
+        {
+            BinaryReader br = new BinaryReader(ms);
+            try
+            {
+                pkt.data = br.ReadBytes(pkt.dataLen);
+                switch (pkt.type)
+                {
+                    case PktType.AUTH:
+                        pkt.fingerPrint = BBDataConverter.BytesToImage(pkt.data);
+                        break;
+                    case PktType.PASSENGER:
+                        pkt.guid = BBDataConverter.ByteToString(pkt.data.Take(pkt.dataLen - 4).ToArray());
+                        //pkt.guid = BBDataConverter.ByteToString(br.ReadBytes(pkt.dataLen - 4));
+                        //pkt.psgCnt = BitConverter.ToInt32(br.ReadBytes(4), 0);
+                        pkt.psgCnt = BBDataConverter.BytesToInt32(pkt.data.Skip(pkt.dataLen - 4).ToArray());
+                        break;
+                    case PktType.ORDER:
+                        pkt.guid = BBDataConverter.ByteToString(pkt.data.Take(pkt.dataLen - 4).ToArray());
+                        //pkt.guid = BBDataConverter.ByteToString(br.ReadBytes(pkt.dataLen - 4));
+                        //pkt.accessId = BitConverter.ToInt32(br.ReadBytes(4), 0);
+                        pkt.accessId = BBDataConverter.BytesToInt32(pkt.data.Skip(pkt.dataLen - 4).ToArray());
+                        break;
+                }
+
+                br.Close();
+                ms.Close();
+                return pkt;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+        public static Packet ByteToStructHeader(byte[] buffer)
+        {
+            MemoryStream ms = new MemoryStream(buffer, false);
+            return ByteToStructHeader(ms);
+        }
+
+        public static Packet ByteToStructHeader(MemoryStream ms)
+        {
+            BinaryReader br = new BinaryReader(ms);
+
+            try
+            {
+                Packet pkt = new Packet();
+                pkt.type = (PktType)br.ReadInt32();
+                pkt.userId = br.ReadInt32();
+                pkt.carId = StringUtil.ExtendedTrim(Encoding.UTF8.GetString(br.ReadBytes(16)));
+                pkt.response = br.ReadInt32();
+                pkt.dataLen = br.ReadInt32();
+
+                br.Close();
+                ms.Close();
+                return pkt;
+            }
             catch (Exception e)
             {
                 throw e;

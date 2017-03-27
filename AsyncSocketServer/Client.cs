@@ -18,21 +18,30 @@ namespace AsyncSocketServer
     #region ReceiveBuffer define
     struct ReceiveBuffer
     {
-        //public const int BUFFER_SIZE = 1024;
-        public const int BUFFER_SIZE = 4096;
+        public const int BUFFER_SIZE = 1024;
         public byte[] Buffer;
         public int ToReceive;
         public MemoryStream BufStream;
+        public Packet pkt;
 
-        public ReceiveBuffer(int toRec)
+        public ReceiveBuffer(byte[] bytes)
         {
             Buffer = new byte[BUFFER_SIZE];
-            ToReceive = toRec;
-            BufStream = new MemoryStream(toRec);
+            pkt = DataPacket.ByteToStructHeader(bytes);
+            ToReceive = pkt.dataLen;
+            BufStream = new MemoryStream(pkt.dataLen);
         }
+
+        //public ReceiveBuffer(int toRec)
+        //{
+        //    Buffer = new byte[BUFFER_SIZE];
+        //    ToReceive = toRec;
+        //    BufStream = new MemoryStream(toRec);
+        //}
 
         public void Dispose()
         {
+            pkt = new Packet();
             Buffer = null;
             ToReceive = 0;
             Close();
@@ -58,7 +67,7 @@ namespace AsyncSocketServer
         public static event SetMatchedUserHandler UpdateMatchedUser;
 
         public string name;
-        byte[] lenBuffer;
+        byte[] headBuf;
         ReceiveBuffer buffer;
         Socket socket;
         MyPerson loginUser;
@@ -86,7 +95,7 @@ namespace AsyncSocketServer
         public Client(Socket s)
         {
             socket = s;
-            lenBuffer = new byte[4];
+            headBuf = new byte[32];
             name = this.EndPoint.ToString();
             hisDB = new AccessHisDB();
         }
@@ -111,14 +120,14 @@ namespace AsyncSocketServer
 
             buffer.Dispose();
             socket = null;
-            lenBuffer = null;
+            headBuf = null;
             Disconnected = null;
             DataReceived = null;
         }
 
         public void ReceiveAsync()
         {
-            socket.BeginReceive(lenBuffer, 0, lenBuffer.Length, SocketFlags.None, receiveCallBack, null);
+            socket.BeginReceive(headBuf, 0, headBuf.Length, SocketFlags.None, receiveCallBack, null);
         }
 
         public void receiveCallBack(IAsyncResult ar)
@@ -136,14 +145,14 @@ namespace AsyncSocketServer
                     }
                 }
 
-                if (rec != 4)
+                if (rec != headBuf.Length)
                 {
                     throw new Exception();
                 }
             }
-            catch(SocketException se)
+            catch (SocketException se)
             {
-                switch(se.SocketErrorCode)
+                switch (se.SocketErrorCode)
                 {
                     case SocketError.ConnectionAborted:
                     case SocketError.ConnectionReset:
@@ -155,11 +164,11 @@ namespace AsyncSocketServer
                         break;
                 }
             }
-            catch(ObjectDisposedException)
+            catch (ObjectDisposedException)
             {
                 return;
             }
-            catch(NullReferenceException)
+            catch (NullReferenceException)
             {
                 return;
             }
@@ -169,8 +178,7 @@ namespace AsyncSocketServer
                 return;
             }
 
-            buffer = new ReceiveBuffer(BitConverter.ToInt32(lenBuffer, 0));
-
+            buffer = new ReceiveBuffer(headBuf);
             socket.BeginReceive(buffer.Buffer, 0, buffer.Buffer.Length, SocketFlags.None, receivePacketCallBack, null);
         }
 
@@ -202,15 +210,101 @@ namespace AsyncSocketServer
             }
 
             buffer.Dispose();
-
             ReceiveAsync();
         }
+
+
+
+        //public void receiveCallBack(IAsyncResult ar)
+        //{
+        //    try
+        //    {
+        //        int rec = socket.EndReceive(ar);
+
+        //        if (rec == 0)
+        //        {
+        //            if (Disconnected != null)
+        //            {
+        //                Disconnected(this);
+        //                return;
+        //            }
+        //        }
+
+        //        if (rec != 4)
+        //        {
+        //            throw new Exception();
+        //        }
+        //    }
+        //    catch(SocketException se)
+        //    {
+        //        switch(se.SocketErrorCode)
+        //        {
+        //            case SocketError.ConnectionAborted:
+        //            case SocketError.ConnectionReset:
+        //                if (Disconnected != null)
+        //                {
+        //                    Disconnected(this);
+        //                    return;
+        //                }
+        //                break;
+        //        }
+        //    }
+        //    catch(ObjectDisposedException)
+        //    {
+        //        return;
+        //    }
+        //    catch(NullReferenceException)
+        //    {
+        //        return;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //        return;
+        //    }
+
+        //    buffer = new ReceiveBuffer(BitConverter.ToInt32(lenBuffer, 0));
+
+        //    socket.BeginReceive(buffer.Buffer, 0, buffer.Buffer.Length, SocketFlags.None, receivePacketCallBack, null);
+        //}
+
+        //public void receivePacketCallBack(IAsyncResult ar)
+        //{
+        //    int rec = socket.EndReceive(ar);
+
+        //    if (rec <= 0)
+        //    {
+        //        return;
+        //    }
+
+        //    buffer.BufStream.Write(buffer.Buffer, 0, rec);
+
+        //    buffer.ToReceive -= rec;
+
+        //    if (buffer.ToReceive > 0)
+        //    {
+        //        Array.Clear(buffer.Buffer, 0, buffer.Buffer.Length);
+
+        //        socket.BeginReceive(buffer.Buffer, 0, buffer.Buffer.Length, SocketFlags.None, receivePacketCallBack, null);
+        //        return;
+        //    }
+
+        //    if (DataReceived != null)
+        //    {
+        //        buffer.BufStream.Position = 0;
+        //        DataReceived(this, buffer);
+        //    }
+
+        //    buffer.Dispose();
+
+        //    ReceiveAsync();
+        //}
 
         void Send(byte[] data, int index, int length)
         {
             UpdateLogMsg("send data: " + BBDataConverter.ByteToHexString(data));
             //socket.BeginSend(BitConverter.GetBytes(length), 0, 4, SocketFlags.None, sendCallBack, null);
-            System.Threading.Thread.Sleep(500);
+            //System.Threading.Thread.Sleep(500);
             socket.BeginSend(data, index, length, SocketFlags.None, sendCallBack, null);
         }
 
