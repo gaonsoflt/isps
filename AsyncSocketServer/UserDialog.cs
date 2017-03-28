@@ -153,7 +153,7 @@ namespace AsyncSocketServer
                             StatusMessage("Succeed export fingerprint data.");
                             Invoke((MethodInvoker)delegate
                             {
-                                pbFingerPrint.Image = BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), 320, 240);
+                                pbFingerPrint.Image = BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), FingerSensorPacket.SIZE_FP_WIDTH, FingerSensorPacket.SIZE_FP_HEIGHT);
                             });
                         }
                         else

@@ -117,7 +117,7 @@ namespace AsyncSocketServer
                 switch (pkt.type)
                 {
                     case PktType.AUTH:
-                        pkt.fingerPrint = BBDataConverter.BytesToImage(pkt.data);
+                        pkt.fingerPrint = BBDataConverter.GrayRawToBitmap(FingerSensor.ScaleImage320x240(pkt.data), FingerSensorPacket.SIZE_FP_WIDTH, FingerSensorPacket.SIZE_FP_HEIGHT);
                         break;
                     case PktType.PASSENGER:
                         pkt.guid = BBDataConverter.ByteToString(pkt.data.Take(pkt.dataLen - 4).ToArray());

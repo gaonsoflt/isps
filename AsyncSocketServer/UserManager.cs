@@ -36,7 +36,7 @@ namespace AsyncSocketServer
         public UserManager()
         {
             // Look up the probe using Threshold = 10
-            UserManager.afis.Threshold = 10;
+            UserManager.afis.Threshold = 25;
         }
 
         // Inherit from Fingerprint in order to add Filename field
@@ -69,19 +69,25 @@ namespace AsyncSocketServer
             MyPerson matchUser = null;
             try
             {
-                matchUser = UserManager.afis.Identify(probeUser, loadUsers()).FirstOrDefault() as MyPerson;
+                //matchUser = UserManager.afis.Identify(probeUser, loadUsers()).FirstOrDefault() as MyPerson;
+
+                matchUser = (from candidate in loadUsers()
+                             let score = afis.Verify(probeUser, candidate)
+                             where score >= afis.Threshold
+                             orderby score descending
+                             select candidate).FirstOrDefault();
                 if (matchUser == null)
                 {
                     Console.WriteLine("No matching person found.");
                     Console.Out.WriteLine();
-                    return null;
+                    return matchUser;
                 }
                 // Print out any non-null result
-                Console.WriteLine("Probe {0} matches registered person {1}", probeUser.Name, matchUser.Name);
+                //Console.WriteLine("Probe {0} matches registered person {1}", probeUser.Name, matchUser.Name);
 
                 // Compute similarity score
-                float score = UserManager.afis.Verify(probeUser, matchUser);
-                Console.WriteLine("Similarity score between {0} and {1} = {2:F3}", probeUser.Name, matchUser.Name, score);
+                //float scorea = UserManager.afis.Verify(probeUser, matchUser);
+                //Console.WriteLine("Similarity score between {0} and {1} = {2:F3}", probeUser.Name, matchUser.Name, scorea);
                 Console.Out.WriteLine();
                 return matchUser;
             }
@@ -89,8 +95,13 @@ namespace AsyncSocketServer
             {
                 Console.WriteLine(e.Message);
                 Console.Out.WriteLine();
-                return null;
             }
+            return matchUser;
+        }
+
+        public static float VerifyUserMatchRate(MyPerson tarUser, MyPerson refUser)
+        {
+            return afis.Verify(tarUser, refUser);
         }
 
 

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Ports;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -211,33 +212,43 @@ namespace AsyncSocketServer
                 return OEM_COMM_ERR;
             }
 
-            for (int i = 0; i < gbyImgRaw.Length; i++)
-            {
-                gbyImgRaw[i] = 66;
-            }
-            for (int i = 0; i < 120; i++)
-            {
-                for (int j = 0; j < 160; j++)
-                {
-                    gbyImgRaw[320 * (2 * i + 0) + (2 * j + 0)] = gbyImgRaw_tmp[i * 160 + j];
-                    gbyImgRaw[320 * (2 * i + 0) + (2 * j + 1)] = gbyImgRaw_tmp[i * 160 + j];
-                    gbyImgRaw[320 * (2 * i + 1) + (2 * j + 0)] = gbyImgRaw_tmp[i * 160 + j];
-                    gbyImgRaw[320 * (2 * i + 1) + (2 * j + 1)] = gbyImgRaw_tmp[i * 160 + j];
-                }
-            }
-            //try
+            //for (int i = 0; i < gbyImgRaw.Length; i++)
             //{
-            //    //MemoryStream ms = new MemoryStream(gbyImgRaw);
-            //    //Image.FromStream(ms).Save("img.jpg", ImageFormat.Jpeg);
-            //    ByteArrayToFile("bbaek_fp_raw.dat", gbyImgRaw);
-            //    ByteArrayToFile("bbaek_fp_raw_t.dat", gbyImgRaw_tmp);
+            //    gbyImgRaw[i] = 66;
             //}
-
-            //catch (Exception e)
+            //for (int i = 0; i < 120; i++)
             //{
-            //    Console.WriteLine(e.Message);
+            //    for (int j = 0; j < 160; j++)
+            //    {
+            //        gbyImgRaw[320 * (2 * i + 0) + (2 * j + 0)] = gbyImgRaw_tmp[i * 160 + j];
+            //        gbyImgRaw[320 * (2 * i + 0) + (2 * j + 1)] = gbyImgRaw_tmp[i * 160 + j];
+            //        gbyImgRaw[320 * (2 * i + 1) + (2 * j + 0)] = gbyImgRaw_tmp[i * 160 + j];
+            //        gbyImgRaw[320 * (2 * i + 1) + (2 * j + 1)] = gbyImgRaw_tmp[i * 160 + j];
+            //    }
             //}
+            gbyImgRaw = ScaleImage320x240(gbyImgRaw_tmp);
             return 0;
+        }
+
+        public static byte[] ScaleImage320x240(byte[] bytes)
+        {
+            if (bytes.Length <= (160 * 120))
+            {
+                int size = 320 * 240;
+                byte[] scaledImg = Enumerable.Repeat<byte>(0x42, size).ToArray();
+                for (int i = 0; i < 120; i++)
+                {
+                    for (int j = 0; j < 160; j++)
+                    {
+                        scaledImg[320 * (2 * i + 0) + (2 * j + 0)] = bytes[i * 160 + j];
+                        scaledImg[320 * (2 * i + 0) + (2 * j + 1)] = bytes[i * 160 + j];
+                        scaledImg[320 * (2 * i + 1) + (2 * j + 0)] = bytes[i * 160 + j];
+                        scaledImg[320 * (2 * i + 1) + (2 * j + 1)] = bytes[i * 160 + j];
+                    }
+                }
+                return scaledImg;
+            }
+            return bytes;
         }
 
         public bool ByteArrayToFile(string _FileName, byte[] _ByteArray)

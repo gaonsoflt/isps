@@ -350,21 +350,19 @@ namespace AsyncSocketServer
                         if (fingerSensor.CmdGetRawImage() == 0)
                         {
                             UpdateStatusMessage("Succeed export fingerprint data.");
-                            byte[] iBytes = BBDataConverter.ImageToByte(BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), FingerSensorPacket.SIZE_FP_WIDTH, FingerSensorPacket.SIZE_FP_HEIGHT));
+                            pbImage.Image = BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), FingerSensorPacket.SIZE_FP_WIDTH, FingerSensorPacket.SIZE_FP_HEIGHT);
                             UserManager fpm = new UserManager();
-                            MyPerson guest = fpm.Enroll(iBytes, "guest");
+                            MyPerson guest = fpm.Enroll(BBDataConverter.ImageToByte(pbImage.Image), "guest");
                             MyPerson match = fpm.recognition(guest);
-
-                            pbImage.Image = Image.FromStream(new MemoryStream(iBytes));
                             if (match != null)
                             {
-                                UpdateCompMatchedUser(match);
-                                UpdateStatusMessage("Matched person(" + tbName.Text + ")");
+                                UpdateCompLogMsg("Matched person(" + match.Name + "): " + VerifyUserMatchRate(guest, match));
                             }
                             else
                             {
-                                UpdateStatusMessage("No matching person found.");
+                                UpdateCompLogMsg("No matching person found.");
                             }
+                            UpdateCompMatchedUser(match);
                         }
                         else
                         {
@@ -402,11 +400,22 @@ namespace AsyncSocketServer
         {
             Invoke((MethodInvoker)delegate
             {
-                tbId.Text = match.Id.ToString();
-                tbName.Text = match.Name.ToString();
-                tbPhone.Text = match.Phone.ToString();
-                tbGuid.Text = match.Guid.ToString();
-                pbFPRef.Image = match.Fingerprints[0].AsBitmap;
+                if (match != null)
+                {
+                    tbId.Text = match.Id.ToString();
+                    tbName.Text = match.Name.ToString();
+                    tbPhone.Text = match.Phone.ToString();
+                    tbGuid.Text = match.Guid.ToString();
+                    pbFPRef.Image = match.Fingerprints[0].AsBitmap;
+                }
+                else
+                {
+                    tbId.Text = "";
+                    tbName.Text = "";
+                    tbPhone.Text = "";
+                    tbGuid.Text = "";
+                    pbFPRef.Image = null;
+                }
             });
         }
 
