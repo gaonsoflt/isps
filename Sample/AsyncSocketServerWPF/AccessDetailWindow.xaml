@@ -1,0 +1,92 @@
+﻿<Window x:Class="AsyncSocketServerWPF.AccessDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AsyncSocketServerWPF"
+        xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+        mc:Ignorable="d"
+        Title="출입" FontSize="14" ResizeMode="NoResize" Width="710" Height="500" Loaded="Window_Loaded">
+    <Grid Margin="10 10 10 10">
+        <DockPanel>
+            <Grid DockPanel.Dock="Right" x:Name="orderForm" Width="350" Margin="10 0 0 0">
+                <GroupBox Header="작업지시서">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0" Content="지시서번호" HorizontalAlignment="Right" VerticalContentAlignment="Center"/>
+                        <TextBox Grid.Column="1" Grid.Row="0" x:Name="tbOrderId" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="" VerticalAlignment="Center"/>
+                        <Label Grid.Column="0" Grid.Row="1" Content="작업일자" HorizontalAlignment="Right" VerticalContentAlignment="Center"/>
+                        <DatePicker Grid.Column="1" Grid.Row="1" x:Name="dtpWorkDt" HorizontalAlignment="Stretch" VerticalAlignment="Center" SelectedDateFormat="Short"/>
+                        <Label Grid.Column="0" Grid.Row="2" Content="필드1" HorizontalAlignment="Right" VerticalContentAlignment="Center"/>
+                        <TextBox Grid.Column="1" Grid.Row="2" x:Name="tbOrderField1" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="" VerticalAlignment="Center"/>
+                        <Label Grid.Column="0" Grid.Row="3" Content="필드2" HorizontalAlignment="Right" VerticalContentAlignment="Center"/>
+                        <TextBox Grid.Column="1" Grid.Row="3" x:Name="tbOrderField2" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="" VerticalAlignment="Center"/>
+                        <Label Grid.Column="0" Grid.Row="4" Content="필드3" HorizontalAlignment="Right" VerticalContentAlignment="Center"/>
+                        <TextBox Grid.Column="1" Grid.Row="4" x:Name="tbOrderField3" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="" VerticalAlignment="Center"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+            <Grid DockPanel.Dock="Top" x:Name="accessForm">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Content="출입번호" HorizontalAlignment="Right"/>
+                <TextBox Grid.Column="1" Grid.Row="0" x:Name="tbAccessSeq" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="" VerticalAlignment="Center" IsReadOnly="true" Background="WhiteSmoke"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="아이디" HorizontalAlignment="Right"/>
+                <TextBox Grid.Column="1" Grid.Row="1" x:Name="tbUserId" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="" VerticalAlignment="Center" IsReadOnly="true" Background="WhiteSmoke"/>
+                <Label Grid.Column="0" Grid.Row="2" Content="이름" HorizontalAlignment="Right"/>
+                <TextBox Grid.Column="1" Grid.Row="2" x:Name="tbUserNm" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="" VerticalAlignment="Center" IsReadOnly="true" Background="WhiteSmoke"/>
+                <Label Grid.Column="0" Grid.Row="3" Content="차량번호" HorizontalAlignment="Right"/>
+                <ComboBox Grid.Column="1" Grid.Row="3" x:Name="cbCarId" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsEditable="True" DisplayMemberPath="car_id" SelectedValuePath="car_id"/>
+                <Label Grid.Column="0" Grid.Row="4" Content="동승자" HorizontalAlignment="Right"/>
+                <TextBox Grid.Column="1" Grid.Row="4" x:Name="tbPsgCnt" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="" VerticalAlignment="Center" PreviewTextInput="NumberValidationTextBox"/>
+                <Label Grid.Column="0" Grid.Row="5" Content="출입목적" HorizontalAlignment="Right"/>
+                <TextBox Grid.Column="1" Grid.Row="5" x:Name="tbPurpose" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="" VerticalAlignment="Center"/>
+                <Label Grid.Column="0" Grid.Row="6" Content="출입시작" HorizontalAlignment="Right"/>
+                <wpfTool:DateTimePicker Grid.Column="1" Grid.Row="6" x:Name="dtpStartDT" HorizontalAlignment="Stretch" VerticalAlignment="Center" Format="Custom" FormatString="yyyy년 MM월 dd일 HH시 mm분" ValueChanged="dtpStartDT_ValueChanged"/>
+                <Label Grid.Column="0" Grid.Row="7" Content="허용시간" HorizontalAlignment="Right"/>
+                <TextBox Grid.Column="1" Grid.Row="7" x:Name="tbAllowDt" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="" VerticalAlignment="Center" IsReadOnly="true" Background="WhiteSmoke" HorizontalContentAlignment="Right"/>
+                <Label Grid.Column="0" Grid.Row="8" Content="출입종료" HorizontalAlignment="Right"/>
+                <wpfTool:DateTimePicker Grid.Column="1" Grid.Row="8" x:Name="dtpEndDT" HorizontalAlignment="Stretch" VerticalAlignment="Center" Format="Custom" FormatString="yyyy년 MM월 dd일 HH시 mm분" ValueChanged="dtpEndDT_ValueChanged"/>
+                <Label Grid.Column="0" Grid.Row="9" Content="출입여부" HorizontalAlignment="Right"/>
+                <TextBox Grid.Column="1" Grid.Row="9" x:Name="tbAccessDt" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="" HorizontalContentAlignment="Right" VerticalAlignment="Center" IsReadOnly="true" Background="WhiteSmoke"/>
+            </Grid>
+            <Grid DockPanel.Dock="Bottom" Margin="0 10 0 0" VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Button Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" x:Name="btnOrder" Content="작업지시서 닫기" Click="btnOrder_Click"/>
+                <Button Grid.Column="0" Grid.Row="1" x:Name="btnCancel" Content="취소" Click="btnCancel_Click"/>
+                <Button Grid.Column="1" Grid.Row="1" x:Name="btnSave" Content="저장" Click="btnSave_Click"/>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>

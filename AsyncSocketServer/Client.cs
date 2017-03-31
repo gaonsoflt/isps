@@ -16,7 +16,7 @@ using static AsyncSocketServer.OrderInfoManager;
 namespace AsyncSocketServer
 {
     #region ReceiveBuffer define
-    struct ReceiveBuffer
+    public struct ReceiveBuffer
     {
         public const int BUFFER_SIZE = 1024;
         public byte[] Buffer;
@@ -58,7 +58,7 @@ namespace AsyncSocketServer
     #endregion
 
     #region Client define
-    class Client
+    public class Client
     {
         public delegate void SetLogHandler(string msg);
         public static event SetLogHandler UpdateLogMsg;
@@ -325,13 +325,15 @@ namespace AsyncSocketServer
             }
         }
 
-        public void RunAuth(Packet pkt)
+        public MyPerson RunAuth(Packet pkt)
         {
             UserManager fpm = new UserManager();
+            MyPerson match = null;
             Code code;
             try
             {
-                MyPerson match = fpm.recognition(fpm.Enroll(BBDataConverter.ImageToByte(pkt.fingerPrint), "guest"));
+                MyPerson guest = fpm.Enroll(BBDataConverter.ImageToByte(pkt.fingerPrint), "guest");
+                match = fpm.recognition(guest);
                 if (match != null)
                 {
                     Console.WriteLine("Found matched fingerprint.");
@@ -340,7 +342,7 @@ namespace AsyncSocketServer
                     {
                         SetLoginUser(match);
                         UpdateLogMsgWithName("Matched person(" + match.Name.ToString() + ")");
-                        UpdateMatchedUser(match);
+                        //UpdateMatchedUser(match);
                         pkt.guid = GetLoginUser().Guid;
                         code = Code.SUCCESS_AUTH;
                     }
@@ -353,6 +355,7 @@ namespace AsyncSocketServer
                 else
                 {
                     Console.WriteLine("Not found matched fingerprint.");
+                    UpdateLogMsgWithName("Not found matched fingerprint");
                     code = Code.NOT_FND_FINGERPRINT;
                 }
             }
@@ -362,6 +365,7 @@ namespace AsyncSocketServer
                 pkt.errMsg = e.Message;
             }
             SendResponse(pkt, code);
+            return match;
         }
 
         public void RunPassenger(Packet pkt)

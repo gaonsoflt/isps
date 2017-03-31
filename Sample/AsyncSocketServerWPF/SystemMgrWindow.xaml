@@ -1,0 +1,219 @@
+﻿<Window x:Class="AsyncSocketServerWPF.SystemMgrWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AsyncSocketServerWPF"
+        xmlns:chartCtrl="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        mc:Ignorable="d"
+        Title="시스템관리" Height="830" Width="1250" FontSize="14" ShowInTaskbar="False" Loaded="Window_Loaded" Initialized="Window_Initialized">
+    <DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem HorizontalAlignment="Stretch">
+                <TextBlock Text="..." x:Name="statusLabel"/>
+            </StatusBarItem>
+        </StatusBar>
+
+        <Grid DockPanel.Dock="Top" Margin="10 10 10 10">
+            <DockPanel>
+                <GroupBox DockPanel.Dock="Left" x:Name="groupBox2" Header="검색" Margin="0 0 20 0">
+                    <DockPanel Margin="10 10 10 10">
+                        <Label DockPanel.Dock="Left" x:Name="lbKeyword" Content="이름" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 30 0"/>
+                        <TextBox DockPanel.Dock="Left" x:Name="tbKeyword" Width="200" VerticalContentAlignment="Center" Margin="10 0 30 0"/>
+                        <Button DockPanel.Dock="Left" x:Name="btnSearch" Content="조회" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="50" Margin="0 0 0 0" Click="btnSearch_Click"/>
+                    </DockPanel>
+                </GroupBox>
+                <GroupBox DockPanel.Dock="Left" x:Name="gbGroup" Header="관리">
+                    <DockPanel Margin="10 10 10 10">
+                        <Button DockPanel.Dock="Left" x:Name="btnCreate" Content="생성" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="50" Margin="0 0 0 0" Click="btnCreate_Click"/>
+                        <Button DockPanel.Dock="Left" x:Name="btnDelete" Content="삭제" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="50" Margin="10 0 0 0" Click="btnDelete_Click"/>
+                        <Button DockPanel.Dock="Left" x:Name="btnModify" Content="수정" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="50" Margin="10 0 0 0" Click="btnModify_Click"/>
+                        <Button DockPanel.Dock="Left" x:Name="btnClose" Content="닫기" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="50" Click="btnClose_Click" Margin="10 0 0 0"/>
+                    </DockPanel>
+                </GroupBox>
+            </DockPanel>
+        </Grid>
+
+        <Grid DockPanel.Dock="Bottom" Height="50">
+            <Grid x:Name="toolStripPaging" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Content="전체:" VerticalContentAlignment="Center"/>
+                <TextBlock Grid.Column="1" Grid.Row="0" x:Name="toolStripLbTotal" TextWrapping="Wrap" Text="0" VerticalAlignment="Center" Margin="0 0 30 0"/>
+                <Button Grid.Column="2" Grid.Row="0" x:Name="btnFirst" Height="25" Width="25" BorderBrush="{x:Null}" Click="ToolStripButtonClick">
+                    <Image Source="Resources\fastreverse.JPG"/>
+                </Button>
+                <Button Grid.Column="3" Grid.Row="0" x:Name="btnBackward" Height="25" Width="25" BorderBrush="{x:Null}" Click="ToolStripButtonClick">
+                    <Image Source="Resources\back.JPG"/>
+                </Button>
+                <Button Grid.Column="4" Grid.Row="0" x:Name="toolStripButton1" Content="1" Height="25" Width="25" BorderBrush="{x:Null}" Background="{x:Null}" Click="ToolStripButtonClick"/>
+                <Button Grid.Column="5" Grid.Row="0" x:Name="toolStripButton2" Content="2" Height="25" Width="25" BorderBrush="{x:Null}" Background="{x:Null}" Click="ToolStripButtonClick"/>
+                <Button Grid.Column="6" Grid.Row="0" x:Name="toolStripButton3" Content="3" Height="25" Width="25" BorderBrush="{x:Null}" Background="{x:Null}" Click="ToolStripButtonClick"/>
+                <Button Grid.Column="7" Grid.Row="0" x:Name="toolStripButton4" Content="4" Height="25" Width="25" BorderBrush="{x:Null}" Background="{x:Null}" Click="ToolStripButtonClick"/>
+                <Button Grid.Column="8" Grid.Row="0" x:Name="toolStripButton5" Content="5" Height="25" Width="25" BorderBrush="{x:Null}" Background="{x:Null}" Click="ToolStripButtonClick"/>
+                <Button Grid.Column="9" Grid.Row="0" x:Name="btnForward" Height="25" Width="25" BorderBrush="{x:Null}" Click="ToolStripButtonClick">
+                    <Image Source="Resources\forward.jpg"/>
+                </Button>
+                <Button Grid.Column="10" Grid.Row="0" x:Name="btnLast" Height="25" Width="25" BorderBrush="{x:Null}" Click="ToolStripButtonClick">
+                    <Image Source="Resources\fastforward.JPG"/>
+                </Button>
+                <Label Grid.Column="11" Grid.Row="0" Content="출력수:" VerticalContentAlignment="Center" Margin="30 0 0 0"/>
+                <ComboBox Grid.Column="12" Grid.Row="0" x:Name="toolStripCbCount" Height="25" Width="50"/>
+            </Grid>
+        </Grid>
+
+        <Grid DockPanel.Dock="Bottom">
+            <TabControl x:Name="tabControl" SelectionChanged="tabControl_SelectionChanged">
+                <TabItem x:Name="tabAvg" Header="통계">
+                    <Grid Background="#FFE5E5E5">
+                        <DockPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    <ColumnDefinition Width="5*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <DockPanel>
+                                    <DatePicker DockPanel.Dock="Top" x:Name="dtpAvgDate" HorizontalAlignment="Stretch" VerticalAlignment="Top" SelectedDateChanged="dtpAvgDate_SelectedDateChanged" SelectedDateFormat="Short"/>
+                                    <Grid DockPanel.Dock="Top">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50"></RowDefinition>
+                                            <RowDefinition Height="50"></RowDefinition>
+                                            <RowDefinition Height="50"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Label Content="출입신청" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                                        <Label Content="출입" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                                        <Label Content="미출입" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                                        <TextBlock x:Name="tbAccessReqTotal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="0" VerticalAlignment="Center" FontSize="20"/>
+                                        <TextBlock x:Name="tbAccessTotal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="0" VerticalAlignment="Center" FontSize="20"/>
+                                        <TextBlock x:Name="tbNonAccessTotal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="0" VerticalAlignment="Center" FontSize="20"/>
+                                    </Grid>
+                                    <DataGrid DockPanel.Dock="Top" x:Name="dgvAvgInfo" Height="200" AutoGenerateColumns="False" IsReadOnly="True">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="출입일시" Binding="{Binding Path=access_dt, StringFormat=\{0:MM-dd HH:mm:ss\}}"/>
+                                            <DataGridTextColumn Header="출입자" Binding="{Binding Path=user_nm}" />
+                                            <DataGridTextColumn Header="출입차량" Binding="{Binding Path=car_id}"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <ComboBox DockPanel.Dock="Top" x:Name="cbChartType" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Stretch" SelectionChanged="cbChartType_SelectionChanged"/>
+                                </DockPanel>
+                                <chartCtrl:Chart x:Name="avgChart" Grid.Row="0" Grid.Column="1">
+                                    <chartCtrl:Chart.LegendStyle>
+                                        <Style TargetType="Control">
+                                            <Setter Property="Width" Value="0"/>
+                                        </Style>
+                                    </chartCtrl:Chart.LegendStyle>
+                                    <chartCtrl:ColumnSeries 
+                                      DependentValuePath="Value"
+                                      IndependentValuePath="Key"
+                                      ItemsSource="{Binding}"
+                                      IsSelectionEnabled="True"/>
+                                </chartCtrl:Chart>
+                            </Grid>
+                        </DockPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tabAccess" Header="출입정보관리">
+                    <Grid Background="#FFE5E5E5">
+                        <DockPanel>
+                            <DataGrid DockPanel.Dock="Top" x:Name="dgvAccessUser" Height="200" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionChanged="dataGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="아이디" Binding="{Binding Path=user_id}"/>
+                                    <DataGridTextColumn Header="GUID" Binding="{Binding Path=user_guid}"/>
+                                    <DataGridTextColumn Header="이름" Binding="{Binding Path=user_nm}"/>
+                                    <DataGridTextColumn Header="주민번호" Binding="{Binding Path=user_idnum}"/>
+                                    <DataGridTextColumn Header="연락처" Binding="{Binding Path=phone}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <DataGrid DockPanel.Dock="Bottom" x:Name="dgvAccessInfo" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionChanged="dataGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="출입번호" Binding="{Binding Path=access_info_sq}"/>
+                                    <DataGridTextColumn Header="동승자수" Binding="{Binding Path=psg_cnt}"/>
+                                    <DataGridTextColumn Header="차량번호" Binding="{Binding Path=car_id}"/>
+                                    <DataGridTextColumn Header="작업지시서번호" Binding="{Binding Path=order_id}"/>
+                                    <DataGridTextColumn Header="출입목적" Binding="{Binding Path=purpose}"/>
+                                    <DataGridTextColumn Header="출입시작" Binding="{Binding Path=allow_start_dt, StringFormat=\{0:yyyy년 MM월 dd일 HH시 mm분\}}"/>
+                                    <DataGridTextColumn Header="출입종료" Binding="{Binding Path=allow_end_dt, StringFormat=\{0:yyyy년 MM월 dd일 HH시 mm분\}}"/>
+                                    <DataGridTextColumn Header="출입시간" Binding="{Binding Path=access_dt, StringFormat=\{0:yyyy년 MM월 dd일 HH시 mm분 ss초\}}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tabUser" Header="출입자관리">
+                    <Grid Background="#FFE5E5E5">
+                        <DockPanel>
+                            <DataGrid DockPanel.Dock="Top" x:Name="dgvUser" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionChanged="dataGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="아이디" Binding="{Binding Path=user_id}"/>
+                                    <DataGridTextColumn Header="GUID" Binding="{Binding Path=user_guid}"/>
+                                    <DataGridTextColumn Header="이름" Binding="{Binding Path=user_nm}"/>
+                                    <DataGridTextColumn Header="주민번호" Binding="{Binding Path=user_idnum}"/>
+                                    <DataGridTextColumn Header="연락처" Binding="{Binding Path=phone}"/>
+                                    <DataGridTextColumn Header="이메일" Binding="{Binding Path=email}"/>
+                                    <DataGridTemplateColumn Header="지문정보">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Height="48" Width="64" Source="{Binding Path=fp_data}" Stretch="Fill" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tabCar" Header="차량관리">
+                    <Grid Background="#FFE5E5E5">
+                        <DockPanel>
+                            <DataGrid DockPanel.Dock="Top" x:Name="dgvCar" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionChanged="dataGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="차량번호" Binding="{Binding Path=car_id}"/>
+                                    <DataGridTextColumn Header="차량소유자" Binding="{Binding Path=car_owner}"/>
+                                    <DataGridTextColumn Header="등록일" Binding="{Binding Path=reg_dt, StringFormat=\{0:yyyy년 MM월 dd일 HH시 mm분\}}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tabHistory" Header="이력관리">
+                    <Grid Background="#FFE5E5E5">
+                        <DockPanel>
+                            <DataGrid DockPanel.Dock="Top" x:Name="dgvHistory" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="일자" Binding="{Binding Path=reg_dt, StringFormat=\{0:yyyy년 MM월 dd일 HH시 mm분 ss초\}}"/>
+                                    <DataGridTextColumn Header="처리결과" Binding="{Binding Path=rt_code}" />
+                                    <DataGridTextColumn Header="출입자아이디" Binding="{Binding Path=user_id}"/>
+                                    <DataGridTextColumn Header="출입자이름" Binding="{Binding Path=user_nm}"/>
+                                    <DataGridTextColumn Header="아이피" Binding="{Binding Path=ip}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </DockPanel>
+</Window>

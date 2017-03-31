@@ -1,0 +1,47 @@
+﻿<Window x:Class="AsyncSocketServerWPF.ServerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AsyncSocketServerWPF"
+        mc:Ignorable="d"
+        Title="SERVER" Height="603.391" Width="1100" WindowStartupLocation="CenterScreen" WindowState="Maximized" Initialized="Window_Initialized"
+        FontSize="14">
+    <DockPanel Name="dockPanel1">
+        <Grid DockPanel.Dock="Right" Width="200" Margin="10,10,10,0">
+            <DockPanel Name="dockPanel2">
+                <Label DockPanel.Dock="Top" x:Name="label1" Content="컨트롤러" FontWeight="Bold"/>
+                <Button DockPanel.Dock="Top" x:Name="btnListen" Content="START" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50" Click="btnListen_Click" Margin="0,0,0,10"/>
+                <Button DockPanel.Dock="Top" x:Name="btnClose" Content="STOP" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50" Click="btnClose_Click" Margin="0,0,0,10" IsEnabled="False"/>
+                <CheckBox DockPanel.Dock="Top" x:Name="cbConnetType" Content="Serial Port 포함" VerticalAlignment="Top" Margin="0,0,0,10" Click="cbConnetType_Click"/>
+                <ComboBox DockPanel.Dock="Top" x:Name="cbComPort" Height="30" Margin="0,0,0,10"/>
+                <ComboBox DockPanel.Dock="Top" x:Name="cbComRate" Height="30" Margin="0,0,0,10"/>
+                <Button DockPanel.Dock="Top" x:Name="btnSerialOpen" Content="OPEN" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50" Margin="0,0,0,10" Click="btnSerialOpen_Click"/>
+                <Button DockPanel.Dock="Top" x:Name="btnSerialClose" Content="CLOSE" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50" Margin="0,0,0,10" Click="btnSerialClose_Click" IsEnabled="False"/>
+                <Button DockPanel.Dock="Top" x:Name="btnSysMgr" Content="시스템관리" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50" Margin="0,0,0,10" Click="btnSysMgr_Click"/>
+                <Button DockPanel.Dock="Top" x:Name="btnTestAuth" Content="지문테스트" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50" Margin="0,0,0,10" Click="btnTestAuth_Click" IsEnabled="False"/>
+            </DockPanel>
+        </Grid>
+        <Grid DockPanel.Dock="Bottom" Margin="10,10,0,10" Height="300">
+            <GroupBox x:Name="groupBox1" Header="유저정보" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontWeight="Bold"/>
+            <DockPanel Name="dockPanel3" Margin="10,20,10,10">
+                <Image DockPanel.Dock="Left" x:Name="pbImage" Height="240" Width="320" Margin="0,0,10,0"/>
+                <Image DockPanel.Dock="Left" x:Name="pbFPRef" Height="240" Width="320" Margin="0,0,10,0"/>
+                <Grid DockPanel.Dock="Left" Width="250" HorizontalAlignment="Left">
+                    <DockPanel LastChildFill="False">
+                        <Label DockPanel.Dock="Top" Content="아이디" Margin="0,0,0,10" FontWeight="Bold"/>
+                        <TextBlock DockPanel.Dock="Top" x:Name="tbId" Margin="0,0,0,10" Background="WhiteSmoke"/>
+                        <Label DockPanel.Dock="Top" Content="이름" Margin="0,0,0,10" FontWeight="Bold"/>
+                        <TextBlock DockPanel.Dock="Top" x:Name="tbName" Margin="0,0,0,10" Background="WhiteSmoke"/>
+                        <Label DockPanel.Dock="Top" Content="연락처" Margin="0,0,0,10" FontWeight="Bold"/>
+                        <TextBlock DockPanel.Dock="Top" x:Name="tbPhone" Margin="0,0,0,10" Background="WhiteSmoke"/>
+                        <Label DockPanel.Dock="Top" Content="GUID" Margin="0,0,0,10" FontWeight="Bold"/>
+                        <TextBlock DockPanel.Dock="Top" x:Name="tbGuid" Margin="0,0,0,10" Background="WhiteSmoke"/>
+                    </DockPanel>
+                </Grid>
+            </DockPanel>
+        </Grid>
+        <Label DockPanel.Dock="Top" x:Name="label2" Content="Log" Margin="10,10,10,0" FontWeight="Bold"/>
+        <ListBox DockPanel.Dock="Top" x:Name="lstText" Margin="10,0,0,0"/>
+    </DockPanel>
+</Window>

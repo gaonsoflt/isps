@@ -97,7 +97,7 @@ namespace AsyncSocketServer
                     case DIALOG_MODE.SAVE:
                         m_car.id = tbCarId.Text.ToString();
                         m_car.owner = tbOwner.Text.ToString();
-                        rtn = m_carMgr.SaveCarInfo(m_car);
+                        rtn = m_carMgr.InsertCarInfo(m_car);
                         break;
                     case DIALOG_MODE.MODIFY:
                         m_car.id = tbCarId.Text.ToString();

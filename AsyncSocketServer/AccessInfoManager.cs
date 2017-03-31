@@ -79,7 +79,7 @@ namespace AsyncSocketServer
                 {
                     executeCnt = db.InsertAccessInfo(info);
                 }
-                // 귀차니즘~~ 나중에 바꿔야함 ㅠㅠ
+                // 귀차니즘~~ 나중에 바꿔야지~ ㅠㅠ
                 int executeCnt1 = 0;
                 if (info.order != null)
                 {

@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Data.OracleClient;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading;
 
 namespace AsyncSocketServer
 {
@@ -29,14 +30,19 @@ namespace AsyncSocketServer
         //public static int RECOG = 4;
 
         // Shared AfisEngine instance (cannot be shared between different threads though)
-        private static AfisEngine afis = new AfisEngine();
+        private AfisEngine afis;
         private static List<MyPerson> database = new List<MyPerson>();
         private static string DATABASE = "database.dat";
+
+        private UserDB db;
 
         public UserManager()
         {
             // Look up the probe using Threshold = 10
-            UserManager.afis.Threshold = 25;
+            afis = new AfisEngine();
+            afis.Threshold = 25;
+
+            db = new UserDB();
         }
 
         // Inherit from Fingerprint in order to add Filename field
@@ -44,6 +50,7 @@ namespace AsyncSocketServer
         public class MyFingerprint : Fingerprint
         {
             public string Filename;
+            internal SourceAFIS.Templates.Template Decoded;
         }
 
         // Inherit from Person in order to add Name field
@@ -101,7 +108,7 @@ namespace AsyncSocketServer
 
         public static float VerifyUserMatchRate(MyPerson tarUser, MyPerson refUser)
         {
-            return afis.Verify(tarUser, refUser);
+            return new AfisEngine().Verify(tarUser, refUser);
         }
 
 
@@ -113,7 +120,7 @@ namespace AsyncSocketServer
                 // Load image from the file
                 Console.WriteLine(" Loading image from {0}...", filename);
                 BitmapImage image = new BitmapImage(new Uri(filename, UriKind.RelativeOrAbsolute));
-                return Enroll(image, name, "", "", "");
+                return Enroll(image, 0, name, "", "", "");
             } catch (Exception fnfe)
             {
                 throw fnfe;
@@ -122,22 +129,28 @@ namespace AsyncSocketServer
 
         public MyPerson Enroll(byte[] source, string name)
         {
-            return Enroll(BBDataConverter.ByteToBitmapImage(source), name, "", "", "");
+            return Enroll(BBDataConverter.ByteToBitmapImage(source), 0, name, "", "", "");
         }
 
         public MyPerson Enroll(byte[] source, string name, string idnum, string phone, string email)
         {
-            return Enroll(BBDataConverter.ByteToBitmapImage(source), name, idnum, phone, email);
+            return Enroll(BBDataConverter.ByteToBitmapImage(source), 0, name, idnum, phone, email);
+        }
+
+        public MyPerson Enroll(byte[] source, int id, string name, string idnum, string phone, string email)
+        {
+            return Enroll(BBDataConverter.ByteToBitmapImage(source), id, name, idnum, phone, email);
         }
 
         public MyPerson Enroll(BitmapImage source, string name)
         {
-            return Enroll(source, name, "", "", "");
+            return Enroll(source, 0, name, "", "", "");
         }
-        
-        private MyPerson Enroll(BitmapImage source, string name, string idnum, string phone, string email)
+
+        private MyPerson Enroll(BitmapImage source, int id, string name, string idnum, string phone, string email)
         {
             Console.WriteLine("Enrolling {0}...", name);
+            MyPerson person = new MyPerson();
 
             // Initialize empty fingerprint object and set properties
             MyFingerprint fp = new MyFingerprint();
@@ -151,28 +164,34 @@ namespace AsyncSocketServer
                 Console.WriteLine(" Image size = {0} x {1} (width x height)", fp.Image.GetLength(1), fp.Image.GetLength(0));
 
                 // Initialize empty person object and set its properties
-                MyPerson user = new MyPerson();
-                //person.Id = loadDatabase().Count + 1;
-                user.Guid = Guid.NewGuid().ToString();
-                user.Name = name;
-                user.IdNum = idnum;
-                user.Phone = phone;
-                user.Email = email;
+                person.Id = id;
+                person.Guid = Guid.NewGuid().ToString();
+                person.Name = name;
+                person.IdNum = idnum;
+                person.Phone = phone;
+                person.Email = email;
                 // Add fingerprint to the person
-                user.Fingerprints.Add(fp);
+                person.Fingerprints.Add(fp);
 
                 // Execute extraction in order to initialize fp.Template
+                //Console.WriteLine(" Extracting template..." + BBDataConverter.BitmapToByte(BBDataConverter.BitmapSourceToBitmap(fp.AsBitmapSource)).Length);
                 Console.WriteLine(" Extracting template...");
-                afis.Extract(user);
+                afis.Extract(person);
+                //foreach (MyFingerprint item_0 in person.Fingerprints)
+                //{
+                //    SourceAFIS.Templates.TemplateBuilder local_1 = new SourceAFIS.Extraction.Extractor().Extract(item_0.Image, 500);
+                //    item_0.Decoded = new SourceAFIS.Templates.SerializedFormat().Export(local_1);
+                //}
                 // Check template size
                 Console.WriteLine(" Template size = {0} bytes", fp.Template.Length);
 
-                return user;
             }
             catch (Exception fnfe)
             {
-                throw fnfe;
+                Console.WriteLine("a:" + fnfe.StackTrace);
+                //throw fnfe;
             }
+            return person;
         }
 
         [Obsolete("Not used file", true)]
@@ -227,7 +246,7 @@ namespace AsyncSocketServer
             Console.WriteLine("Reloading database...");
             try
             {
-                List<MyPerson> result = new UserDB().SelectISPSUsers();
+                List<MyPerson> result = db.SelectISPSUsers();
                 Console.WriteLine("loaded count: [" + result.Count + "]");
                 return result;
             }
@@ -238,17 +257,17 @@ namespace AsyncSocketServer
             }
         }
 
-        public int saveUser(string filename, string username)
+        public int InsertUser(string filename, string username)
         {
-            return saveUser(Enroll(filename, username));
+            return InsertUser(Enroll(filename, username));
         }
 
-        public int saveUser(MyPerson user)
+        public int InsertUser(MyPerson user)
         {
             Console.Write("Saving database...[");
             try
             {
-                int executeCnt = new UserDB().InsertISPSUser(user);
+                int executeCnt = db.InsertISPSUser(user);
                 Console.WriteLine(executeCnt + "]");
                 return executeCnt;
 
@@ -260,12 +279,12 @@ namespace AsyncSocketServer
             }
         }
 
-        public int updateUser(MyPerson user)
+        public int UpdateUser(MyPerson user)
         {
             Console.Write("Updating database...[");
             try
             {
-                int executeCnt = new UserDB().UpdateISPSUser(user);
+                int executeCnt = db.UpdateISPSUser(user);
                 Console.WriteLine(executeCnt + "]");
                 return executeCnt;
 
@@ -275,6 +294,19 @@ namespace AsyncSocketServer
                 Console.WriteLine(e.Message + "]");
                 return 0;
             }
+        }
+
+        public int SaveUser(MyPerson user)
+        {
+            int executeCnt = 0;
+
+            executeCnt = UpdateUser(user);
+            if (executeCnt <= 0)
+            {
+                executeCnt = InsertUser(user);
+            }
+
+            return executeCnt;
         }
     }
 

@@ -111,11 +111,11 @@ namespace AsyncSocketServer
                 switch (mode)
                 {
                     case MODE.SAVE:
-                        rtn = userManager.saveUser(m_user);
+                        rtn = userManager.InsertUser(m_user);
                         break;
                     case MODE.MODIFY:
                         m_user.Id = Int32.Parse(tbId.Text.ToString());
-                        rtn = userManager.updateUser(m_user);
+                        rtn = userManager.UpdateUser(m_user);
                         break;
                 }
                 if (rtn > 0)

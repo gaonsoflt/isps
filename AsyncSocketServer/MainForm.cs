@@ -267,7 +267,7 @@ namespace AsyncSocketServer
 
         void client_OnSend(Client sender, int sent)
         {
-            String msg = string.Format(sender.name + " - Data Sent:{0}\n", sent);
+            string msg = string.Format(sender.name + " - Data Sent:{0}\n", sent);
             UpdateCompLogMsg(msg);
         }
 
@@ -291,8 +291,9 @@ namespace AsyncSocketServer
                 switch (header)
                 {
                     case PktType.AUTH:
-                        pbImage.Image = pkt.fingerPrint;
-                        sender.RunAuth(pkt);
+                        UpdateCompImage(pkt.fingerPrint);
+                        UpdateCompMatchedUser(sender.RunAuth(pkt));
+                        //sender.RunAuth(pkt);
                         break;
                     case PktType.PASSENGER:
                         sender.RunPassenger(pkt);
@@ -419,6 +420,14 @@ namespace AsyncSocketServer
             });
         }
 
+        private void UpdateCompImage(Bitmap bitmap)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                pbImage.Image = bitmap;
+            });
+        }
+
         private void UpdateCompLogMsg(string msg)
         {
             Console.WriteLine(msg);
@@ -428,10 +437,12 @@ namespace AsyncSocketServer
                 this.Invoke((MethodInvoker)delegate
                 {
                     lstText.Items.Add(now + msg);
+                    lstText.SelectedIndex = lstText.Items.Count - 1;
                 });
             } else
             {
                 lstText.Items.Add(now + msg);
+                lstText.SelectedIndex = lstText.Items.Count - 1;
             }
         }
 

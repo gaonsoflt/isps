@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketProgram00Client_Async
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketProgram00Server_AsyncSocketServer", "..\AsyncSocketServer\SocketProgram00Server_AsyncSocketServer.csproj", "{D4ED43CA-564D-41DE-9704-9511D3EC08F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncSocketServerWPF", "AsyncSocketServerWPF\AsyncSocketServerWPF.csproj", "{281D393D-10B1-43D1-B054-0A577E147C5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D4ED43CA-564D-41DE-9704-9511D3EC08F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4ED43CA-564D-41DE-9704-9511D3EC08F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4ED43CA-564D-41DE-9704-9511D3EC08F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{281D393D-10B1-43D1-B054-0A577E147C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{281D393D-10B1-43D1-B054-0A577E147C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{281D393D-10B1-43D1-B054-0A577E147C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{281D393D-10B1-43D1-B054-0A577E147C5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

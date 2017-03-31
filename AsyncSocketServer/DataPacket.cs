@@ -38,7 +38,7 @@ namespace AsyncSocketServer
             public int psgCnt;
             public string guid;
             public int accessId;
-            public Image fingerPrint;
+            public Bitmap fingerPrint;
             public string errMsg;
             public OrderInfo order;
 
@@ -62,51 +62,51 @@ namespace AsyncSocketServer
             }
         }
 
-        public static Packet ByteToStruct(byte[] buffer)
-        {
-            MemoryStream ms = new MemoryStream(buffer, false);
-            return ByteToStruct(ms);
-        }
+        //public static Packet ByteToStruct(byte[] buffer)
+        //{
+        //    MemoryStream ms = new MemoryStream(buffer, false);
+        //    return ByteToStruct(ms);
+        //}
 
-        public static Packet ByteToStruct(MemoryStream ms)
-        {
-            BinaryReader br = new BinaryReader(ms);
+        //public static Packet ByteToStruct(MemoryStream ms)
+        //{
+        //    BinaryReader br = new BinaryReader(ms);
 
-            try
-            {
-                Packet pkt = new Packet();
-                pkt.type = (PktType)br.ReadInt32();
-                pkt.userId = br.ReadInt32();
-                pkt.carId = StringUtil.ExtendedTrim(Encoding.UTF8.GetString(br.ReadBytes(16)));
-                pkt.response = br.ReadInt32();
-                pkt.dataLen = br.ReadInt32();
-                switch (pkt.type)
-                {
-                    case PktType.AUTH:
-                        pkt.data = br.ReadBytes(pkt.dataLen);
-                        //pkt.fingerPrint = Image.FromStream(new MemoryStream(pkt.data));
-                        //pkt.fingerPrint = Image.FromStream(new MemoryStream(BBDataConverter.ImageToByte(BBDataConverter.GrayRawToBitmap(pkt.data, 160, 120))));
-                        pkt.fingerPrint = BBDataConverter.BytesToImage(pkt.data);
-                        break;
-                    case PktType.PASSENGER:
-                        pkt.guid = BBDataConverter.ByteToString(br.ReadBytes(pkt.dataLen - 4));
-                        pkt.psgCnt = BitConverter.ToInt32(br.ReadBytes(4), 0);
-                        break;
-                    case PktType.ORDER:
-                        pkt.guid = BBDataConverter.ByteToString(br.ReadBytes(pkt.dataLen - 4));
-                        pkt.accessId = BitConverter.ToInt32(br.ReadBytes(4), 0);
-                        break;
-                }
+        //    try
+        //    {
+        //        Packet pkt = new Packet();
+        //        pkt.type = (PktType)br.ReadInt32();
+        //        pkt.userId = br.ReadInt32();
+        //        pkt.carId = StringUtil.ExtendedTrim(Encoding.UTF8.GetString(br.ReadBytes(16)));
+        //        pkt.response = br.ReadInt32();
+        //        pkt.dataLen = br.ReadInt32();
+        //        switch (pkt.type)
+        //        {
+        //            case PktType.AUTH:
+        //                pkt.data = br.ReadBytes(pkt.dataLen);
+        //                //pkt.fingerPrint = Image.FromStream(new MemoryStream(pkt.data));
+        //                //pkt.fingerPrint = Image.FromStream(new MemoryStream(BBDataConverter.ImageToByte(BBDataConverter.GrayRawToBitmap(pkt.data, 160, 120))));
+        //                pkt.fingerPrint = BBDataConverter.BytesToImage(pkt.data);
+        //                break;
+        //            case PktType.PASSENGER:
+        //                pkt.guid = BBDataConverter.ByteToString(br.ReadBytes(pkt.dataLen - 4));
+        //                pkt.psgCnt = BitConverter.ToInt32(br.ReadBytes(4), 0);
+        //                break;
+        //            case PktType.ORDER:
+        //                pkt.guid = BBDataConverter.ByteToString(br.ReadBytes(pkt.dataLen - 4));
+        //                pkt.accessId = BitConverter.ToInt32(br.ReadBytes(4), 0);
+        //                break;
+        //        }
 
-                br.Close();
-                ms.Close();
-                return pkt;
-            } 
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+        //        br.Close();
+        //        ms.Close();
+        //        return pkt;
+        //    } 
+        //    catch (Exception e)
+        //    {
+        //        throw e;
+        //    }
+        //}
 
         public static Packet DataParser(MemoryStream ms, Packet pkt)
         {

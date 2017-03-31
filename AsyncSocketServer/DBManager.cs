@@ -19,6 +19,7 @@ namespace AsyncSocketServer
     {
         //private string oradb = "Data Source=192.168.205.163:1521/URYH; User ID=uruser; Password=uruser001";
         private string postdb = "Host=192.168.205.152;Username=isps;Password=GaonIsps@0805!*;Database=ISPS";
+        //private string postdb = "Host=121.146.68.152;Username=isps;Password=GaonIsps@0805!*;Database=ISPS";
 
         //OracleConnection oraConn;
         NpgsqlConnection postConn;
@@ -487,8 +488,10 @@ namespace AsyncSocketServer
 
         public DataTable GetAccessInfoDBTable(int keyword, int currentPage, int count)
         {
-            string sql = "WITH tmp AS (SELECT access_info_sq, psg_cnt, allow_start_dt, allow_end_dt, purpose, access_dt, COUNT(*) OVER (RANGE UNBOUNDED PRECEDING)"
-                + " FROM isps_access_info WHERE user_id = " + keyword + ") SELECT * FROM tmp ORDER BY allow_start_dt DESC";
+            string sql = "WITH tmp AS (SELECT a.access_info_sq, a.user_id, psg_cnt, allow_start_dt, allow_end_dt, purpose, access_dt, car_id, order_id, COUNT(*) OVER (RANGE UNBOUNDED PRECEDING)"
+                + " FROM isps_access_info a LEFT OUTER JOIN isps_order_info b ON a.access_info_sq = b.access_info_sq) SELECT * FROM tmp WHERE user_id = " + keyword + " ORDER BY allow_start_dt DESC";
+            //string sql = "WITH tmp AS (SELECT access_info_sq, psg_cnt, allow_start_dt, allow_end_dt, purpose, access_dt, car_id, COUNT(*) OVER (RANGE UNBOUNDED PRECEDING)"
+            //    + " FROM isps_access_info WHERE user_id = " + keyword + ") SELECT * FROM tmp ORDER BY allow_start_dt DESC";
 
             if (count > 0)
             {
@@ -778,7 +781,7 @@ namespace AsyncSocketServer
 
         public DataTable GetUserDBTable(string keyword, int currentPage, int count)
         {
-            string sql = "WITH tmp AS (SELECT user_id, user_guid, user_nm, user_idnum, phone, fp_data, COUNT(*) OVER (RANGE UNBOUNDED PRECEDING)"
+            string sql = "WITH tmp AS (SELECT user_id, user_guid, user_nm, user_idnum, phone, email, fp_data, COUNT(*) OVER (RANGE UNBOUNDED PRECEDING)"
                 + " FROM isps_user";
 
             if (keyword != null && keyword != string.Empty)
