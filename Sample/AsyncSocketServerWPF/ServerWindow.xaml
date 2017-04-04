@@ -20,6 +20,7 @@
                 <Button DockPanel.Dock="Top" x:Name="btnSerialClose" Content="CLOSE" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50" Margin="0,0,0,10" Click="btnSerialClose_Click" IsEnabled="False"/>
                 <Button DockPanel.Dock="Top" x:Name="btnSysMgr" Content="시스템관리" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50" Margin="0,0,0,10" Click="btnSysMgr_Click"/>
                 <Button DockPanel.Dock="Top" x:Name="btnTestAuth" Content="지문테스트" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50" Margin="0,0,0,10" Click="btnTestAuth_Click" IsEnabled="False"/>
+                <Button DockPanel.Dock="Top" x:Name="btnLogClear" Content="로그삭제" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50" Margin="0,0,0,10" IsEnabled="True" Click="btnLogClear_Click"/>
             </DockPanel>
         </Grid>
         <Grid DockPanel.Dock="Bottom" Margin="10,10,0,10" Height="300">
@@ -27,7 +28,7 @@
             <DockPanel Name="dockPanel3" Margin="10,20,10,10">
                 <Image DockPanel.Dock="Left" x:Name="pbImage" Height="240" Width="320" Margin="0,0,10,0"/>
                 <Image DockPanel.Dock="Left" x:Name="pbFPRef" Height="240" Width="320" Margin="0,0,10,0"/>
-                <Grid DockPanel.Dock="Left" Width="250" HorizontalAlignment="Left">
+                <Grid DockPanel.Dock="Left" Width="300" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="False">
                         <Label DockPanel.Dock="Top" Content="아이디" Margin="0,0,0,10" FontWeight="Bold"/>
                         <TextBlock DockPanel.Dock="Top" x:Name="tbId" Margin="0,0,0,10" Background="WhiteSmoke"/>

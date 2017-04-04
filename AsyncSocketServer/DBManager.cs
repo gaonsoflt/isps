@@ -181,8 +181,10 @@ namespace AsyncSocketServer
         {
             Console.Write("Insert AccessInfo: ");
 
+            //string sql_insert = "INSERT INTO isps_access_info(access_info_sq, user_id, psg_cnt, allow_start_dt, allow_end_dt, car_id, purpose, reg_dt)"
+            //    + " VALUES (nextval('sq_isps_access_info'), :USER_ID, :PSG_CNT, :ALLOW_START_DT, :ALLOW_END_DT, :CAR_ID, :PURPOSE, now())";
             string sql_insert = "INSERT INTO isps_access_info(access_info_sq, user_id, psg_cnt, allow_start_dt, allow_end_dt, car_id, purpose, reg_dt)"
-                + " VALUES (nextval('sq_isps_access_info'), :USER_ID, :PSG_CNT, :ALLOW_START_DT, :ALLOW_END_DT, :CAR_ID, :PURPOSE, now())";
+                + " VALUES (:SEQ, :USER_ID, :PSG_CNT, :ALLOW_START_DT, :ALLOW_END_DT, :CAR_ID, :PURPOSE, now())";
             int executeCnt = 0;
             NpgsqlConnection conn = db.GetPostConnection();
             // 커넥션 오픈
@@ -200,6 +202,7 @@ namespace AsyncSocketServer
                     cmd.CommandText = sql_insert;
 
                     // set parameters
+                    cmd.Parameters.Add(new NpgsqlParameter(":SEQ", info.seq));
                     cmd.Parameters.Add(new NpgsqlParameter(":USER_ID", info.user.Id));
                     cmd.Parameters.Add(new NpgsqlParameter(":PSG_CNT", info.psgCnt));
                     cmd.Parameters.Add(new NpgsqlParameter(":CAR_ID", info.carId));
@@ -320,6 +323,51 @@ namespace AsyncSocketServer
             }
         }
 
+        public int DeleteAccessInfo(int seq)
+        {
+            Console.Write("Delete DeleteAccessInfo: ");
+            string sql_insert = "DELETE FROM isps_access_info"
+                + " WHERE access_info_sq = :ACCESS_INFO_SQ"
+                + " AND access_dt IS NULL";
+            int executeCnt = 0;
+            NpgsqlConnection conn = db.GetPostConnection();
+            // 커넥션 오픈
+            conn.Open();
+
+            using (NpgsqlCommand cmd = new NpgsqlCommand())
+            {
+                try
+                {
+                    // 커맨드에 커넥션, 트랜잭선 추가
+                    cmd.Connection = conn;
+                    cmd.Transaction = conn.BeginTransaction();
+
+                    // set query
+                    cmd.CommandText = sql_insert;
+
+                    // set parameters
+                    cmd.Parameters.Add(new NpgsqlParameter(":ACCESS_INFO_SQ", seq));
+
+                    // execute query
+                    executeCnt = cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    cmd.Transaction.Commit();
+                }
+                catch (Exception ee)
+                {
+                    cmd.Transaction.Rollback();
+                    Console.WriteLine(ee.Message);
+                    throw ee;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+                Console.WriteLine(executeCnt);
+                return executeCnt;
+            }
+        }
+
         public int SelectAccessPsgCnt(string guid, string carId)
         {
             //string nowTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -332,6 +380,7 @@ namespace AsyncSocketServer
                 + " FROM isps_access_info"
                 + " WHERE user_id = (SELECT user_id FROM isps_user WHERE user_guid = :USER_GUID)"
                 + " AND car_id = :CAR_ID"
+                + " AND access_dt IS NULL"
                 + " AND now() >= ALLOW_START_DT"
                 + " AND now() < ALLOW_END_DT";
             int passengerCnt = -1;
@@ -381,6 +430,7 @@ namespace AsyncSocketServer
                 + " FROM isps_access_info"
                 + " WHERE user_id = (SELECT user_id FROM isps_user WHERE user_guid = :USER_GUID)"
                 + " AND car_id = :CAR_ID"
+                + " AND access_dt IS NULL"
                 + " AND now() >= allow_start_dt"
                 + " AND now() < allow_end_dt";
             AccessInfo info = null;
@@ -427,6 +477,42 @@ namespace AsyncSocketServer
                 conn.Close();
             }
             return info;
+        }
+
+        public int SelectNextSeq()
+        {
+            string sql_selete = "SELECT nextval('sq_isps_access_info')";
+            int seq = -1;
+            NpgsqlConnection conn = db.GetPostConnection();
+            try
+            {
+                // 커넥션 오픈
+                conn.Open();
+                // 커맨드 생성
+                using (NpgsqlCommand cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = sql_selete;
+
+                    // select 문 쿼리
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            seq = Int32.Parse(reader["nextval"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ee)
+            {
+                Console.WriteLine(ee.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return seq;
         }
 
         public AccessInfo SelectAccessInfo(int seq)

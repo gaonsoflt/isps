@@ -117,8 +117,8 @@ namespace AsyncSocketServerWPF
                     listener.Stop();
 
                 lstText.Items.Clear();
-                //pbImage.Image = null;
-                //pbFPRef.Image = null;
+                pbImage.Source = null;
+                pbFPRef.Source = null;
 
                 EnableSocketComponent(true);
             }
@@ -149,9 +149,9 @@ namespace AsyncSocketServerWPF
             sender = null;
             MessageBoxResult res = MessageBox.Show("Client Disconnected\nClear Data?", "서버 메시지", MessageBoxButton.YesNo);
             if (res == MessageBoxResult.Yes)
-                {
-                    //lstText.Items.Clear();
-                }
+            {
+                //lstText.Items.Clear();
+            }
         }
 
         void client_OnSend(Client sender, int sent)
@@ -195,6 +195,7 @@ namespace AsyncSocketServerWPF
             Dispatcher.Invoke(new Action(() =>{
                 lstText.Items.Add(now + msg);
                 lstText.SelectedIndex = lstText.Items.Count - 1;
+                lstText.ScrollIntoView(lstText.SelectedItem);
             }));
         }
 
@@ -386,6 +387,12 @@ namespace AsyncSocketServerWPF
                 fingerSensor.CmdCmosLed(false);
                 EnableFingerPrintComponent(true);
             }
+        }
+
+        private void btnLogClear_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateCompMatchedUser(null);
+            lstText.Items.Clear();
         }
     }
 }

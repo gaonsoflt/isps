@@ -69,6 +69,21 @@ namespace AsyncSocketServer
             return info;
         }
 
+        public int DeleteAccessInfo(int seq)
+        {
+            Console.WriteLine("Save AccessInfo database...");
+            int executeCnt = 0;
+            try
+            {
+                executeCnt = db.DeleteAccessInfo(seq);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return executeCnt;
+        }
+
         public int SaveAccessInfoWithOrder(AccessInfo info)
         {
             Console.WriteLine("Save AccessInfoWithOrder database...");
@@ -77,6 +92,7 @@ namespace AsyncSocketServer
                 int executeCnt = db.UpdateAccessInfo(info);
                 if (executeCnt <= 0)
                 {
+                    info.seq = db.SelectNextSeq();
                     executeCnt = db.InsertAccessInfo(info);
                 }
                 // 귀차니즘~~ 나중에 바꿔야지~ ㅠㅠ

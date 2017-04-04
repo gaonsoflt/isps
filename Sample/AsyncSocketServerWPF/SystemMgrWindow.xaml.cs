@@ -474,7 +474,18 @@ namespace AsyncSocketServerWPF
         {
             if (dgvAccessInfo.Items.Count > 0)
             {
-                // accessInfo not delete
+                if (MessageBox.Show("출입정보[" + m_accessSeq + "]를 삭제하시겠습니까?", "알림", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    if (m_accessDB.DeleteAccessInfo(m_accessSeq) > 0)
+                    {
+                        MessageBox.Show("삭제 되었습니다.", "알림", MessageBoxButton.OK);
+                        UpdateComponents();
+                    }
+                    else
+                    {
+                        MessageBox.Show("삭제 되지 않았습니다.\n출입기록이 있는 경우에는 삭제되지 않습니다.", "알림", MessageBoxButton.OK);
+                    }
+                }
             }
             else
             {

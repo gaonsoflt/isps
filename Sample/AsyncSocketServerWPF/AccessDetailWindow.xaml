@@ -62,7 +62,7 @@
                 <Label Grid.Column="0" Grid.Row="3" Content="차량번호" HorizontalAlignment="Right"/>
                 <ComboBox Grid.Column="1" Grid.Row="3" x:Name="cbCarId" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsEditable="True" DisplayMemberPath="car_id" SelectedValuePath="car_id"/>
                 <Label Grid.Column="0" Grid.Row="4" Content="동승자" HorizontalAlignment="Right"/>
-                <TextBox Grid.Column="1" Grid.Row="4" x:Name="tbPsgCnt" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="" VerticalAlignment="Center" PreviewTextInput="NumberValidationTextBox"/>
+                <TextBox Grid.Column="1" Grid.Row="4" x:Name="tbPsgCnt" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="0" VerticalAlignment="Center" PreviewTextInput="NumberValidationTextBox"/>
                 <Label Grid.Column="0" Grid.Row="5" Content="출입목적" HorizontalAlignment="Right"/>
                 <TextBox Grid.Column="1" Grid.Row="5" x:Name="tbPurpose" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="" VerticalAlignment="Center"/>
                 <Label Grid.Column="0" Grid.Row="6" Content="출입시작" HorizontalAlignment="Right"/>
