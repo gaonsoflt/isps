@@ -15,4 +15,3 @@ C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Release\As
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Release\SocketProgram00Server_AsyncSocketServer.csproj.GenerateResource.Cache
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Release\AsyncSocketServer.exe
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Release\AsyncSocketServer.pdb
-C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Release\SocketProgram00Server_AsyncSocketServer.csprojResolveAssemblyReference.cache

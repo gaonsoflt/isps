@@ -96,7 +96,7 @@ namespace AsyncSocketServer
         public bool CheckExistCarId(string carId)
         {
             CarInfo info = db.SelectCarInfo(carId);
-            if(info.id.Equals(carId))
+            if(info.id != null && info.id.Equals(carId))
             {
                 return true;
             }
