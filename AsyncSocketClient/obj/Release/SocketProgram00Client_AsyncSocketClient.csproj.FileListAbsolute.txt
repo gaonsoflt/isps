@@ -2,3 +2,14 @@ C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Release\So
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Release\AsyncSocketClient.ClientForm.resources
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Release\AsyncSocketClient.Properties.Resources.resources
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Release\SocketProgram00Client_AsyncSocketClient.csproj.GenerateResource.Cache
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\bin\Release\AsyncSocketClient.exe.config
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\bin\Release\AsyncSocketClient.exe
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\bin\Release\AsyncSocketClient.pdb
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\bin\Release\AsyncSocketServer.exe
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\bin\Release\Npgsql.dll
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\bin\Release\SourceAFIS.dll
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\bin\Release\AsyncSocketServer.pdb
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\bin\Release\Npgsql.xml
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\bin\Release\SourceAFIS.xml
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Release\AsyncSocketClient.exe
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Release\AsyncSocketClient.pdb

@@ -5,7 +5,6 @@ C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\bin\Release\Np
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\bin\Release\SourceAFIS.dll
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\bin\Release\Npgsql.xml
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\bin\Release\SourceAFIS.xml
-C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Release\SocketProgram00Server_AsyncSocketServer.csprojResolveAssemblyReference.cache
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Release\AsyncSocketServer.AccessDialog.resources
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Release\AsyncSocketServer.CarInfoDialog.resources
 C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketServer\obj\Release\AsyncSocketServer.OrderInfoDialog.resources

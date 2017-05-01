@@ -18,8 +18,8 @@ namespace AsyncSocketServer
     class DBManager
     {
         //private string oradb = "Data Source=192.168.205.163:1521/URYH; User ID=uruser; Password=uruser001";
-        private string postdb = "Host=192.168.205.152;Username=isps;Password=GaonIsps@0805!*;Database=ISPS";
-        //private string postdb = "Host=121.146.68.152;Username=isps;Password=GaonIsps@0805!*;Database=ISPS";
+        //private string postdb = "Host=192.168.205.152;Username=isps;Password=GaonIsps@0805!*;Database=ISPS";
+        private string postdb = "Host=121.146.68.152;Username=isps;Password=GaonIsps@0805!*;Database=ISPS";
 
         //OracleConnection oraConn;
         NpgsqlConnection postConn;

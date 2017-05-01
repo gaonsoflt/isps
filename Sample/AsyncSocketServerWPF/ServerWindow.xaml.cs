@@ -334,7 +334,10 @@ namespace AsyncSocketServerWPF
         private void btnSysMgr_Click(object sender, RoutedEventArgs e)
         {
             SystemMgrWindow window = new SystemMgrWindow();
-            window.ShowDialog();
+            if(!window.ShowDialog().Value)
+            {
+                MessageBox.Show("DB에 연결할 수 없습니다.\nDB 연결상태를 확인해주시기 바랍니다.", "알림", MessageBoxButton.OK);
+            }
         }
 
         private void btnTestAuth_Click(object sender, RoutedEventArgs e)

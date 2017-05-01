@@ -73,58 +73,66 @@ namespace AsyncSocketServerWPF
 
         private void UpdateComponents()
         {
-            UpdateStatusMessage("");
-            //TabItem ti = tabControl.SelectedItem as TabItem;
-            //gbGroup.Header = ti.Header;
+            try
+            {
+                UpdateStatusMessage("");
+                //TabItem ti = tabControl.SelectedItem as TabItem;
+                //gbGroup.Header = ti.Header;
 
-            if (tabAvg.IsSelected)
-            {
-                Console.WriteLine("TAB_AVERAGE");
-                EnableCRUDButton(false);
-                EnableSearchComponent(false);
-                toolStripPaging.Visibility = Visibility.Hidden;
-                UpdateAccessTotal();
-                UpdateChart();
-            }
-            else if (tabAccess.IsSelected)
-            {
-                Console.WriteLine("TAB_ACCESS");
-                lbKeyword.Content = "이름";
-                DataTable tmp = m_userDB.GetUserDBTable(tbKeyword.Text, currentPage, GetPageCount());
-                dgvAccessUser.ItemsSource = tmp.DefaultView;
-                EnableCRUDButton(true);
-                EnableSearchComponent(true);
-                toolStripPaging.Visibility = Visibility.Visible;
-            }
-            else if (tabUser.IsSelected)
-            {
-                Console.WriteLine("TAB_USER");
-                lbKeyword.Content = "이름";
-                EnableCRUDButton(true);
-                EnableSearchComponent(true);
-                toolStripPaging.Visibility = Visibility.Visible;
-            }
-            else if (tabCar.IsSelected)
-            {
-                Console.WriteLine("TAB_CAR");
-                lbKeyword.Content = "번호";
-                EnableCRUDButton(true);
-                EnableSearchComponent(true);
-                toolStripPaging.Visibility = Visibility.Visible;
-            }
-            else if (tabHistory.IsSelected)
-            {
-                Console.WriteLine("TAB_ACCESS_HIS");
-                lbKeyword.Content = "이름";
-                EnableCRUDButton(false);
-                EnableSearchComponent(true);
-                toolStripPaging.Visibility = Visibility.Visible;
-            }
+                if (tabAvg.IsSelected)
+                {
+                    Console.WriteLine("TAB_AVERAGE");
+                    EnableCRUDButton(false);
+                    EnableSearchComponent(false);
+                    toolStripPaging.Visibility = Visibility.Hidden;
+                    UpdateAccessTotal();
+                    UpdateChart();
+                }
+                else if (tabAccess.IsSelected)
+                {
+                    Console.WriteLine("TAB_ACCESS");
+                    lbKeyword.Content = "이름";
+                    DataTable tmp = m_userDB.GetUserDBTable(tbKeyword.Text, currentPage, GetPageCount());
+                    dgvAccessUser.ItemsSource = tmp.DefaultView;
+                    EnableCRUDButton(true);
+                    EnableSearchComponent(true);
+                    toolStripPaging.Visibility = Visibility.Visible;
+                }
+                else if (tabUser.IsSelected)
+                {
+                    Console.WriteLine("TAB_USER");
+                    lbKeyword.Content = "이름";
+                    EnableCRUDButton(true);
+                    EnableSearchComponent(true);
+                    toolStripPaging.Visibility = Visibility.Visible;
+                }
+                else if (tabCar.IsSelected)
+                {
+                    Console.WriteLine("TAB_CAR");
+                    lbKeyword.Content = "번호";
+                    EnableCRUDButton(true);
+                    EnableSearchComponent(true);
+                    toolStripPaging.Visibility = Visibility.Visible;
+                }
+                else if (tabHistory.IsSelected)
+                {
+                    Console.WriteLine("TAB_ACCESS_HIS");
+                    lbKeyword.Content = "이름";
+                    EnableCRUDButton(false);
+                    EnableSearchComponent(true);
+                    toolStripPaging.Visibility = Visibility.Visible;
+                }
 
-            // datagridview paging
-            currentPage = 1;
-            RebindGridForPageChange(tbKeyword.Text);
-            RefreshPagination();
+                // datagridview paging
+                currentPage = 1;
+                RebindGridForPageChange(tbKeyword.Text);
+                RefreshPagination();
+            }
+            catch (TimeoutException te)
+            {
+                this.DialogResult = false;
+                this.Close();
+            }
         }
 
         private DataTable getUserDB()

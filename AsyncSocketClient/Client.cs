@@ -190,7 +190,8 @@ namespace AsyncSocketClient
         //    SendAuthUserByFingerPrint(userId, carId, File.ReadAllBytes(path));
         //}
 
-        public void SendAuthUserByFingerPrint(int userId, string carId, Image image)
+        //public void SendAuthUserByFingerPrint(int userId, string carId, Image image)
+        public void SendAuthUserByFingerPrint(int userId, string carId, Bitmap image)
         {
             Packet pkt = new Packet();
             pkt.type = PktType.AUTH;

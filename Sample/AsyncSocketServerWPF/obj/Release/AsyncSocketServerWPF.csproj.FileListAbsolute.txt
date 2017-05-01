@@ -7,7 +7,6 @@ C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\bin\
 C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\bin\Release\Xceed.Wpf.Toolkit.dll
 C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\bin\Release\Npgsql.dll
 C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\bin\Release\AsyncSocketServer.pdb
-C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\bin\Release\SourceAFIS.xml
 C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\bin\Release\System.Windows.Controls.DataVisualization.Toolkit.pdb
 C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\bin\Release\WPFToolkit.pdb
 C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\bin\Release\Npgsql.xml
