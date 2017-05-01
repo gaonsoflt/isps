@@ -10,7 +10,16 @@
     <DockPanel Name="dockPanel1">
         <Grid DockPanel.Dock="Right" Width="200" Margin="10,10,10,0">
             <DockPanel Name="dockPanel2">
-                <Label DockPanel.Dock="Top" x:Name="label1" Content="컨트롤러" FontWeight="Bold"/>
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" x:Name="label1" Content="컨트롤러" FontWeight="Bold"/>
+                    <Button Grid.Column="1" x:Name="btnConf" HorizontalAlignment="Right" Background="Transparent" BorderBrush="Transparent" Click="btnConf_Click">
+                        <Image Source="Resources\ic_setting.png" Width="30"/>
+                    </Button>
+                </Grid>
                 <Button DockPanel.Dock="Top" x:Name="btnListen" Content="START" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50" Click="btnListen_Click" Margin="0,0,0,10"/>
                 <Button DockPanel.Dock="Top" x:Name="btnClose" Content="STOP" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50" Click="btnClose_Click" Margin="0,0,0,10" IsEnabled="False"/>
                 <CheckBox DockPanel.Dock="Top" x:Name="cbConnetType" Content="Serial Port 포함" VerticalAlignment="Top" Margin="0,0,0,10" Click="cbConnetType_Click"/>

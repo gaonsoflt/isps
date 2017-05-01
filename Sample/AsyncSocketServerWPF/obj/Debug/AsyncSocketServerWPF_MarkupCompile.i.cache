@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\App.xaml
-5-270639979
+6-45516631
 
-141466123442
+16390261290
 19769213703
-AccessDetailWindow.xaml;CarDetailWindow.xaml;ServerWindow.xaml;SystemMgrWindow.xaml;UserDetailWindow.xaml;
+AccessDetailWindow.xaml;CarDetailWindow.xaml;ConfWindow.xaml;ServerWindow.xaml;SystemMgrWindow.xaml;UserDetailWindow.xaml;
 
-False
+True
 

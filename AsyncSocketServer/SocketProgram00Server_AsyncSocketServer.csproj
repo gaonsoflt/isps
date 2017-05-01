@@ -75,6 +75,7 @@
     <Compile Include="AccessInfoManager.cs" />
     <Compile Include="CommonConfig.cs" />
     <Compile Include="BBDataConverter.cs" />
+    <Compile Include="ConfDataBase.cs" />
     <Compile Include="DataPacket.cs" />
     <Compile Include="DBManager.cs" />
     <Compile Include="Logger.cs" />

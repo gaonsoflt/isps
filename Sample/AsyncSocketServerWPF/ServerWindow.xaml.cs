@@ -333,10 +333,14 @@ namespace AsyncSocketServerWPF
 
         private void btnSysMgr_Click(object sender, RoutedEventArgs e)
         {
-            SystemMgrWindow window = new SystemMgrWindow();
-            if(!window.ShowDialog().Value)
+            if (!DBManager.IsServerConnected())
             {
                 MessageBox.Show("DB에 연결할 수 없습니다.\nDB 연결상태를 확인해주시기 바랍니다.", "알림", MessageBoxButton.OK);
+            }
+            else
+            {
+                SystemMgrWindow window = new SystemMgrWindow();
+                window.ShowDialog();
             }
         }
 
@@ -396,6 +400,12 @@ namespace AsyncSocketServerWPF
         {
             UpdateCompMatchedUser(null);
             lstText.Items.Clear();
+        }
+
+        private void btnConf_Click(object sender, RoutedEventArgs e)
+        {
+            ConfWindow window = new ConfWindow();
+            window.ShowDialog();
         }
     }
 }

@@ -30,3 +30,5 @@ C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\obj\
 C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\obj\Debug\AccessDetailWindow.g.cs
 C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\obj\Debug\AccessDetailWindow.baml
 C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\bin\Debug\Xceed.Wpf.Toolkit.dll
+C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\obj\Debug\ConfWindow.g.cs
+C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\obj\Debug\ConfWindow.baml

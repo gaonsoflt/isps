@@ -15,7 +15,7 @@ using static AsyncSocketServer.OrderInfoManager;
 
 namespace AsyncSocketServer
 {
-    class DBManager
+    public class DBManager
     {
         //private string oradb = "Data Source=192.168.205.163:1521/URYH; User ID=uruser; Password=uruser001";
         //private string postdb = "Host=192.168.205.152;Username=isps;Password=GaonIsps@0805!*;Database=ISPS";
@@ -27,7 +27,35 @@ namespace AsyncSocketServer
         public DBManager()
         {
             //oraConn = new OracleConnection(oradb);
-            postConn = new NpgsqlConnection(postdb);
+            //postConn = new NpgsqlConnection(postdb);
+
+            ConfDataBase conf = new ConfDataBase();
+            if (conf.Vendor == "PostgreSql") {
+                postdb = "Host=" + conf.IP + ";Username=" + conf.User + ";Password=" + conf.Password + ";Database=" + conf.SID;
+                postConn = new NpgsqlConnection(postdb);
+            }
+        }
+
+        public static bool IsServerConnected()
+        {
+            ConfDataBase conf = new ConfDataBase();
+
+            using (var con = new NpgsqlConnection("Host=" + conf.IP + ";Username=" + conf.User + ";Password=" + conf.Password + ";Database=" + conf.SID))
+            {
+                try
+                {
+                    con.Open();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
         }
 
         //public OracleConnection GetOracleConnection()

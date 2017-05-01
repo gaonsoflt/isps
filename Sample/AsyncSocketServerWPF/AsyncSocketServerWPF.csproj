@@ -68,6 +68,10 @@
     <Compile Include="CarDetailWindow.xaml.cs">
       <DependentUpon>CarDetailWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ConfWindow.xaml.cs">
+      <DependentUpon>ConfWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfWindowModel.cs" />
     <Compile Include="SystemMgrWindow.xaml.cs">
       <DependentUpon>SystemMgrWindow.xaml</DependentUpon>
     </Compile>
@@ -79,6 +83,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CarDetailWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ConfWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -142,6 +150,9 @@
     <Resource Include="Resources\fastforward.JPG" />
     <Resource Include="Resources\fastreverse.JPG" />
     <Resource Include="Resources\forward.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ic_setting.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

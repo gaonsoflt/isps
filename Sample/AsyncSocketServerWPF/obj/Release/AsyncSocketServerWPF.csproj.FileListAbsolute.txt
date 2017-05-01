@@ -29,3 +29,5 @@ C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\obj\
 C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\obj\Release\AsyncSocketServerWPF.csproj.GenerateResource.Cache
 C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\obj\Release\AsyncSocketServerWPF.exe
 C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\obj\Release\AsyncSocketServerWPF.pdb
+C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\obj\Release\ConfWindow.g.cs
+C:\Users\gaonsoft\Downloads\항만보안\server\Sample\AsyncSocketServerWPF\obj\Release\ConfWindow.baml
