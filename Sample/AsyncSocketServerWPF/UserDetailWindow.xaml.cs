@@ -73,7 +73,7 @@ namespace AsyncSocketServerWPF
                         tbPhone.Text = m_user.Phone.ToString();
                         tbEmail.Text = m_user.Email.ToString();
                         fp.AsBitmap = m_user.Fingerprints[0].AsBitmap;
-                        UpdateImage(m_user.Fingerprints[0].AsBitmap);
+                        UpdateReceivedImage(m_user.Fingerprints[0].AsBitmap);
                     }
                     catch (Exception e)
                     {
@@ -180,8 +180,8 @@ namespace AsyncSocketServerWPF
                         {
                             Console.WriteLine("Succeed export fingerprint data.");
                             Bitmap receivedImage = BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), FingerSensorPacket.SIZE_FP_WIDTH, FingerSensorPacket.SIZE_FP_HEIGHT);
+                            UpdateReceivedImage(receivedImage);
                             fp.AsBitmap = receivedImage;
-                            UpdateImage(fp.AsBitmap);
                         }
                         else
                         {
@@ -213,7 +213,7 @@ namespace AsyncSocketServerWPF
             btnScan.IsEnabled = enable;
         }
 
-        private void UpdateImage(Bitmap bitmap)
+        private void UpdateReceivedImage(Bitmap bitmap)
         {
             Dispatcher.Invoke(new Action(() =>
             {

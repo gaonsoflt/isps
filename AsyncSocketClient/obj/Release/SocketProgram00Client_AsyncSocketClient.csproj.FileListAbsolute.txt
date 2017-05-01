@@ -1,0 +1,4 @@
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Release\SocketProgram00Client_AsyncSocketClient.csprojResolveAssemblyReference.cache
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Release\AsyncSocketClient.ClientForm.resources
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Release\AsyncSocketClient.Properties.Resources.resources
+C:\Users\gaonsoft\Downloads\항만보안\server\AsyncSocketClient\obj\Release\SocketProgram00Client_AsyncSocketClient.csproj.GenerateResource.Cache
