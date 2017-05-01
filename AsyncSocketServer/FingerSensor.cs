@@ -340,6 +340,7 @@ namespace AsyncSocketServer
             sPort.StopBits = StopBits.One;
             sPort.ReadTimeout = (int)500;
             sPort.WriteTimeout = (int)500;
+            sPort.ReadBufferSize = 20000;
             sPort.Open();
             Console.WriteLine("Opened SerialPort: " + portName + "/" + baudRate);
         }
@@ -410,11 +411,12 @@ namespace AsyncSocketServer
                     {
                         return PKT_HDR_ERR;
                     }
+                    //BitConverter.ToUInt16(comBuff, 2);
                     if (BitConverter.ToUInt16(comBuff, 2) != devID)
                     {
                         return PKT_DEV_ID_ERR;
                     }
-                    switch(buffSize - 6)
+                    switch (buffSize - 6)
                     {
                         case 52116: // Image
                             Array.Copy(comBuff, 4, gbyImg256_tmp, 0, buffSize - 6);
