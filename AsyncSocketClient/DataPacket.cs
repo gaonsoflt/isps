@@ -66,6 +66,13 @@ namespace AsyncSocketClient
                         }
                         pkt.order.orderId = BBDataConverter.ByteToString(pkt.data);
                         break;
+                    case PktType.ONCE:
+                        if (pkt.order == null)
+                        {
+                            pkt.order = new OrderInfo();
+                        }
+                        pkt.order.orderId = BBDataConverter.ByteToString(pkt.data);
+                        break;
                 }
             }
 
@@ -119,6 +126,12 @@ namespace AsyncSocketClient
                     bw.Write(guid.Length + accessId.Length);
                     bw.Write(guid);
                     bw.Write(accessId);
+                    break;
+                case PktType.ONCE:
+                    byte[] psgCnt1 = BBDataConverter.Int32ToByte(pkt.psgCnt);
+                    bw.Write(psgCnt1.Length + pkt.data.Length);
+                    bw.Write(psgCnt1);
+                    bw.Write(pkt.data);
                     break;
             }
             bw.Close();

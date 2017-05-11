@@ -117,7 +117,17 @@ namespace AsyncSocketClient
                         UpdateStatusMessage("Failed receive order.", pkt.errMsg);
                     }
                     break;
-
+                case PktType.ONCE:
+                    if (pkt.response == PKT_ACK)
+                    {
+                        UpdateStatusMessage("Success receive order.", pkt.order.orderId);
+                        UpdateCompLogMsg(pkt.order.orderId);
+                    }
+                    else
+                    {
+                        UpdateStatusMessage("Failed receive order.", pkt.errMsg);
+                    }
+                    break;
             }
         }
 
@@ -302,7 +312,8 @@ namespace AsyncSocketClient
                             {
                                 UpdateStatusMessage("Succeed export fingerprint data.");
                                 //byte[] iBytes = ImageUtil.ImageToByte(BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), 320, 240));
-                                Bitmap receivedImage = BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage160x120(), FingerSensorPacket.SIZE_FP_WIDTH, FingerSensorPacket.SIZE_FP_HEIGHT); ;
+                                //Bitmap receivedImage = BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage160x120(), FingerSensorPacket.SIZE_FP_WIDTH, FingerSensorPacket.SIZE_FP_HEIGHT); ;
+                                Bitmap receivedImage = BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage160x120(), FingerSensorPacket.SIZE_FP_WIDTH, FingerSensorPacket.SIZE_FP_HEIGHT);
                                 pictureBox1.Image = receivedImage;
 
                                 // send data
@@ -318,7 +329,8 @@ namespace AsyncSocketClient
                             UpdateStatusMessage("Time out or can not delected fingerprint.");
                         }
                     }
-                } else
+                }
+                else
                 {
                     client.SendAuthUserByFingerPrint(GetUserId(), tbCarId.Text, null);
                 }
@@ -343,6 +355,56 @@ namespace AsyncSocketClient
         private void btnReqOrder_Click(object sender, EventArgs e)
         {
             client.SendRequestOrder(GetUserId(), tbCarId.Text, guid, accessId);
+        }
+
+        private void btnOnce_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                btnAuth.Enabled = false;
+                if (cbSerial.Checked)
+                {
+                    if (fingerSensor.CmdCmosLed(true) == 0)
+                    {
+                        UpdateStatusMessage("Input your finger on sensor.");
+                        if (fingerSensor.CmdCaptureFinger() == 0)
+                        {
+                            UpdateStatusMessage("Exporting deleted fingerprint data");
+                            if (fingerSensor.CmdGetRawImage() == 0)
+                            {
+                                UpdateStatusMessage("Succeed export fingerprint data.");
+                                Bitmap receivedImage = BBDataConverter.GrayRawToBitmap(fingerSensor.getRawImage(), FingerSensorPacket.SIZE_FP_WIDTH, FingerSensorPacket.SIZE_FP_HEIGHT);
+                                pictureBox1.Image = receivedImage;
+
+                                // send data
+                                client.SendOnce(GetUserId(), tbCarId.Text, fingerSensor.getRawImage160x120(), Int32.Parse(tbPsgCnt.Text));
+                            }
+                            else
+                            {
+                                UpdateStatusMessage("Failed export fingerparint data.");
+                            }
+                        }
+                        else
+                        {
+                            UpdateStatusMessage("Time out or can not delected fingerprint.");
+                        }
+                    }
+                }
+                else
+                {
+                    client.SendAuthUserByFingerPrint(GetUserId(), tbCarId.Text, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                UpdateStatusMessage("Failed export fingerparint data.");
+            }
+            finally
+            {
+                if (cbSerial.Checked) fingerSensor.CmdCmosLed(false);
+                btnAuth.Enabled = true;
+            }
         }
 
         private void tbUserId_KeyPress(object sender, KeyPressEventArgs e)
@@ -388,5 +450,6 @@ namespace AsyncSocketClient
                 CloseSerialPort();
             }
         }
+
     }
 }

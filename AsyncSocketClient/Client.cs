@@ -225,7 +225,20 @@ namespace AsyncSocketClient
             pkt.accessId = accessId;
             SendResponse(pkt);
         }
-        
+
+        public void SendOnce(int userId, string carId, byte[] image, int psgCnt)
+        {
+            Packet pkt = new Packet();
+            pkt.type = PktType.ONCE;
+            pkt.userId = userId;
+            pkt.carId = carId;
+            pkt.response = 0;
+            pkt.psgCnt = psgCnt;
+            //if (image != null) pkt.fingerPrint = image;
+            pkt.data = image;
+            SendResponse(pkt);
+        }
+
         public void sendCallBack(IAsyncResult ar)
         {
             try

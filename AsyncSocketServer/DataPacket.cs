@@ -14,6 +14,7 @@ namespace AsyncSocketServer
         AUTH = 0,
         PASSENGER,
         ORDER,
+        ONCE,
         ERROR,
         STRING,
         IMAGE,
@@ -131,6 +132,10 @@ namespace AsyncSocketServer
                         //pkt.accessId = BitConverter.ToInt32(br.ReadBytes(4), 0);
                         pkt.accessId = BBDataConverter.BytesToInt32(pkt.data.Skip(pkt.dataLen - 4).ToArray());
                         break;
+                    case PktType.ONCE:
+                        pkt.psgCnt = BBDataConverter.BytesToInt32(pkt.data.Take(19200).ToArray());
+                        pkt.fingerPrint = BBDataConverter.GrayRawToBitmap(FingerSensor.ScaleImage320x240(pkt.data.Skip(4).ToArray()), FingerSensorPacket.SIZE_FP_WIDTH, FingerSensorPacket.SIZE_FP_HEIGHT);
+                        break;
                 }
 
                 br.Close();
@@ -208,7 +213,7 @@ namespace AsyncSocketServer
                         bw.Write(accesId);
                     }
                     break;
-                case PktType.ORDER:
+                case PktType.ORDER | PktType.ONCE:
                     if (pkt.response == DataPacket.PKT_ACK)
                     {
                         byte[] id = BBDataConverter.StringToByte(pkt.order.orderId);

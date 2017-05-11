@@ -54,6 +54,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnOnce = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -212,7 +213,7 @@
             this.tbUserId.Name = "tbUserId";
             this.tbUserId.Size = new System.Drawing.Size(44, 21);
             this.tbUserId.TabIndex = 11;
-            this.tbUserId.Text = "3";
+            this.tbUserId.Text = "4";
             this.tbUserId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbUserId_KeyPress);
             // 
             // btnReqOrder
@@ -303,11 +304,22 @@
             this.label3.TabIndex = 15;
             this.label3.Text = "passenger count";
             // 
+            // btnOnce
+            // 
+            this.btnOnce.Location = new System.Drawing.Point(599, 228);
+            this.btnOnce.Name = "btnOnce";
+            this.btnOnce.Size = new System.Drawing.Size(167, 37);
+            this.btnOnce.TabIndex = 16;
+            this.btnOnce.Text = "한번에처리";
+            this.btnOnce.UseVisualStyleBackColor = true;
+            this.btnOnce.Click += new System.EventHandler(this.btnOnce_Click);
+            // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1114, 621);
+            this.Controls.Add(this.btnOnce);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -367,5 +379,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox cbSerial;
+        private System.Windows.Forms.Button btnOnce;
     }
 }

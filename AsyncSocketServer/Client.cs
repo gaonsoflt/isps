@@ -214,7 +214,6 @@ namespace AsyncSocketServer
         }
 
 
-
         //public void receiveCallBack(IAsyncResult ar)
         //{
         //    try
@@ -450,6 +449,92 @@ namespace AsyncSocketServer
                 pkt.errMsg = e.Message;
             }
             SendResponse(pkt, code);
+        }
+
+        public MyPerson RunAtOnce(Packet pkt)
+        {
+            UserManager fpm = new UserManager();
+            MyPerson match = null;
+            Code code;
+            try
+            {
+                MyPerson guest = fpm.Enroll(BBDataConverter.ImageToByte(pkt.fingerPrint), "guest");
+                match = fpm.recognition(guest);
+                if (match != null)
+                {
+                    bool isMatch = CheckLoginUser(match.Id, pkt.userId);
+                    if (isMatch)
+                    {
+                        SetLoginUser(match);
+                        UpdateLogMsgWithName("Step1: Check fingerprint(" + "Matched person(" + match.Name.ToString() + ")" + ")");
+                        code = Code.SUCCESS_AUTH;
+                        AccessInfo access = new AccessInfoDB().SelectNowAccessibleInfo(GetLoginUser().Guid, pkt.carId);
+                        if (access != null)
+                        {
+                            if (access.access_dt == default(DateTime))
+                            {
+                                if (pkt.psgCnt == access.psgCnt)
+                                {
+                                    UpdateLogMsgWithName("Step2: Check passenger count(" + access.psgCnt + ")");
+                                    code = Code.SUCCESS_PASSENGER;
+                                    pkt.accessId = access.seq;
+                                    OrderInfo order = new OrderInfoManager().FindOrderInfoByAccessId(access.seq);
+                                    if (order != null)
+                                    {
+                                        UpdateLogMsgWithName("Step3: Find Order Info(" + order.orderId + ")");
+                                        pkt.order = order;
+                                        code = Code.SUCCESS_ORDER;
+                                    }
+                                    else
+                                    {
+                                        code = Code.NOT_FND_ORDER_INFO;
+                                    }
+                                }
+                                else
+                                {
+                                    code = Code.NOT_MATCH_PASSENGER_CNT;
+                                }
+                            }
+                            else
+                            {
+                                code = Code.ALREADY_ACCESS;
+                            }
+                        }
+                        else
+                        {
+                            code = Code.NOT_FND_ACCESS_INFO;
+                        }
+                    }
+                    else
+                    {
+                        code = Code.NOT_MATCH_LOGIN_FP;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Not found matched fingerprint.");
+                    code = Code.NOT_FND_FINGERPRINT;
+                }
+            }
+            catch (Exception e)
+            {
+                code = Code.ERROR;
+                pkt.errMsg = e.Message;
+            }
+            if(code == Code.SUCCESS_AUTH || code == Code.SUCCESS_ORDER || code == Code.SUCCESS_PASSENGER)
+            {
+                UpdateLogMsgWithName("Success authentication.");
+                // if code is SUCCESS, Open gate and update access date
+                new AccessInfoDB().UpdateAccessDate(pkt.accessId);
+            }
+            else
+            {
+                UpdateLogMsgWithName("Failed authentication.(" + GetMessage(code.ToString()) + ")");
+            }
+
+            SendResponse(pkt, code);
+
+            return match;
         }
 
         private void SendResponse(Packet pkt, Code code)

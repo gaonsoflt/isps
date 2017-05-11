@@ -147,11 +147,11 @@ namespace AsyncSocketServerWPF
             UpdateCompLogMsg("Disconnected client: " + sender.name);
             sender.Close();
             sender = null;
-            MessageBoxResult res = MessageBox.Show("Client Disconnected\nClear Data?", "서버 메시지", MessageBoxButton.YesNo);
-            if (res == MessageBoxResult.Yes)
-            {
-                //lstText.Items.Clear();
-            }
+            //MessageBoxResult res = MessageBox.Show("Client Disconnected\nClear Data?", "서버 메시지", MessageBoxButton.YesNo);
+            //if (res == MessageBoxResult.Yes)
+            //{
+            //    //lstText.Items.Clear();
+            //}
         }
 
         void client_OnSend(Client sender, int sent)
@@ -179,6 +179,10 @@ namespace AsyncSocketServerWPF
                         break;
                     case PktType.ORDER:
                         sender.RunOrder(pkt);
+                        break;
+                    case PktType.ONCE:
+                        UpdateReceivedImage(pkt.fingerPrint);
+                        UpdateCompMatchedUser(sender.RunAtOnce(pkt));
                         break;
                 }
             }
